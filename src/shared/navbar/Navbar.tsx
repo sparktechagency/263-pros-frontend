@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { MenuOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { Drawer, ConfigProvider } from "antd";
@@ -8,6 +7,7 @@ import { usePathname } from "next/navigation";
 import navItems from "@/constants/navItem";
 
 import "aos/dist/aos.css";
+import { BsGrid } from "react-icons/bs";
 export default function Navbar() {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -71,6 +71,7 @@ export default function Navbar() {
               width={180}
               height={80}
               className="h-7  w-fit"
+              draggable={false}
             />
           </Link>
 
@@ -113,7 +114,7 @@ export default function Navbar() {
               className="lg:hidden  text-xl"
               onClick={() => setDrawerOpen(true)}
             >
-              <MenuOutlined />
+              <BsGrid className="text-white!" />
             </button>
           </div>
         </div>

@@ -1,15 +1,68 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input, Button, Form, ConfigProvider } from "antd";
+import { Input, Button, Form, ConfigProvider, AutoComplete } from "antd";
 import Image from "next/image";
 import { MapPin, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Banner: React.FC = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
+  // Mock data for services and locations
+  const services = [
+    { value: "House Cleaning" },
+    { value: "Gardening" },
+    { value: "Plumbing" },
+    { value: "Electrical Services" },
+    { value: "Carpentry" },
+    { value: "Painting" },
+    { value: "Pest Control" },
+    { value: "Handyman Services" },
+  ];
 
-  const handleSearch = (values: any) => {
+  const locations = [
+    { value: "Avondale, Harare" },
+    { value: "Borrowdale, Harare" },
+    { value: "Mount Pleasant, Harare" },
+    { value: "Mabelreign, Harare" },
+    { value: "Bulawayo Central" },
+    { value: "Mutare Urban" },
+    { value: "Gweru Central" },
+    { value: "Victoria Falls" },
+  ];
+
+  const [serviceOptions, setServiceOptions] = useState<{ value: string }[]>([]);
+  const [locationOptions, setLocationOptions] = useState<{ value: string }[]>(
+    []
+  );
+
+  const onServiceSearch = (searchText: string) => {
+    setServiceOptions(
+      !searchText
+        ? []
+        : services.filter((item) =>
+            item.value.toLowerCase().includes(searchText.toLowerCase())
+          )
+    );
+  };
+
+  const onLocationSearch = (searchText: string) => {
+    setLocationOptions(
+      !searchText
+        ? []
+        : locations.filter((item) =>
+            item.value.toLowerCase().includes(searchText.toLowerCase())
+          )
+    );
+  };
+
+  const handleSearch = () => {
+    const values = form.getFieldsValue();
     console.log("Search values:", values);
+    router.push(
+      `/services?service=${values.service}&location=${values.location}`
+    );
   };
 
   return (
@@ -55,28 +108,50 @@ const Banner: React.FC = () => {
                 <h2 className="text-xl font-semibold text-gray-900">
                   What service do you need?
                 </h2>
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <div className="flex flex-1  overflow-hidden rounded-lg border border-[#005B6F]/20 bg-transparent  ">
+                <Form
+                  form={form}
+                  className="flex flex-col gap-3 sm:flex-row sm:items-center"
+                >
+                  <div className="flex flex-1 overflow-hidden rounded-lg border border-[#005B6F]/20 bg-transparent ">
                     <div className="flex-1 border-b border-[#005B6F]/20 sm:border-b-0 sm:border-r">
-                      <Input
-                        placeholder="House cleaning, Gardening"
-                        variant="borderless"
-                        className="w-full"
-                      />
+                      <Form.Item name="service" className="mb-0!">
+                        <AutoComplete
+                          options={serviceOptions}
+                          onSearch={onServiceSearch}
+                          className="w-full h-12!"
+                        >
+                          <Input
+                            placeholder="House cleaning, Gardening"
+                            variant="borderless"
+                          />
+                        </AutoComplete>
+                      </Form.Item>
                     </div>
                     <div className="flex flex-[0.8] items-center">
-                      <Input
-                        placeholder="Avondale, Harare"
-                        variant="borderless"
-                        prefix={<MapPin className="text-[#005B6F]" />}
-                        className="w-full"
-                      />
+                      <Form.Item name="location" className="mb-0!">
+                        <AutoComplete
+                          options={locationOptions}
+                          onSearch={onLocationSearch}
+                          className="w-full h-12!"
+                        >
+                          <Input
+                            placeholder="Avondale, Harare"
+                            variant="borderless"
+                            prefix={<MapPin className="text-[#005B6F]" />}
+                          />
+                        </AutoComplete>
+                      </Form.Item>
                     </div>
                   </div>
-                  <Button type="primary" icon={<Search />} className="sm:px-8">
+                  <Button
+                    onClick={handleSearch}
+                    type="primary"
+                    icon={<Search />}
+                    className="sm:px-8"
+                  >
                     Search
                   </Button>
-                </div>
+                </Form>
               </div>
             </div>
 
@@ -86,9 +161,11 @@ const Banner: React.FC = () => {
                 <Image
                   src="/assets/images/home/banner.png"
                   alt="Service Providers Illustration"
-                  fill
-                  className="object-contain"
+                  width={1200}
+                  height={1200}
+                  className="w-full h-full object-contain"
                   priority
+                  draggable={false}
                 />
               </div>
             </div>
