@@ -1,0 +1,16 @@
+export const POPULAR_TAGS = [
+  "Gardening",
+  "Pool Cleaning",
+  "Painting & Decorating",
+  "Roof Repairs",
+  "Accounting",
+  "Social Media Marketing",
+  "Web Design",
+  "Book kepping Service",
+  "Personal Trainer",
+  "Counselling",
+  "Message Therapy",
+  "Domestic Cleaning",
+  "Wedding Photography",
+  "Event Management",
+];

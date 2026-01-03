@@ -3,6 +3,7 @@ import { ConfigProvider } from "antd";
 import ServicesContent from "./sections/ServiceContent";
 import Spinner from "@/shared/Spinner";
 import ServiceBanner from "./sections/ServiceBanner";
+import ServiceTags from "./sections/ServiceTags";
 
 export default function ServicesPage() {
   return (
@@ -18,6 +19,7 @@ export default function ServicesPage() {
         <section>
           <ServiceBanner />
           <ServicesContent />
+          <ServiceTags />
         </section>
       </Suspense>
     </ConfigProvider>
