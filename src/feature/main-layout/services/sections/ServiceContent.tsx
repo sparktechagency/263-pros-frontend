@@ -21,7 +21,10 @@ export default function ServicesContent() {
     }
     // Clear search when switching categories for better UX
     params.delete("service");
-    router.push(`/services?${params.toString()}`);
+    router.push(`/services?${params.toString()}`, { scroll: false });
+    document
+      .getElementById("service-grid")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   let filteredServices = currentCategory
@@ -64,9 +67,12 @@ export default function ServicesContent() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-12 lg:py-16">
+    <section className="container mx-auto px-4 py-12 lg:py-16">
       {/* Header Section */}
-      <div className="flex items-center justify-between mb-8 pb-4 ">
+      <div
+        id="service-grid"
+        className="flex items-center justify-between mb-8 pb-4 "
+      >
         <div>
           <Title level={2} className="mb-1!">
             {currentCategory
@@ -94,39 +100,41 @@ export default function ServicesContent() {
         </Dropdown>
       </div>
 
-      {/* Services Grid */}
-      {filteredServices?.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
-          {filteredServices?.map((service) => (
-            <div key={service.id} className="flex flex-col">
-              <ServiceCard
-                title={service.title}
-                image={service.image}
-                link={`/services/${service.slug}`}
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="p-4 bg-gray-50 rounded-full mb-4">
-            <Filter size={40} className="text-gray-300" />
+      <div className="min-h-[600px]">
+        {/* Services Grid */}
+        {filteredServices?.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
+            {filteredServices?.map((service) => (
+              <div key={service.id} className="flex flex-col">
+                <ServiceCard
+                  title={service.title}
+                  image={service.image}
+                  link={`/services/${service.slug}`}
+                />
+              </div>
+            ))}
           </div>
-          <h3 className="text-xl font-semibold text-gray-900">
-            No services found
-          </h3>
-          <p className="text-gray-500 mt-2">
-            Try selecting a different filter option.
-          </p>
-          <Button
-            type="primary"
-            className="bg-primary! h-12! w-sm mt-6"
-            onClick={() => handleFilter(null)}
-          >
-            Show All Services
-          </Button>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="p-4 bg-gray-50 rounded-full mb-4">
+              <Filter size={40} className="text-gray-300" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900">
+              No services found
+            </h3>
+            <p className="text-gray-500 mt-2">
+              Try selecting a different filter option.
+            </p>
+            <Button
+              type="primary"
+              className="bg-primary! h-12! w-sm mt-6"
+              onClick={() => handleFilter(null)}
+            >
+              Show All Services
+            </Button>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

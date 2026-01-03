@@ -61,7 +61,7 @@ const Banner: React.FC = () => {
     const values = form.getFieldsValue();
     console.log("Search values:", values);
     router.push(
-      `/services?service=${values.service}&location=${values.location}`
+      `/services?service=${values.service}&location=${values.location || ""}`
     );
   };
 
@@ -105,7 +105,7 @@ const Banner: React.FC = () => {
 
               {/* Search Section */}
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-[#2E2E2E]">
                   What service do you need?
                 </h2>
                 <Form

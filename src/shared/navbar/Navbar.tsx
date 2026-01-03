@@ -108,6 +108,12 @@ export default function Navbar() {
             <Link href={"/auth/login"} className="text-white">
               Login
             </Link>
+            <Link
+              href={"/auth/register"}
+              className="text-[#2E2E2E] bg-[#FFCB20] py-3 rounded-lg w-[300px] font-medium text-center hidden md:block"
+            >
+              Register as Service Provider
+            </Link>
 
             {/* Mobile Menu Icon */}
             <button

@@ -1,12 +1,21 @@
 "use client";
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input, Button, Form, ConfigProvider, AutoComplete } from "antd";
 import { MapPin, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 export default function ServiceBanner() {
   const [form] = Form.useForm();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Sync search parameters with form
+  useEffect(() => {
+    form.setFieldsValue({
+      service: searchParams.get("service") || "",
+      location: searchParams.get("location") || "",
+    });
+  }, [searchParams, form]);
   // Mock data for services and locations
   const services = [
     { value: "House Cleaning" },
