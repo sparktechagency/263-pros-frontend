@@ -7,8 +7,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Dropdown, Button, Typography } from "antd";
 const { Title } = Typography;
 export default function ServicesContent() {
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
   const searchQuery = searchParams.get("service")?.toLowerCase();
 
@@ -100,7 +100,7 @@ export default function ServicesContent() {
         </Dropdown>
       </div>
 
-      <div className="min-h-[600px]">
+      <div className="">
         {/* Services Grid */}
         {filteredServices?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">

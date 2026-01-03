@@ -12,7 +12,7 @@ export default async function Footer() {
     { label: "Terms Condition", href: "/terms-condition" },
   ];
   return (
-    <footer className="pt-16 lg:pt-20 bg-[#E6F8F3] ">
+    <footer className="pt-16 lg:pt-20 bg-[#F3F8FB] ">
       <div className="container flex flex-col items-center justify-center">
         <Image
           src="/Logo2.png"
