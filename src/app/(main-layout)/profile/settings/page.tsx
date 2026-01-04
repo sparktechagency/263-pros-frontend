@@ -1,8 +1,8 @@
+import ProfileSettings from '@/feature/main-layout/profile/settings/components/ProfileSettings';
 import React from 'react';
-import ProfileSettings from '../../../../feature/main-layout/profile/components/ProfileSettings';
 
 const ProfileSettingsPage = () => {
-    return <ProfileSettings />;
+    return <ProfileSettings/>;
 };
 
 export default ProfileSettingsPage;

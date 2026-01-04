@@ -20,27 +20,27 @@ const ProfileServiceCard: React.FC<ProfileServiceCardProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="bg-[#F8F9FA] rounded-xl p-4 md:p-5 flex flex-col md:flex-row gap-5 mb-5 border border-transparent hover:border-gray-200 transition-colors">
+    <div className="bg-[#F8F9FA] rounded-xl p-4 md:p-3 flex flex-col md:flex-row gap-5 mb-5 border border-transparent hover:border-gray-200 transition-colors">
       {/* Image */}
-      <div className="relative w-full md:w-[240px] h-[160px] md:h-auto shrink-0 rounded-lg overflow-hidden">
+      <div className="relative w-full md:w-[160px] h-[160px] md:h-[160px] shrink-0 rounded-lg ">
         <Image
           src={image}
           alt={title}
           fill
-          className="object-cover hover:scale-105 transition-transform duration-500"
+          className=" hover:scale-105 transition-transform duration-500"
         />
       </div>
 
       {/* Content */}
       <div className="flex-1 flex flex-col">
         <div className="flex-1 mb-4">
-          <h3 className="text-[#055e6e] text-lg md:text-xl font-semibold mb-1">
+          <h3 className="text-primary text-lg md:text-2xl font-medium mb-1">
             {title}
           </h3>
-          <p className="text-[#242424] font-medium text-sm mb-3">
+          <p className="text-[#242424] font-medium text-sm md:text-base mb-3">
             {category}
           </p>
-          <p className="text-[#525252] text-sm leading-relaxed line-clamp-3">
+          <p className="text-[#6C6C6C] text-sm md:text-base leading-relaxed line-clamp-3">
             {description}
           </p>
         </div>

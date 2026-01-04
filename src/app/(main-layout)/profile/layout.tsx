@@ -7,7 +7,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
     "Provider"
   );
   return (
-    <div className="min-h-[calc(100vh-73px)] bg-[#ffffff] py-8 ">
+    <div className="h-[calc(100vh+100px)]  bg-[#ffffff] py-8 ">
       <div className="container mx-auto flex-center ">
         <div className="lg:w-[85%]">
           <div className="flex-center mb-8 gap-4 ">
@@ -17,7 +17,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab as "Customer" | "Provider")}
-                  className={`flex-1 md:flex-none px-14.5 py-4 rounded-md text-sm font-medium transition-all duration-200 ${
+                  className={`flex-1 md:flex-none px-14.5 py-3 rounded-md text-sm font-medium transition-all duration-200 ${
                     activeTab === tab
                       ? "bg-[#055e6e] text-white shadow-sm"
                       : "text-[#525252] hover:bg-[#055e6e20]"
@@ -31,7 +31,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8">
             {/* Sidebar Area */}
-            <aside className="lg:col-span-1">
+            <aside className="lg:col-span-1 self-start max-h-fit">
               <ProfileSidebar />
             </aside>
 

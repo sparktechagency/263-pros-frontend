@@ -1,4 +1,4 @@
-import ProfileServiceList from '@/feature/main-layout/profile/components/ProfileServiceList';
+import ProfileServiceList from '@/feature/main-layout/profile/service/components/ProfileServiceList';
 import React from 'react';
 
 const ProfilePage = () => {
