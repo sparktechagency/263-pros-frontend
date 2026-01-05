@@ -106,11 +106,7 @@ export default function ServicesContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
             {filteredServices?.map((service) => (
               <div key={service.id} className="flex flex-col">
-                <ServiceCard
-                  title={service.title}
-                  image={service.image}
-                  link={`/services/${service.slug}`}
-                />
+                <ServiceCard service={service} />
               </div>
             ))}
           </div>

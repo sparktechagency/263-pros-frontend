@@ -28,12 +28,7 @@ const HomeServices: React.FC = () => {
             {/* Services Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {category?.services?.slice(0, 4).map((service) => (
-                <ServiceCard
-                  key={service?.id}
-                  title={service?.title}
-                  image={service?.image}
-                  link={`/services/${service?.slug}`}
-                />
+                <ServiceCard key={service?.id} service={service} />
               ))}
             </div>
           </div>
