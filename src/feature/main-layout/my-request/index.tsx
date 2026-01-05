@@ -46,6 +46,7 @@ export function MyRequestsContent() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-800">My Requests</h1>
         <Button
+          onClick={() => router.push("/services")}
           size="large"
           className="bg-[#B0D6D8]! hover:bg-[#8FBDBD] text-[#055E6E]! border-none! h-10! rounded-lg! transition-colors!"
         >
