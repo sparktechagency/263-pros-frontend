@@ -48,7 +48,7 @@ const ProfileSidebar = () => {
     <div className="w-full lg:w-[95%] bg-white rounded-xl p-6 border border-gray-100 shadow-sm h-full">
       {/* Profile Info */}
       <div className="flex flex-col items-center mb-8">
-        <div className="relative w-[160px] h-[160px] mb-4">
+        <div className="relative w-40 h-40 mb-4">
           <Image
             src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop"
             alt="Profile Avatar"

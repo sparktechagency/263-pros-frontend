@@ -10,9 +10,9 @@ const ProfileServiceList = () => {
   const [serviceData , setServiceData] = React.useState({})
 
   return (
-    <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm h-full">
+    <div className=" h-full">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-[#242424]">All Services</h2>
+        <h2 className="text-xl font-medium text-[#242424]">All Services</h2>
         <button onClick={() => setOpen(true)} className="flex items-center gap-2 px-5 py-2.5 bg-[#055e6e] text-white rounded-lg text-sm font-medium hover:bg-[#044a57] transition-colors shadow-sm">
           <Plus size={18} />
           <span>Add Service</span>

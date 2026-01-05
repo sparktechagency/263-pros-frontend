@@ -7,7 +7,7 @@ import ChangePassword from "./ChangePassword";
 
 const ProfileSettings = () => {
   return (
-    <div className=" bg-white rounded-xl p-8 border border-gray-100 shadow-sm gap-8 h-[calc(100vh-100px)] overflow-y-auto">
+    <div className="">
       {/* Left: Avatar Edit */}
       <div className="  flex flex-col items-center justify-center h-fit">
         <div className="relative w-40 h-40 mb-2 group cursor-pointer">

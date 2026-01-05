@@ -5,6 +5,6 @@ const navItems = [
   { labelKey: "Customer reviews", href: "/customer-reviews" },
   { labelKey: "Providers", href: "/providers" },
   { labelKey: "About Us", href: "/about-us" },
-];
+]; 
 
 export default navItems;

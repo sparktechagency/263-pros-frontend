@@ -36,7 +36,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
             </aside>
 
             {/* Main Content Area */}
-            <main className="lg:col-span-2">{children}</main>
+            <main className="lg:col-span-2  bg-white rounded-xl p-6 pb-4  border border-gray-100 shadow-sm gap-8 h-[calc(100vh-100px)] overflow-y-auto">{children}</main>
           </div>
         </div>
       </div>
