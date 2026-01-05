@@ -2,12 +2,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Drawer, ConfigProvider } from "antd";
+import {
+  Drawer,
+  ConfigProvider,
+  Dropdown,
+  Button,
+  Avatar,
+  Typography,
+} from "antd";
 import { usePathname } from "next/navigation";
 import navItems from "@/constants/navItem";
 
 import "aos/dist/aos.css";
 import { BsGrid } from "react-icons/bs";
+import ProfilePanel from "./ProfilePanel";
+import { FaAngleDown } from "react-icons/fa";
+
+const { Text } = Typography;
+
 export default function Navbar() {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -53,6 +65,16 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // profile Info
+  const profile = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+    image:
+      "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
+    phone: "+1234567890",
+    role: "customer",
+  };
+
   return (
     <nav
       className={`sticky top-0  z-50 w-full transition-all duration-500 navbar-container bg-[#055E6E]
@@ -70,7 +92,7 @@ export default function Navbar() {
               alt="VIAJIA Logo"
               width={180}
               height={80}
-              className="h-7  w-fit"
+              className="h-5 lg:h-7  w-fit"
               draggable={false}
             />
           </Link>
@@ -104,16 +126,45 @@ export default function Navbar() {
 
           {/* Right Section - Language + Download + Menu */}
           <div className="flex items-center gap-4">
-            {/* Download Button (Hidden on Small Devices) */}
-            <Link href={"/auth/login"} className="text-white">
-              Login
-            </Link>
-            <Link
-              href={"/auth/register"}
-              className="text-[#2E2E2E] bg-[#FFCB20] py-3 rounded-lg w-[300px] font-medium text-center hidden md:block"
-            >
-              Register as Service Provider
-            </Link>
+            {profile ? (
+              <Dropdown
+                trigger={["click"]}
+                popupRender={() => <ProfilePanel />}
+                // placement="bottomRight"
+              >
+                <Button
+                  type="text"
+                  className="flex items-center gap-3 rounded-xl  text-white! px-2 py-1.5"
+                >
+                  <Avatar src={profile.image} size={32} />
+                  <span className="hidden text-left leading-tight md:block">
+                    <span className="block text-[14px] font-medium ">
+                      {profile.name}
+                    </span>
+                    <Text
+                      className="text-white/80!"
+                      type="secondary"
+                      style={{ fontSize: 12 }}
+                    >
+                      {profile?.role}
+                    </Text>
+                  </span>
+                  <FaAngleDown className="hidden text-white md:block" />
+                </Button>
+              </Dropdown>
+            ) : (
+              <>
+                <Link href={"/auth/login"} className="text-white">
+                  Login
+                </Link>
+                <Link
+                  href={"/auth/register"}
+                  className="text-[#2E2E2E] bg-[#FFCB20] py-3 rounded-lg w-[300px] font-medium text-center hidden md:block"
+                >
+                  Register as Service Provider
+                </Link>
+              </>
+            )}
 
             {/* Mobile Menu Icon */}
             <button
