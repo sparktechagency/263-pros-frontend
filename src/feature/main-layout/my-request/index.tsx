@@ -3,8 +3,8 @@
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Button, Tabs } from "antd";
 import { RequestOverview } from "./components/RequestOverview";
-import { QuotationsList } from "./components/QuotationsList";
-import { BookedList } from "./components/BookedList";
+import { QuotationsList } from "./components/quotation/QuotationsList";
+import { BookedList } from "./components/booked/BookedList";
 import { MessageCenter } from "./components/chat/MessageCenter";
 import { useState } from "react";
 

@@ -1,5 +1,8 @@
 import { Button } from "antd";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useState } from "react";
+import { ReviewModal } from "./ReviewModal";
 
 const bookings = [
   {
@@ -36,6 +39,21 @@ const bookings = [
 ];
 
 export function BookedList() {
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(
+    null
+  );
+
+  const handleOpenReview = (id: number) => {
+    setSelectedBookingId(id);
+    setIsReviewModalOpen(true);
+  };
+
+  const handleReviewSubmit = (values: { rating: number; review: string }) => {
+    console.log("Submitting review for booking:", selectedBookingId, values);
+    toast.success("Review submitted successfully!");
+  };
+
   return (
     <div className="space-y-6">
       {bookings?.map((booking) => (
@@ -79,7 +97,10 @@ export function BookedList() {
                 >
                   Cancel booking
                 </Button>
-                <Button className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E]">
+                <Button
+                  onClick={() => toast.info("Feature coming soon")}
+                  className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E]"
+                >
                   Mark as Complete
                 </Button>
               </>
@@ -87,11 +108,15 @@ export function BookedList() {
               <>
                 <Button
                   type="default"
+                  onClick={() => handleOpenReview(booking.id)}
                   className="border-[#FAAD14]! text-[#FAAD14]! hover:bg-orange-50! hover:text-[#FAAD14]! rounded-lg! h-8! transition-colors! font-medium! bg-transparent!"
                 >
                   Review
                 </Button>
-                <Button className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E]">
+                <Button
+                  onClick={() => toast.info("Feature coming soon")}
+                  className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E] "
+                >
                   Complete
                 </Button>
               </>
@@ -99,6 +124,12 @@ export function BookedList() {
           </div>
         </div>
       ))}
+
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        onSubmit={handleReviewSubmit}
+      />
     </div>
   );
 }
