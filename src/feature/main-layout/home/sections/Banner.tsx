@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import { Input, Button, Form, ConfigProvider, AutoComplete } from "antd";
 import Image from "next/image";
-import { MapPin, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Banner: React.FC = () => {
   const [form] = Form.useForm();
@@ -137,7 +138,9 @@ const Banner: React.FC = () => {
                           <Input
                             placeholder="Avondale, Harare"
                             variant="borderless"
-                            prefix={<MapPin className="text-[#005B6F]" />}
+                            prefix={
+                              <FaMapMarkerAlt className="text-[#005B6F] text-xl" />
+                            }
                           />
                         </AutoComplete>
                       </Form.Item>
