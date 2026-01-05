@@ -1,5 +1,9 @@
+"use client";
+
 import { Button } from "antd";
 import Image from "next/image";
+import { useState } from "react";
+import { QuotationDetailModal } from "./QuotationDetailModal";
 
 const quotations = [
   {
@@ -7,34 +11,50 @@ const quotations = [
     title: "Domestic Cleaning",
     date: "Sunday, 12 March",
     price: "$40.00",
+    providerName: "Mr Micheal",
     avatar:
       "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
     message:
       "Mr Micheal wants to assist you with your domestic cleaning request.",
+    note: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed arcu in odio fringilla feugiat non at felis. Sed ut massa porta, lobortis nibh eu, pellentesque nisl. Vivamus ultricies convallis nisi in gravida. Mauris eu purus lorem.",
   },
   {
     id: 2,
     title: "Pool Cleaning",
     date: "Sunday, 12 March",
     price: "$48.00",
+    providerName: "Mr Micheal",
     avatar:
       "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767595457/1481ecdc6f9b1f9cfcb912fd04caa42d17c310ca_g6hf5o.jpg",
     message:
       "Mr Micheal wants to assist you with your domestic cleaning request.",
+    note: "Need a thorough pool cleaning after the weekend party. The filters might need checking as well.",
   },
   {
     id: 3,
     title: "Domestic Cleaning",
     date: "Sunday, 12 March",
     price: "$60.00",
+    providerName: "Mr Micheal",
     avatar:
       "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767595457/d2875c224ee5d99909e1fbeb6e600ab621d9ac96_t7kvu1.jpg",
     message:
       "Mr Micheal wants to assist you with your domestic cleaning request.",
+    note: "Experienced in deep cleaning. Bringing all necessary equipment.",
   },
 ];
 
 export function QuotationsList() {
+  const [selectedQuote, setSelectedQuote] = useState<
+    (typeof quotations)[0] | null
+  >(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewRequest = (quote: (typeof quotations)[0]) => {
+    setSelectedQuote(quote);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="space-y-6">
       {quotations.map((quote) => (
@@ -76,12 +96,31 @@ export function QuotationsList() {
             >
               Close Request
             </Button>
-            <Button className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E]">
+            <Button
+              className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E]"
+              onClick={() => handleViewRequest(quote)}
+            >
               View Request
             </Button>
           </div>
         </div>
       ))}
+
+      <QuotationDetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        quotation={
+          selectedQuote
+            ? {
+                avatar: selectedQuote.avatar,
+                providerName: selectedQuote.providerName,
+                serviceName: selectedQuote.title,
+                price: selectedQuote.price,
+                note: selectedQuote.note,
+              }
+            : null
+        }
+      />
     </div>
   );
 }
