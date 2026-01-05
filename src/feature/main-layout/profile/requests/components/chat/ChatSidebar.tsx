@@ -24,7 +24,7 @@ export function ChatSidebar({ users, activeId, onSelect }: ChatSidebarProps) {
         <button
           key={user.id}
           onClick={() => onSelect(user.id)}
-          className={`w-full flex items-center gap-4 p-4 rounded-xl transition-colors text-left group
+          className={`w-full flex items-center gap-4 p-4 rounded-xl transition-colors text-left border border-gray-100 group
             ${activeId === user.id ? "bg-[#EAEAEA]" : "hover:bg-gray-50"}
           `}
         >

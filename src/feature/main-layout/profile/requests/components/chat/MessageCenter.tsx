@@ -1,9 +1,5 @@
 "use client";
-
-import { useEffect } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { ChatSidebar } from "./ChatSidebar";
-import { Grid } from "antd";
 import { ChatConversation } from "./ChatConversation";
 
 const users = [
@@ -51,45 +47,24 @@ interface MessageCenterProps {
 }
 
 export function MessageCenter({ messageId, setMessageId }: MessageCenterProps) {
-  const { lg } = Grid.useBreakpoint();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
-  // On desktop, if no ID is selected, default to the first user
-  useEffect(() => {
-    if (lg && !messageId && users.length > 0) {
-      // const params = new URLSearchParams(searchParams.toString());
-      // params.set("id", users[0].id);
-      // router.replace(`${pathname}?${params.toString()}`);
-      setMessageId(users[0].id);
-    }
-  }, [lg, messageId, router, searchParams, pathname]);
 
   const selectUser = (id: string) => {
-    // const params = new URLSearchParams(searchParams.toString());
-    // params.set("id", id);
-    // router.push(`${pathname}?${params.toString()}`);
     setMessageId(id);
   };
 
   // Mobile view logic:
   // If id exists, show conversation. If not, show sidebar.
-  if (!lg) {
-    if (messageId) {
+  if (messageId) {
       const selectedUser = users.find((u) => u.id === messageId) || users[0];
       return (
-        <div className="min-h-[600px] flex flex-col">
+        <div className="h-[calc(100vh-245px)] flex flex-col">
           <button
             onClick={() => {
-              // const params = new URLSearchParams(searchParams.toString());
-              // params.delete("id");
-              // router.push(`${pathname}?${params.toString()}`);
               setMessageId(null);
             }}
-            className="mb-4 text-[#005C66] font-medium flex items-center gap-2"
+            className="mb-4 text-[#005C66] font-medium flex items-center gap-2 cursor-pointer"
           >
-            ← Back to Messages
+            ← Back
           </button>
           <ChatConversation user={selectedUser} />
         </div>
@@ -97,18 +72,3 @@ export function MessageCenter({ messageId, setMessageId }: MessageCenterProps) {
     }
     return <ChatSidebar users={users} activeId={null} onSelect={selectUser} />;
   }
-
-  // Desktop view
-  const activeUser = users.find((u) => u.id === messageId) || users[0];
-
-  return (
-    <div className="flex gap-6 h-[700px]">
-      <div className="w-[320px] shrink-0">
-        <ChatSidebar users={users} activeId={messageId} onSelect={selectUser} />
-      </div>
-      <div className="grow">
-        <ChatConversation user={activeUser} />
-      </div>
-    </div>
-  );
-}

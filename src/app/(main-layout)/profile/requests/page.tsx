@@ -1,4 +1,4 @@
-import Requests from "@/feature/main-layout/profile/requests"
+import { Requests } from "@/feature/main-layout/profile/requests"
 
 const requestsPage = () => {
     return (

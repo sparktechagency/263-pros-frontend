@@ -5,7 +5,7 @@ import { Camera } from "lucide-react";
 import { Divider, Form, Input } from "antd";
 import ChangePassword from "./ChangePassword";
 
-const ProfileSettings = () => {
+const CustomerProfileSettings = () => {
   return (
     <div className="">
       {/* Left: Avatar Edit */}
@@ -70,4 +70,4 @@ const ProfileSettings = () => {
   );
 };
 
-export default ProfileSettings;
+export default CustomerProfileSettings;
