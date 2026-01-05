@@ -115,7 +115,7 @@ export function BookedList() {
                 </Button>
                 <Button
                   onClick={() => toast.info("Feature coming soon")}
-                  className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E]"
+                  className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E] "
                 >
                   Complete
                 </Button>
