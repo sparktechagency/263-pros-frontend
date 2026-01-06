@@ -3,7 +3,7 @@ import { Button } from "antd";
 
 export default function ReadyToGrow({ isHome = false }: { isHome?: boolean }) {
   return (
-    <section className={`${isHome ? "container mb-16" : ""}`}>
+    <section className={`${isHome ? "container my-16" : ""}`}>
       <div
         className={`bg-[#055E6E] py-16 lg:py-24 text-center text-white px-4 ${
           isHome ? "rounded-2xl" : ""
