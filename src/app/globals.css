@@ -16,7 +16,7 @@
 
 @layer utilities {
   .section-title {
-    @apply text-3xl lg:text-5xl font-semibold mb-6;
+    @apply text-3xl lg:text-4xl 2xl:text-[40px] text-[#055E6E] font-semibold mb-6;
   }
   .section-subtitle {
     @apply text-[#242424] text-[16px] lg:text-lg  leading-relaxed;
