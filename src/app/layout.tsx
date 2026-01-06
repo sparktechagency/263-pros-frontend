@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import AntProvider from "../lib/provider/AntProvider";
 import { Toaster } from "sonner";
+import { ConfigProvider } from "antd";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -28,8 +29,16 @@ export default function RootLayout({
     <AntProvider>
       <html lang="en">
         <body className={`${poppins.variable}  antialiased`}>
-          <Toaster position="top-center" duration={2000} />
+          <Toaster position="top-center" duration={2000} /> 
+           <ConfigProvider
+                theme={{
+                    token: {
+                        colorPrimary: '#055e6e',
+                    },
+                }}
+            >   
           {children}
+            </ConfigProvider>
         </body>
       </html>
     </AntProvider>
