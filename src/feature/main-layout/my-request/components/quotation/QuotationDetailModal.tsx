@@ -2,6 +2,7 @@
 
 import { Modal, Button } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 
 interface QuotationDetailModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface QuotationDetailModalProps {
     serviceName: string;
     price: string;
     note: string;
+    id: string | number;
   } | null;
 }
 
@@ -48,9 +50,12 @@ export function QuotationDetailModal({
               <h4 className="text-xl font-semibold text-[#292929]">
                 {quotation.providerName}
               </h4>
-              <button className="bg-[#E6F2F2] text-[#055E6E] text-xs font-medium px-3 py-1 rounded-md hover:bg-[#D1EAEA] transition-colors">
+              <Link
+                href={`/provider/${quotation.id}`}
+                className="bg-[#E6F2F2]! text-[#055E6E]! text-xs! font-medium! px-3! py-1! rounded-md! hover:bg-[#D1EAEA]! transition-colors!"
+              >
                 View profile
-              </button>
+              </Link>
             </div>
             <p className="text-[#6C6C6C] text-lg mt-0.5">
               {quotation.serviceName}
