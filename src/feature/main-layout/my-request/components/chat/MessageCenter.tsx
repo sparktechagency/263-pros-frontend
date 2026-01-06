@@ -10,7 +10,7 @@ const users = [
   {
     id: "1",
     name: "Shariful Devidwar",
-    lastMessage: "Babu Khaiso?",
+    lastMessage: "Yo Bro! Whats up??",
     time: "11:30 AM",
     unread: 2,
     avatar:
@@ -28,7 +28,7 @@ const users = [
   {
     id: "3",
     name: "Shariful Devidwar",
-    lastMessage: "Babu Khaiso?",
+    lastMessage: "Yo Bro! Whats up??",
     time: "11:30 AM",
     unread: 2,
     avatar:
@@ -37,7 +37,7 @@ const users = [
   {
     id: "4",
     name: "Shariful Devidwar",
-    lastMessage: "Babu Khaiso?",
+    lastMessage: "Yo Bro! Whats up??",
     time: "11:30 AM",
     unread: 2,
     avatar:

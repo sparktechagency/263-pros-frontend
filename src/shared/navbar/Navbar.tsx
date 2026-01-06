@@ -76,7 +76,7 @@ export default function Navbar() {
       `}
     >
       <div
-        className={`container mx-auto px-4  py-2.5 transition-colors duration-300 `}
+        className={`container mx-auto px-4  py-3 lg:py-2.5 transition-colors duration-300 `}
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -199,11 +199,6 @@ export default function Navbar() {
                 {item.labelKey}
               </Link>
             ))}
-
-            {/* Download Button */}
-            <button className="bg-[#06825C] text-white px-6 py-2 rounded-full transition-colors text-sm w-full">
-              Download App
-            </button>
           </div>
         </Drawer>
       </ConfigProvider>
