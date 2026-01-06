@@ -64,9 +64,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const profileCookie = Cookies.get("profile");
-  const profile = profileCookie ? JSON.parse(profileCookie) : null;
-  console.log(profile);
+  const userCookie = Cookies.get("user");
+  const user = userCookie ? JSON.parse(userCookie) : null;
+  console.log(user);
   return (
     <nav
       className={`sticky top-0  z-50 w-full transition-all duration-500 navbar-container bg-[#055E6E]
@@ -118,7 +118,7 @@ export default function Navbar() {
 
           {/* Right Section - Language + Download + Menu */}
           <div className="flex items-center gap-4">
-            {profile ? (
+            {user ? (
               <Dropdown
                 trigger={["click"]}
                 popupRender={() => <ProfilePanel />}
@@ -128,17 +128,17 @@ export default function Navbar() {
                   type="text"
                   className="flex items-center gap-3 rounded-xl  text-white! px-2 py-1.5"
                 >
-                  <Avatar src={profile?.image} size={32} />
+                  <Avatar src={user?.image} size={32} />
                   <span className="hidden text-left leading-tight md:block">
                     <span className="block text-[14px] font-medium ">
-                      {profile?.name}
+                      {user?.name}
                     </span>
                     <Text
                       className="text-white/80!"
                       type="secondary"
                       style={{ fontSize: 12 }}
                     >
-                      {profile?.role}
+                      {user?.role}
                     </Text>
                   </span>
                   <FaAngleDown className="hidden text-white md:block" />

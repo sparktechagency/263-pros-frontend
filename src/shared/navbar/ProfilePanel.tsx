@@ -32,7 +32,7 @@ export default function ProfilePanel() {
         label: "Logout",
         onClick: () => {
           try {
-            Cookies.remove("profile");
+            Cookies.remove("user");
             toast.success("Logged out successfully");
             router.refresh();
           } catch (error) {

@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
   const onFinish = (values: any) => {
     console.log("Success:", values);
     toast.success("Login successful");
-    const profile = {
+    const user = {
       name: "John Doe",
       email: "john.doe@example.com",
       image:
@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
       phone: "+1234567890",
       role: "customer",
     };
-    Cookies.set("profile", JSON.stringify(profile), { expires: 7 });
+    Cookies.set("user", JSON.stringify(user), { expires: 7 });
 
     router.push("/");
   };
