@@ -2,6 +2,8 @@ import Link from "next/link";
 import React from "react";
 
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
 export default function ProfilePanel() {
   const router = useRouter();
   const PROFILE_ITEMS = [
@@ -23,10 +25,24 @@ export default function ProfilePanel() {
     },
   ];
   const onLogout = () => {
-    // Handle logout logic here
-    // console.log("User logged out");
-    router.push("/");
+    toast.warning("Are you sure you want to log out?", {
+      duration: 4000,
+      description: "You will be logged out and redirected to the login page.",
+      action: {
+        label: "Logout",
+        onClick: () => {
+          try {
+            Cookies.remove("profile");
+            toast.success("Logged out successfully");
+            router.refresh();
+          } catch (error) {
+            toast.error("Error logging out");
+          }
+        },
+      },
+    });
   };
+
   return (
     <div
       className="w-60 rounded-2xl bg-white p-3  shadow-xl"
