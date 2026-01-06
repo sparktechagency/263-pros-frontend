@@ -139,7 +139,7 @@ export default function Navbar() {
                       type="secondary"
                       style={{ fontSize: 12 }}
                     >
-                      {user?.role}
+                      {user?.role === "customer" ? "Customer" : "Provider"}
                     </Text>
                   </span>
                   <FaAngleDown className="hidden text-white md:block" />

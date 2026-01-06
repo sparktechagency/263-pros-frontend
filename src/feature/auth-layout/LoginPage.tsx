@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Form, Input, Button,Grid } from "antd";
+import { Form, Input, Button, Grid } from "antd";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
       image:
         "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
       phone: "+1234567890",
-      role: "provider",
+      role: "customer",
     };
     Cookies.set("user", JSON.stringify(user), { expires: 7 });
 

@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { ConfigProvider } from "antd";
+import { Button, ConfigProvider } from "antd";
 import Image from "next/image";
-import Link from "next/link";
+import RegisterProviderForm from "@/shared/components/RegisterProviderForm";
 
 const WorksBanner: React.FC = () => {
+  const [modalVisible, setModalVisible] = React.useState(false);
   return (
     <ConfigProvider
       theme={{
@@ -47,12 +48,13 @@ const WorksBanner: React.FC = () => {
               </p>
 
               {/* Search Section */}
-              <Link
-                href={"/auth/register"}
-                className="text-[#2E2E2E] bg-[#FFCB20] py-3 rounded-lg w-[300px] font-medium text-center hidden md:block"
+              <Button
+                type="primary"
+                onClick={() => setModalVisible(true)}
+                className="text-[#2E2E2E]! bg-[#FFCB20]! py-3 rounded-lg w-[300px]! font-medium! text-center hidden md:block"
               >
                 Register as Service Provider
-              </Link>
+              </Button>
             </div>
 
             {/* Right Illustration */}
@@ -71,6 +73,10 @@ const WorksBanner: React.FC = () => {
             </div>
           </div>
         </div>
+        <RegisterProviderForm
+          open={modalVisible}
+          onCancel={() => setModalVisible(false)}
+        />
       </section>
     </ConfigProvider>
   );

@@ -1,11 +1,16 @@
 "use client";
 import { Col, Form, Input, Row, Select } from "antd";
 
-const ProviderProfile = () => {
+const ProviderProfile = ({
+  handleSubmit,
+}: {
+  handleSubmit?: (values: any) => void;
+}) => {
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    handleSubmit?.(values);
   };
 
   return (

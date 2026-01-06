@@ -14,9 +14,12 @@ import {
   Star,
 } from "lucide-react";
 import { Button } from "antd";
+import RegisterProviderForm from "./RegisterProviderForm";
+import RoleSwitch from "../role-switch/RoleSwitchBtn";
 
 const ProfileSidebar = () => {
   const pathname = usePathname();
+  const [modalVisible, setModalVisible] = React.useState(false);
   const userCookie = Cookies.get("user");
   const user = userCookie ? JSON.parse(userCookie) : null;
   const userRole = user ? user.role : null;
@@ -81,6 +84,7 @@ const ProfileSidebar = () => {
 
         {userRole === "customer" ? (
           <Button
+            onClick={() => setModalVisible(true)}
             type="primary"
             size="large"
             className="bg-[#FFCB20]! text-primary! font-medium!"
@@ -88,17 +92,20 @@ const ProfileSidebar = () => {
             Become a Provider
           </Button>
         ) : (
-          <div className="flex items-center gap-1">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Star
-                key={star}
-                size={16}
-                className="fill-[#FFC107] text-[#FFC107]"
-              />
-            ))}
-            <span className="text-[#242424] font-semibold lg:text-xl text-lg ml-1">
-              (5.0)
-            </span>
+          <div className="flex flex-col space-y-2">
+            <RoleSwitch />
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  size={16}
+                  className="fill-[#FFC107] text-[#FFC107]"
+                />
+              ))}
+              <span className="text-[#242424] font-semibold lg:text-xl text-lg ml-1">
+                (5.0)
+              </span>
+            </div>
           </div>
         )}
       </div>
@@ -136,6 +143,10 @@ const ProfileSidebar = () => {
           <span>Logout</span>
         </button>
       </div>
+      <RegisterProviderForm
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+      />
     </div>
   );
 };
