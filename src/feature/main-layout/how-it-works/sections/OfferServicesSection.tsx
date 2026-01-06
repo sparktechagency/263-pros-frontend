@@ -5,10 +5,10 @@ export default function OfferServicesSection() {
   return (
     <section className="py-16 lg:py-24">
       <div className="container">
-        <h2 className="text-3xl lg:text-4xl 2xl:text-[40px] font-semibold text-[#055E6E] text-center mb-10">
+        <h2 className="section-title text-center mb-16!">
           Offer your Service on 263 <span className="text-[#FFCB20]">Pros</span>
         </h2>
-        <div className="bg-[#F9F9F9] border border-[#EBEBEB] rounded-2xl p-8 md:p-12">
+        <div className="bg-[#FBFBFB] border-0 rounded-2xl p-8 md:p-12 boxShadow">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 lg:gap-y-8 gap-x-8">
             {offerServicesData.map((item, index) => (
               <div key={index} className="flex items-center gap-4">

@@ -9,6 +9,7 @@ import {
   Button,
   Avatar,
   Typography,
+  Badge,
 } from "antd";
 import { usePathname } from "next/navigation";
 import navItems from "@/constants/navItem";
@@ -66,7 +67,8 @@ export default function Navbar() {
 
   const userCookie = Cookies.get("user");
   const user = userCookie ? JSON.parse(userCookie) : null;
-  console.log(user);
+  // console.log(user);
+  const hasNotification = user?.notifications?.length > 0 || true;
   return (
     <nav
       className={`sticky top-0  z-50 w-full transition-all duration-500 navbar-container bg-[#055E6E]
@@ -124,11 +126,10 @@ export default function Navbar() {
                 popupRender={() => <ProfilePanel />}
                 // placement="bottomRight"
               >
-                <Button
-                  type="text"
-                  className="flex items-center gap-3 rounded-xl  text-white! px-2 py-1.5"
-                >
-                  <Avatar src={user?.image} size={32} />
+                <button className="flex items-center gap-3 rounded-xl  text-white! px-2 hover:bg-gray-800/10 py-0.5">
+                  <Badge dot={hasNotification} color="red">
+                    <Avatar src={user?.image} size={40} />
+                  </Badge>
                   <span className="hidden text-left leading-tight md:block">
                     <span className="block text-[14px] font-medium ">
                       {user?.name}
@@ -142,7 +143,7 @@ export default function Navbar() {
                     </Text>
                   </span>
                   <FaAngleDown className="hidden text-white md:block" />
-                </Button>
+                </button>
               </Dropdown>
             ) : (
               <>

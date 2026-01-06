@@ -6,7 +6,7 @@ export default function WhyJoinSection() {
   return (
     <section className="bg-[#E6EFF4] py-16 ">
       <div className="container">
-        <h2 className="text-3xl lg:text-4xl 2xl:text-[40px] font-semibold text-[#055E6E] text-center mb-16">
+        <h2 className="section-title text-center mb-16!">
           Why Service Providers Join{" "}
           <span className="text-[#FFCB20]">263 Pros</span>
         </h2>
