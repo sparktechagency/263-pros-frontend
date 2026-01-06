@@ -4,7 +4,7 @@ const navItems = [
   { labelKey: "How It works", href: "/how-it-works" },
   // { labelKey: "Customer reviews", href: "/customer-reviews" },
   // { labelKey: "Providers", href: "/providers" },
-  { labelKey: "About Us", href: "/about-us" },
-]; 
+  { labelKey: "About Us", href: "/about" },
+];
 
 export default navItems;

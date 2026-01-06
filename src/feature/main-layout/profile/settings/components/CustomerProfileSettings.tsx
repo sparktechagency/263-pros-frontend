@@ -27,45 +27,62 @@ const CustomerProfileSettings = () => {
       <div className="mb-2">
         <Form className="" layout="vertical">
           {/* Name */}
-          <Form.Item name={"name"} label={ <p className="block text-[#525252] text-sm font-medium ">Name</p>}>      
-            <Input 
-              type="text" 
+          <Form.Item
+            name={"name"}
+            label={
+              <p className="block text-[#525252] text-sm font-medium ">Name</p>
+            }
+          >
+            <Input
+              type="text"
               defaultValue="Danai Gurira"
               className="w-full h-[45px]"
             />
           </Form.Item>
 
           {/* Phonenumber */}
-          <Form.Item name={"phone"} label={ <p className="block text-[#525252] text-sm font-medium ">Phone number</p>}>
-            <Input 
-              type="text" 
+          <Form.Item
+            name={"phone"}
+            label={
+              <p className="block text-[#525252] text-sm font-medium ">
+                Phone number
+              </p>
+            }
+          >
+            <Input
+              type="text"
               defaultValue="+123 4567 4567 456"
               className="w-full h-[45px]"
             />
           </Form.Item>
 
           {/* Email */}
-          <Form.Item name={"email"} label={ <p className="block text-[#525252] text-sm font-medium ">Email</p>}>
-            <Input 
-              type="email" 
+          <Form.Item
+            name={"email"}
+            label={
+              <p className="block text-[#525252] text-sm font-medium ">Email</p>
+            }
+          >
+            <Input
+              type="email"
               defaultValue="emample.email@gmail.com"
               className="w-full h-[45px]"
             />
-          </Form.Item> 
+          </Form.Item>
 
-          <Form.Item className="pt-6 flex justify-end" >
-             <button 
-                type="submit"
-                className="bg-[#055e6e] hover:bg-[#044a57] text-white font-medium py-3 px-8 rounded-lg shadow-sm transition-colors"
-             >
-                Save Changes
-             </button>
+          <Form.Item className="pt-6 flex justify-end">
+            <button
+              type="submit"
+              className="bg-[#055e6e] hover:bg-[#044a57] text-white font-medium py-3 px-8 rounded-lg shadow-sm transition-colors"
+            >
+              Save Changes
+            </button>
           </Form.Item>
         </Form>
-      </div> 
+      </div>
 
-      <Divider /> 
-      <ChangePassword/>
+      <Divider />
+      <ChangePassword />
     </div>
   );
 };

@@ -24,7 +24,9 @@ const ProviderProfile = () => {
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item
-              label={<p className="text-[#6C6C6C] font-medium">Business Name</p>}
+              label={
+                <p className="text-[#6C6C6C] font-medium">Business Name</p>
+              }
               name="businessName"
               rules={[
                 { required: true, message: "Please enter your business name" },
@@ -38,7 +40,9 @@ const ProviderProfile = () => {
             <Form.Item
               label={<p className="text-[#6C6C6C] font-medium">Location</p>}
               name="location"
-              rules={[{ required: true, message: "Please enter your location" }]}
+              rules={[
+                { required: true, message: "Please enter your location" },
+              ]}
               initialValue="Harare"
             >
               <Input placeholder="Enter location" className="h-10" />
@@ -47,12 +51,20 @@ const ProviderProfile = () => {
         </Row>
 
         <Form.Item
-          label={<p className="text-[#6C6C6C] font-medium">Select profession category</p>}
+          label={
+            <p className="text-[#6C6C6C] font-medium">
+              Select profession category
+            </p>
+          }
           name="professionCategory"
           rules={[{ required: true, message: "Please select a category" }]}
           initialValue="Weedings"
         >
-          <Select placeholder="Select category" className="h-10" style={{ height: "40px" }}>
+          <Select
+            placeholder="Select category"
+            className="h-10"
+            style={{ height: "40px" }}
+          >
             <Select.Option value="Weedings">Weedings</Select.Option>
             <Select.Option value="Events">Events</Select.Option>
             <Select.Option value="Corporate">Corporate</Select.Option>
@@ -60,13 +72,21 @@ const ProviderProfile = () => {
         </Form.Item>
 
         <Form.Item
-          label={<p className="text-[#6C6C6C] font-medium">Select profession</p>}
+          label={
+            <p className="text-[#6C6C6C] font-medium">Select profession</p>
+          }
           name="profession"
           rules={[{ required: true, message: "Please select a profession" }]}
           initialValue="Weeding Planner"
         >
-          <Select placeholder="Select profession" className="h-10" style={{ height: "40px" }}>
-            <Select.Option value="Weeding Planner">Weeding Planner</Select.Option>
+          <Select
+            placeholder="Select profession"
+            className="h-10"
+            style={{ height: "40px" }}
+          >
+            <Select.Option value="Weeding Planner">
+              Weeding Planner
+            </Select.Option>
             <Select.Option value="Photographer">Photographer</Select.Option>
             <Select.Option value="Caterer">Caterer</Select.Option>
           </Select>
@@ -91,7 +111,9 @@ const ProviderProfile = () => {
           </Col>
           <Col xs={24} md={12}>
             <Form.Item
-              label={<p className="text-[#6C6C6C] font-medium">Office address</p>}
+              label={
+                <p className="text-[#6C6C6C] font-medium">Office address</p>
+              }
               name="officeAddress"
               rules={[
                 { required: true, message: "Please enter your office address" },
@@ -155,7 +177,7 @@ const ProviderProfile = () => {
           <Input placeholder="Enter Facebook link" className="h-10" />
         </Form.Item>
 
-        <Form.Item className="pt-6 flex justify-end" >
+        <Form.Item className="pt-6 flex justify-end">
           <button
             type="submit"
             className="bg-[#055e6e] hover:bg-[#044a57] text-white font-medium py-3 px-8 rounded-lg shadow-sm transition-colors"
