@@ -117,6 +117,7 @@ export function QuotationsList() {
                 serviceName: selectedQuote.title,
                 price: selectedQuote.price,
                 note: selectedQuote.note,
+                id: selectedQuote.id,
               }
             : null
         }
