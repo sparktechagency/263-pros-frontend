@@ -12,13 +12,13 @@ const HomeServices: React.FC = () => {
         {categories?.slice(0, 8).map((category) => (
           <div key={category?.id} className="space-y-6">
             {/* Category Header */}
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#2E2E2E]">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg md:text-2xl lg:text-3xl font-semibold text-[#2E2E2E]">
                 {category?.name}
               </h2>
               <Link
                 href={`/services?category=${category?.id}`}
-                className="group flex items-center gap-2 text-[#6C6C6C] font-semibold transition-all hover:gap-3 "
+                className="group flex items-center gap-2 text-[#6C6C6C] font-semibold transition-all hover:gap-3 text-nowrap"
               >
                 View All
                 <ArrowRight size={20} className="transition-transform" />
