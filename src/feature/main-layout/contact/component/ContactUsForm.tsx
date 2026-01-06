@@ -13,7 +13,7 @@ interface FormValues {
   message: string;
 }
 
-export default function ContactUsForm({ t }: any) {
+export default function ContactUsForm() {
   const [form] = Form.useForm<FormValues>();
 
   const onFinish: FormProps<FormValues>["onFinish"] = (values) => {
@@ -31,27 +31,27 @@ export default function ContactUsForm({ t }: any) {
       <div className="grid grid-cols-2 gap-4">
         <Form.Item
           label={
-            <span className="md:text-lg font-semibold">{t.firstName}</span>
+            <span className="md:text-lg font-semibold">First Name</span>
           }
           name="firstName"
-          rules={[{ required: true, message: t.firstName }]}
+          rules={[{ required: true, message: "First name is required" }]}
           className="mb-0"
         >
           <Input
-            placeholder={t.firstNamePlaceholder}
+            placeholder="First Name"
             className="h-12! text-base! border-[#06825C] rounded-lg!"
             style={{ borderColor: "#0f766e" }}
           />
         </Form.Item>
 
         <Form.Item
-          label={<span className="md:text-lg font-semibold">{t.lastName}</span>}
+          label={<span className="md:text-lg font-semibold">Last Name</span>}
           name="lastName"
-          rules={[{ required: true, message: t.lastName }]}
+          rules={[{ required: true, message: "Last name is required" }]}
           className="mb-0"
         >
           <Input
-            placeholder={t.lastNamePlaceholder}
+            placeholder="Last Name"
             className="h-12! text-base! border-[#06825C] rounded-lg!"
             style={{ borderColor: "#0f766e" }}
           />
@@ -59,20 +59,20 @@ export default function ContactUsForm({ t }: any) {
       </div>
 
       <Form.Item
-        label={<span className="md:text-lg font-semibold">{t.email}</span>}
+        label={<span className="md:text-lg font-semibold">Email</span>}
         name="email"
-        rules={[{ required: true, message: t.email }]}
+        rules={[{ required: true, message: "Email is required" }]}
         className="mt-6 mb-6"
       >
         <Input
-          placeholder={t.emailPlaceholder}
+          placeholder="Email"
           className="h-12! text-base! border-[#06825C] rounded-lg!"
           style={{ borderColor: "#0f766e" }}
         />
       </Form.Item>
 
       <Form.Item
-        label={<span className="md:text-lg font-semibold">{t.phone}</span>}
+        label={<span className="md:text-lg font-semibold">Phone Number</span>}
         className="mb-6"
       >
         <div className="flex gap-3">
@@ -91,7 +91,7 @@ export default function ContactUsForm({ t }: any) {
           <Form.Item
             name="phone"
             noStyle
-            rules={[{ required: true, message: t.phone }]}
+            rules={[{ required: true, message: "Phone number is required" }]}
           >
             <Input
               placeholder="+10 (000) 000-0000"
@@ -103,13 +103,13 @@ export default function ContactUsForm({ t }: any) {
       </Form.Item>
 
       <Form.Item
-        label={<span className="md:text-lg font-semibold">{t.message}</span>}
+        label={<span className="md:text-lg font-semibold">Message</span>}
         name="message"
-        rules={[{ required: true, message: t.message }]}
+        rules={[{ required: true, message: "Message is required" }]}
         className="mb-8"
       >
         <Input.TextArea
-          placeholder={t.messagePlaceholder}
+          placeholder="Enter your message"
           rows={5}
           className="text-base! border-[#06825C] rounded-lg!"
           style={{ borderColor: "#0f766e" }}
@@ -125,7 +125,7 @@ export default function ContactUsForm({ t }: any) {
           size="large"
           className="h-12! px-8! rounded-lg! bg-[#06825C]! border-0! font-semibold flex items-center gap-2"
         >
-          {t.button} <span>{<ArrowRightOutlined />}</span>
+          Submit <span>{<ArrowRightOutlined />}</span>
         </Button>
       </Form.Item>
     </Form>

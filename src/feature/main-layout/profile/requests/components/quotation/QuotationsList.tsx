@@ -60,14 +60,19 @@ export function QuotationsList() {
       {quotations.map((quote) => (
         <div
           key={quote.id}
-          className="bg-[#FBFBFB] border border-[#EBEBEB] rounded-xl p-6 "
+          className="bg-[#FBFBFB] border border-[#EBEBEB] rounded-xl lg:p-6 p-3 "
         >
-          <div className="flex justify-between items-start mb-4">
-            <div>
-              <div className="flex flex-col md:flex-row md:items-end md:gap-3">
-                <h3 className="text-xl font-medium text-[#292929]">
-                  {quote.title}
-                </h3>
+          <div className="flex flex-col gap-y-2 mb-4">
+
+              <div className="flex flex-col w-full ">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-medium text-[#292929]">
+                    {quote.title}
+                  </h3>
+                  <p className="text-lg md:text-2xl font-medium text-[#333333]">
+                    {quote.price}
+                  </p>
+                </div>
                 <span className="text-xs text-gray-400">{quote.date}</span>
               </div>
               <div className="flex items-start gap-4 mt-4">
@@ -83,10 +88,8 @@ export function QuotationsList() {
                   {quote.message}
                 </p>
               </div>
-            </div>
-            <div className="text-lg md:text-2xl font-medium text-[#333333]">
-              {quote.price}
-            </div>
+        
+
           </div>
 
           <div className="flex justify-end gap-3 mt-2">
@@ -112,12 +115,12 @@ export function QuotationsList() {
         quotation={
           selectedQuote
             ? {
-                avatar: selectedQuote.avatar,
-                providerName: selectedQuote.providerName,
-                serviceName: selectedQuote.title,
-                price: selectedQuote.price,
-                note: selectedQuote.note,
-              }
+              avatar: selectedQuote.avatar,
+              providerName: selectedQuote.providerName,
+              serviceName: selectedQuote.title,
+              price: selectedQuote.price,
+              note: selectedQuote.note,
+            }
             : null
         }
       />

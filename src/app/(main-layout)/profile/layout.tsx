@@ -7,7 +7,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
     "Provider"
   );
   return (
-    <div className="h-[calc(100vh+100px)]  bg-[#ffffff] py-8 ">
+    <div className="lg:h-[calc(100vh+100px)] h-auto  bg-[#ffffff] py-8 ">
       <div className="container mx-auto flex-center ">
         <div className="lg:w-[85%]">
           <div className="flex-center mb-8 gap-4 ">
