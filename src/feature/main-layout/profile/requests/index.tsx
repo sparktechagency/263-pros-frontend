@@ -1,13 +1,12 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Button, Tabs } from "antd";
-import { RequestOverview } from "./components/RequestOverview";
+import { Tabs } from "antd";
 import { QuotationsList } from "./components/quotation/QuotationsList";
 import { BookedList } from "./components/booked/BookedList";
 import { MessageCenter } from "./components/chat/MessageCenter";
 import { useState } from "react";
-
+import "./style.css"
 const tabs = [
   { key: "quotation", label: "Quotations" },
   { key: "booked", label: "Booked" },
@@ -51,50 +50,6 @@ export function Requests() {
           className="custom-antd-tabs"
         />
       </div>
-
-      <style jsx global>{`
-        .custom-antd-tabs .ant-tabs-nav {
-          margin-bottom: 0 !important;
-        }
-
-        .custom-antd-tabs .ant-tabs-nav::before {
-          display: none;
-        }
-
-        .custom-antd-tabs .ant-tabs-tab {
-          margin: 0 32px 0 0 !important;
-        }
-
-        .custom-antd-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-          color: #005c66 !important;
-        }
-
-        .custom-antd-tabs .ant-tabs-ink-bar {
-          background: #005c66 !important;
-          height: 3px !important;
-          border-radius: 2px;
-        }
-
-        .custom-antd-tabs .ant-tabs-tab:hover {
-          color: #005c66 !important;
-        }
-
-        /* Mobile adjustments */
-        @media (max-width: 640px) {
-          .custom-antd-tabs .ant-tabs-tab {
-            margin: 0 16px 0 0 !important;
-            padding: 8px 0 !important;
-          }
-
-          .custom-antd-tabs .ant-tabs-tab-btn {
-            font-size: 14px !important;
-          }
-
-          .custom-antd-tabs .ant-tabs-ink-bar {
-            height: 2px !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }

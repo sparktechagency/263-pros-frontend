@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
       image:
         "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
       phone: "+1234567890",
-      role: "customer",
+      role: "provider",
     };
     Cookies.set("user", JSON.stringify(user), { expires: 7 });
 

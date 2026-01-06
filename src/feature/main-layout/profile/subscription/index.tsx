@@ -10,7 +10,7 @@ const Subscription = () => {
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl md:text-[28px] font-medium text-[#1A1A1A]">
+        <h1 className="lg:text-2xl text-xl font-medium text-[#1A1A1A]">
           Subscription
         </h1>
         <button className="px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-medium hover:bg-[#044a57] transition-colors" onClick={() => setIsOpen(true)}>
