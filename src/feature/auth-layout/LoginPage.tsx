@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 const LoginPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
@@ -14,6 +15,16 @@ const LoginPage: React.FC = () => {
   const onFinish = (values: any) => {
     console.log("Success:", values);
     toast.success("Login successful");
+    const user = {
+      name: "John Doe",
+      email: "john.doe@example.com",
+      image:
+        "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
+      phone: "+1234567890",
+      role: "customer",
+    };
+    Cookies.set("user", JSON.stringify(user), { expires: 7 });
+
     router.push("/");
   };
 

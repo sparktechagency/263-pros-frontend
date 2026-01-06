@@ -12,12 +12,11 @@ import {
 } from "antd";
 import { usePathname } from "next/navigation";
 import navItems from "@/constants/navItem";
-
 import "aos/dist/aos.css";
 import { BsGrid } from "react-icons/bs";
 import ProfilePanel from "./ProfilePanel";
 import { FaAngleDown } from "react-icons/fa";
-
+import Cookies from "js-cookie";
 const { Text } = Typography;
 
 export default function Navbar() {
@@ -65,16 +64,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // profile Info
-  const profile = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    image:
-      "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
-    phone: "+1234567890",
-    role: "customer",
-  };
-
+  const userCookie = Cookies.get("user");
+  const user = userCookie ? JSON.parse(userCookie) : null;
+  console.log(user);
   return (
     <nav
       className={`sticky top-0  z-50 w-full transition-all duration-500 navbar-container bg-[#055E6E]
@@ -126,7 +118,7 @@ export default function Navbar() {
 
           {/* Right Section - Language + Download + Menu */}
           <div className="flex items-center gap-4">
-            {profile ? (
+            {user ? (
               <Dropdown
                 trigger={["click"]}
                 popupRender={() => <ProfilePanel />}
@@ -136,17 +128,17 @@ export default function Navbar() {
                   type="text"
                   className="flex items-center gap-3 rounded-xl  text-white! px-2 py-1.5"
                 >
-                  <Avatar src={profile.image} size={32} />
+                  <Avatar src={user?.image} size={32} />
                   <span className="hidden text-left leading-tight md:block">
                     <span className="block text-[14px] font-medium ">
-                      {profile.name}
+                      {user?.name}
                     </span>
                     <Text
                       className="text-white/80!"
                       type="secondary"
                       style={{ fontSize: 12 }}
                     >
-                      {profile?.role}
+                      {user?.role}
                     </Text>
                   </span>
                   <FaAngleDown className="hidden text-white md:block" />
