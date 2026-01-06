@@ -5,7 +5,7 @@ import { providerSteps } from "@/constants/how-it-works/providerSteps";
 
 export default function WorksForSection() {
   return (
-    <section className="container pb-10 lg:pb-16">
+    <section className="pb-10 lg:pb-16">
       <WorksSection
         title={
           <>
