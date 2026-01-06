@@ -76,7 +76,7 @@ export default function Navbar() {
       `}
     >
       <div
-        className={`container mx-auto px-4  py-5 transition-colors duration-300 `}
+        className={`container mx-auto px-4  py-2.5 transition-colors duration-300 `}
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -128,7 +128,7 @@ export default function Navbar() {
               >
                 <button className="flex items-center gap-3 rounded-xl  text-white! px-2 hover:bg-gray-800/10 py-0.5">
                   <Badge dot={hasNotification} color="red">
-                    <Avatar src={user?.image} size={40} />
+                    <Avatar src={user?.image} size={44} />
                   </Badge>
                   <span className="hidden text-left leading-tight md:block">
                     <span className="block text-[14px] font-medium ">
