@@ -92,7 +92,7 @@ const Banner: React.FC = () => {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12 ">
             {/* Left Content */}
             <div className="w-full lg:w-1/2 flex flex-col items-start text-start">
-              <h1 className="text-4xl lg:text-5xl   font-semibold text-primary leading-tight mb-6 tracking-wide">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl   font-semibold text-primary leading-tight mb-6 tracking-wide">
                 Find & Book Trusted Service Providers{" "}
                 <span className="font-playfair italic font-normal text-primary">
                   Across Zimbabwe

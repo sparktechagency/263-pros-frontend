@@ -18,7 +18,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         onClick={() => setIsModalOpen(true)}
         className="group block h-full cursor-pointer"
       >
-        <div className="relative overflow-hidden rounded-xl bg-white border border-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <div className="relative overflow-hidden rounded-xl bg-white border border-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full">
           {/* Image Container */}
           <div className="relative aspect-4/3 w-full overflow-hidden">
             <Image
@@ -30,7 +30,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           </div>
 
           {/* Content */}
-          <div className="p-4">
+          <div className="p-4 flex-1 flex h-full">
             <h3 className="text-sm md:text-[16px] text-[#6C6C6C] transition-colors group-hover:text-primary line-clamp-2">
               {service?.title}
             </h3>

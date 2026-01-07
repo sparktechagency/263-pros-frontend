@@ -4,9 +4,22 @@ import React from "react";
 import { Button, ConfigProvider } from "antd";
 import Image from "next/image";
 import RegisterProviderForm from "@/shared/components/RegisterProviderForm";
+import useUserRole from "@/lib/hooks/useUserRole";
+import { toast } from "sonner";
 
 const WorksBanner: React.FC = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
+  const { role } = useUserRole();
+  console.log(role);
+  const handleModalVisible = () => {
+    if (!role) {
+      return toast.error(
+        "You must be logged in to register as a service provider"
+      );
+    }
+    setModalVisible(true);
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -33,7 +46,7 @@ const WorksBanner: React.FC = () => {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12 ">
             {/* Left Content */}
             <div className="w-full lg:w-1/2 flex flex-col items-start text-start">
-              <h1 className="text-4xl lg:text-5xl   font-semibold text-primary leading-tight mb-6 tracking-wide">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl   font-semibold text-primary leading-tight mb-6 tracking-wide">
                 Grow Your Service Business{" "}
                 <span className="font-playfair italic font-normal text-primary">
                   Across Zimbabwe
@@ -50,7 +63,7 @@ const WorksBanner: React.FC = () => {
               {/* Search Section */}
               <Button
                 type="primary"
-                onClick={() => setModalVisible(true)}
+                onClick={handleModalVisible}
                 className="text-[#2E2E2E]! bg-[#FFCB20]! py-3 rounded-lg w-[300px]! font-medium! text-center hidden md:block"
               >
                 Register as Service Provider

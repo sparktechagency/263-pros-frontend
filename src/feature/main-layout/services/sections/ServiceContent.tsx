@@ -74,12 +74,12 @@ export default function ServicesContent() {
         className="flex items-center justify-between mb-8 pb-4 "
       >
         <div>
-          <Title level={2} className="mb-1!">
+          <h3 className="mb-1! text-xl lg:text-2xl font-semibold">
             {currentCategory
               ? categories.find((cat) => cat.id === currentCategory)?.name
               : "All Services"}
-          </Title>
-          <p className="text-gray-500">
+          </h3>
+          <p className="text-gray-500 text-xs lg:text-sm">
             {filteredServices.length}{" "}
             {filteredServices.length === 1 ? "service" : "services"} available
           </p>
@@ -95,7 +95,7 @@ export default function ServicesContent() {
             icon={<Filter size={18} />}
             className="flex items-center gap-2 h-10 border-gray-200 hover:border-primary hover:text-primary"
           >
-            Filter
+            <span className="hidden md:block"> Filter</span>
           </Button>
         </Dropdown>
       </div>
@@ -103,7 +103,7 @@ export default function ServicesContent() {
       <div className="">
         {/* Services Grid */}
         {filteredServices?.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6 ">
             {filteredServices?.map((service) => (
               <div key={service.id} className="flex flex-col">
                 <ServiceCard service={service} />
@@ -123,7 +123,7 @@ export default function ServicesContent() {
             </p>
             <Button
               type="primary"
-              className="bg-primary! h-12! w-sm mt-6"
+              className="bg-primary! h-12! w-full lg:max-w-sm mt-6"
               onClick={() => handleFilter(null)}
             >
               Show All Services

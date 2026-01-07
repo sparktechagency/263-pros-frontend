@@ -96,7 +96,7 @@ export default function ServiceBanner() {
     >
       <section className="relative w-full bg-linear-to-b from-[#B1E5EE] to-[#FFFFFF] overflow-hidden pt-12  ">
         <div className="container flex flex-col items-center text-start">
-          <h1 className="text-4xl lg:text-5xl   font-semibold text-primary leading-tight mb-6 tracking-wide">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl   font-semibold text-primary leading-tight mb-6 tracking-wide">
             Explore All Services on 263 Pros
           </h1>
 

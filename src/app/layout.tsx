@@ -29,16 +29,16 @@ export default function RootLayout({
     <AntProvider>
       <html lang="en">
         <body className={`${poppins.variable}  antialiased`}>
-          <Toaster position="top-center" duration={2000} /> 
-           <ConfigProvider
-                theme={{
-                    token: {
-                        colorPrimary: '#055e6e',
-                    },
-                }}
-            >   
-          {children}
-            </ConfigProvider>
+          <Toaster richColors position="top-center" duration={2000} />
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: "#055e6e",
+              },
+            }}
+          >
+            {children}
+          </ConfigProvider>
         </body>
       </html>
     </AntProvider>
