@@ -123,7 +123,7 @@ export default function ServicesContent() {
             </p>
             <Button
               type="primary"
-              className="bg-primary! h-12! w-sm mt-6"
+              className="bg-primary! h-12! w-full lg:max-w-sm mt-6"
               onClick={() => handleFilter(null)}
             >
               Show All Services
