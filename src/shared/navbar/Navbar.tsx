@@ -151,7 +151,7 @@ export default function Navbar() {
                   Login
                 </Link>
                 <Link
-                  href={"/auth/register"}
+                  href={"/how-it-works"}
                   className="text-[#2E2E2E] bg-[#FFCB20] py-3 rounded-lg w-[300px] font-medium text-center hidden md:block"
                 >
                   Register as Service Provider
