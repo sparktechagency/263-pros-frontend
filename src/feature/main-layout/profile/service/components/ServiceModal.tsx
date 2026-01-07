@@ -1,5 +1,5 @@
 "use client";
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal, Select } from "antd";
 import { useEffect, useState } from "react";
 import { PiImageThin } from "react-icons/pi";
 
@@ -36,6 +36,20 @@ const ServiceModal = ({
   const onFinish = (values: any) => {
     console.log(values);
   };
+
+  const serviceCategories = [
+    { label: "Home, Domestic & Professional Cleaning Services", value: "Cleaning" },
+  ]; 
+
+  const subCategories = [
+    { label: "Domestic Cleaning", value: "Domestic Cleaning" },
+    { label: "Professional / Commercial Cleaning", value: "Professional / Commercial" },
+    { label: "Deep Cleaning", value: "Deep Cleaning" },
+    { label: "Post-Construction Cleaning", value: "Post-Construction Cleaning" },
+    { label: "Gardening", value: "Gardening" },
+    { label: "Laundry & Ironing", value: "Laundry & Ironing" },
+  ];
+
   return (
     <Modal
       open={open}
@@ -57,7 +71,7 @@ const ServiceModal = ({
               htmlFor="image"
               className="p-1 border border-[#BABABA] rounded-lg bg-white cursor-pointer block"
             >
-              <div className="flex justify-center items-center w-full h-[160px] ">
+              <div className="flex justify-center items-center w-full h-40 ">
                 {imageUrl ? (
                   <img
                     src={imageUrl}
@@ -86,31 +100,47 @@ const ServiceModal = ({
           </div>
 
           <Form.Item
-            name="title"
-            label={<p className="text-[#525252] text-sm font-medium ">Title</p>}
+            label={
+              <p className="text-[#6C6C6C] font-medium">
+                Select service category
+              </p>
+            }
+            name="serviceCategory"
+            rules={[{ required: true, message: "Please select a category" }]}
           >
-            <Input
-              type="text"
-              id="title"
-              name="title"
-              defaultValue={serviceData?.title}
-              className=" h-[45px]"
-            />
+            <Select
+              placeholder="Select category"
+              className="h-10"
+              style={{ height: "40px" }}
+            >
+              {serviceCategories.map((category) => (
+                <Select.Option key={category.value} value={category.value}>
+                  {category.label}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item
-            name="category"
             label={
-              <p className="text-[#525252] text-sm font-medium ">Category</p>
+              <p className="text-[#6C6C6C] font-medium">
+                Select  Sub-category
+              </p>
             }
+            name="subCategory"
+            rules={[{ required: true, message: "Please select a sub-category" }]}
           >
-            <Input
-              type="text"
-              id="category"
-              name="category"
-              defaultValue={serviceData?.category}
-              className=" h-[45px]"
-            />
+            <Select
+              placeholder="Select Sub-category"
+              className="h-10"
+              style={{ height: "40px" }}
+            >
+              {subCategories.map((category) => (
+                <Select.Option key={category.value} value={category.value}>
+                  {category.label}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item

@@ -16,6 +16,7 @@ import {
 import { Button } from "antd";
 import RegisterProviderForm from "./RegisterProviderForm";
 import RoleSwitch from "../role-switch/RoleSwitchBtn";
+import { MdOutlineMiscellaneousServices } from "react-icons/md";
 
 const ProfileSidebar = () => {
   const pathname = usePathname();
@@ -38,7 +39,12 @@ const ProfileSidebar = () => {
             icon: <Star size={20} />,
           },
         ]
-      : [
+      : [ 
+          {
+            name: "Services",
+            href: "/profile/services",
+            icon: <MdOutlineMiscellaneousServices size={22} />,
+          },
           {
             name: "Requests",
             href: "/profile/requests",
