@@ -35,11 +35,11 @@ export default function ReadyToGrow({ isHome = false }: { isHome?: boolean }) {
           >
             <Button
               type="primary"
-              className="h-12! rounded-xl bg-[#FFCB20]! border-0! text-[#1A1B1B]! font-medium! hover:bg-[#FFD64D]! hover:border-[#FFD64D]! transition-all! tracking-wide!"
+              className="h-12! rounded-xl bg-[#FFCB20]! border-0! text-[#1A1B1B]! font-medium! hover:bg-[#FFD64D]! hover:border-[#FFD64D]! transition-all! tracking-wide! w-full! md:w-auto!"
             >
               Register As a Service Provider
             </Button>
-            <Button className="h-12! rounded-xl bg-[#FEFEFE]! border-0! text-[#2E2E2E]! font-medium! text-base hover:bg-white/90! hover:border-white/90! transition-all! tracking-wide!">
+            <Button className="h-12! rounded-xl bg-[#FEFEFE]! border-0! text-[#2E2E2E]! font-medium! text-base hover:bg-white/90! hover:border-white/90! transition-all! tracking-wide! w-full! md:w-auto!">
               Contact Us for More Info
             </Button>
           </div>
