@@ -8,25 +8,52 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { myFetch } from "../../../helpers/myFetch";
 
 const LoginPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
-  const router = useRouter();
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-    toast.success("Login successful");
-    const user = {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      image:
-        "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
-      phone: "+1234567890",
-      role: "customer",
-    };
-    Cookies.set("user", JSON.stringify(user), { expires: 7 });
+  const router = useRouter(); 
 
-    router.push("/");
-  };
+  const onFinish = async (values: { email: string, password: string }) => {
+    try {
+      const res = await myFetch("/auth/login", {
+        method: "POST",
+        body: values,
+      });
+      if (res?.success) {
+        toast.success(res?.message || "Login successfully", { id: "login" });
+        Cookies.set("accessToken", res?.data?.accessToken);
+        router.push("/") 
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "login" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "login" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+  }; 
+
+  // const onFinish = (values: any) => {
+  //   console.log("Success:", values);
+  //   toast.success("Login successful");
+  //   const user = {
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     image:
+  //       "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
+  //     phone: "+1234567890",
+  //     role: "customer",
+  //   };
+  //   Cookies.set("user", JSON.stringify(user), { expires: 7 });
+
+  //   router.push("/");
+  // };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center  lg:px-4">

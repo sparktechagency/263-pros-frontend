@@ -1,22 +1,74 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, Grid, Input } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import Cookies from "js-cookie";
+import { myFetch } from "../../../helpers/myFetch";
 
 const VerifyOtpPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
   const router = useRouter();
-  const email = Cookies.get("email");
+  const [email, setEmail] = useState<string | null>(null);
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-    toast.success("OTP verified successfully");
-    router.push("/auth/reset-password");
+  useEffect(() => {
+    const emailFromQuery = new URLSearchParams(window.location.search).get('email');
+    setEmail(emailFromQuery);
+  }, []); 
+
+    const onFinish = async (values: { otp: string }) => {
+    const userType = localStorage.getItem("userType")
+    const data = {
+      email: email,
+      oneTimeCode: parseInt(values?.otp)
+    }
+
+    try {
+      const res = await myFetch("/auth/verify-email", {
+        method: "POST",
+        body: data,
+      }); 
+      console.log(res, "res");
+      if (res?.success) {
+        toast.success(res?.message || "OTP verified successfully", { id: "otp-verify" });
+        if (userType === "forget") {
+          router.push(`/auth/reset-password?token=${res?.data}`);
+        } else {
+          router.push(`/auth/login`);
+        }
+      } else {
+        toast.error(res?.message || "Something went wrong!", {
+          id: "otp-verify",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+    const handleResendEmail = async () => {
+    const data = {
+      email: email
+    }
+
+    try {
+      const res = await myFetch("/auth/resend-otp", {
+        method: "POST",
+        body: data,
+      }); 
+
+      if (res?.success) {
+        toast.success(res?.message || "OTP verified successfully", { id: "otp-resend" });
+      } else {
+        toast.error(res?.message || "Something went wrong!", {
+          id: "otp-resend",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }; 
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center lg:px-4">
@@ -72,7 +124,7 @@ const VerifyOtpPage: React.FC = () => {
               }}
               className=""
               variant="filled"
-              length={4}
+              length={6}
             />
           </Form.Item>
 
@@ -85,7 +137,18 @@ const VerifyOtpPage: React.FC = () => {
               Verify
             </Button>
           </Form.Item>
-        </Form>
+        </Form> 
+              <div className="flex items-center justify-center gap-1 mt-6 ">
+        <p className="text-[16px] text-[#818181] ">You have not received the email?</p>
+
+        <p
+          onClick={handleResendEmail}
+          className="login-form-forgot underline font-medium text-[16px] text-primary"
+          style={{ color: "#00B047", cursor: "pointer" }}
+        >
+          Resend
+        </p>
+      </div>
       </div>
     </div>
   );

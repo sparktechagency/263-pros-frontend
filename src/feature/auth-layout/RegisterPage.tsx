@@ -6,15 +6,36 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { myFetch } from "../../../helpers/myFetch";
 
 const RegisterPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
   const router = useRouter();
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-    toast.success("Registration successful");
-    router.push("/auth/login");
+  const onFinish = async(values: any) => {
+    try {
+      const res = await myFetch("/user", {
+        method: "POST",
+        body: values,
+      });
+      console.log(res);
+
+      if (res?.success) {
+        toast.success("Account created successfully!", { id: "sign-up" });
+        localStorage.setItem("userType", "register");
+        router.push(`/auth/verify-otp?email=${values.email}`);
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "sign-up" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "sign-up" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -82,7 +103,10 @@ const RegisterPage: React.FC = () => {
           <Form.Item
             label={<span className="text-gray-600 font-medium">Password</span>}
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[
+              { required: true, message: "Please input your password!" } ,
+               { min: 6, message: "Password must be at least 6 characters long" },
+              ]}
             className="mb-4"
           >
             <Input.Password

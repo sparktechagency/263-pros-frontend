@@ -1,19 +1,42 @@
 "use client";
-
 import React from "react";
 import { Form, Input, Button, Grid } from "antd";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { myFetch } from "../../../helpers/myFetch";
 
 const ResetPassPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
-  const router = useRouter();
+  const router = useRouter(); 
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token"); 
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-    toast.success("Password reset successful");
-    router.push("/auth/login");
+  const onFinish = async (values: { newPassword: string, confirmPassword: string }) => { 
+
+    try {
+      const res = await myFetch("/auth/reset-password", {
+        method: "POST",
+        body: values,
+        token: token || undefined,
+      }); 
+      console.log(res);
+      if (res?.success) {
+        toast.success(res?.message || "Password reset successfully", { id: "reset" });
+        router.push(`/auth/login`);
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "reset" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "reset" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
   return (
@@ -51,7 +74,7 @@ const ResetPassPage: React.FC = () => {
             label={
               <span className="text-gray-600 font-medium">New Password</span>
             }
-            name="password"
+            name="newPassword"
             rules={[
               { required: true, message: "Please input your new password!" },
             ]}
@@ -70,12 +93,12 @@ const ResetPassPage: React.FC = () => {
               </span>
             }
             name="confirmPassword"
-            dependencies={["password"]}
+            dependencies={["newPassword"]}
             rules={[
               { required: true, message: "Please confirm your new password!" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
+                  if (!value || getFieldValue("newPassword") === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(

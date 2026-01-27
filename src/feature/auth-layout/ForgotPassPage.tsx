@@ -5,16 +5,33 @@ import { Form, Input, Button, Grid } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import Cookies from "js-cookie";
+import { myFetch } from "../../../helpers/myFetch";
 const ForgotPassPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
   const router = useRouter();
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-    toast.success("OTP sent to your email");
-    Cookies.set("email", values.email);
-    router.push("/auth/verify-otp");
+  const onFinish = async (values: { email: string }) => {
+    try {
+      const res = await myFetch("/auth/forgot-password", {
+        method: "POST",
+        body: values,
+      });
+      if (res?.success) {
+        toast.success(res?.message || "OTP verified successfully", { id: "forget" });
+        localStorage.setItem("userType", "forget")
+        router.push(`/auth/verify-otp?email=${values?.email}`);
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "forget" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "forget" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
