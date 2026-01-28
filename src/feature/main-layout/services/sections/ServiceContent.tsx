@@ -1,16 +1,16 @@
 "use client";
 import React from "react";
 import { Filter, Check } from "lucide-react";
-import { categories } from "@/constants/servicesData";
 import ServiceCard from "@/shared/components/ServiceCard";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Dropdown, Button, Typography } from "antd";
-const { Title } = Typography;
-export default function ServicesContent() {
+import { Dropdown, Button } from "antd";
+import { Services } from "../../home/sections/HomeServices";
+
+export default function ServicesContent({services}: {services: Services[]}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
-  const searchQuery = searchParams.get("service")?.toLowerCase();
+  const searchQuery = searchParams.get("service")?.toLowerCase(); 
 
   const handleFilter = (categoryId: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -28,8 +28,8 @@ export default function ServicesContent() {
   };
 
   let filteredServices = currentCategory
-    ? categories.find((cat) => cat.id === currentCategory)?.services || []
-    : categories.flatMap((cat) => cat.services);
+    ? services?.find((cat) => cat.id === currentCategory)?.services || []
+    : services?.flatMap((cat) => cat.services);
 
   if (searchQuery) {
     filteredServices = filteredServices.filter(
@@ -52,7 +52,7 @@ export default function ServicesContent() {
       ),
       onClick: () => handleFilter(null),
     },
-    ...categories.map((cat) => ({
+    ...services?.map((cat) => ({
       key: cat.id,
       label: (
         <div className="flex items-center justify-between w-full min-w-[150px]">
@@ -76,7 +76,7 @@ export default function ServicesContent() {
         <div>
           <h3 className="mb-1! text-xl lg:text-2xl font-semibold">
             {currentCategory
-              ? categories.find((cat) => cat.id === currentCategory)?.name
+              ? services.find((cat) => cat.id === currentCategory)?.name
               : "All Services"}
           </h3>
           <p className="text-gray-500 text-xs lg:text-sm">

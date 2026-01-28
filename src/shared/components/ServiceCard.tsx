@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { ServiceRequestModal } from "./ServiceRequestModal";
+import { imgUrl } from "../../../helpers/imgUrl";
 
 interface ServiceCardProps {
   service: any;
@@ -11,6 +12,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   service,
 }: ServiceCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const img = service?.image.startsWith("http") ? service?.image : `${imgUrl}${service?.image}`;  
 
   return (
     <>
@@ -22,7 +24,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           {/* Image Container */}
           <div className="relative aspect-4/3 w-full overflow-hidden">
             <Image
-              src={service?.image}
+              src={img}
               alt={service?.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"

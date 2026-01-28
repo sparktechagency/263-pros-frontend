@@ -1,15 +1,37 @@
 import React from "react";
 import ServiceCard from "@/shared/components/ServiceCard";
-import { categories } from "@/constants/servicesData";
 import { ArrowRight } from "lucide-react";
 import { Button } from "antd";
 import Link from "next/link";
+import { myFetch } from "../../../../../helpers/myFetch";
 
-const HomeServices: React.FC = () => {
+export interface Services {
+  id: string;
+  name: string;
+  services: Service[];
+}
+
+export interface Service {
+  id: string;
+  name: string;
+  image: string;
+  category: string;
+  slug: string; 
+  title: string;
+}
+
+const HomeServices: React.FC = async() => { 
+    const res = await myFetch(`/service`, {
+    tags: ["service"],
+    method: "GET",
+    cache: "no-store",
+  });
+  const services = res?.data; 
+
   return (
     <section className="py-10 md:py-16">
       <div className="container space-y-16">
-        {categories?.slice(0, 8).map((category) => (
+        {services?.slice(0, 8).map((category:Services) => (
           <div key={category?.id} className="space-y-6">
             {/* Category Header */}
             <div className="flex items-center justify-between gap-3">
@@ -45,5 +67,4 @@ const HomeServices: React.FC = () => {
     </section>
   );
 };
-
 export default HomeServices;
