@@ -6,11 +6,13 @@ import {
   Form,
   Input,
   DatePicker,
-  Checkbox,
   Select,
   Button,
   ConfigProvider,
+  Radio,
 } from "antd";
+import { myFetch } from "../../../helpers/myFetch";
+import { toast } from "sonner";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -19,18 +21,48 @@ interface ServiceRequestModalProps {
   isOpen: boolean;
   onClose: () => void;
   serviceName: string;
+  serviceId: number;
 }
 
 export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
   isOpen,
   onClose,
   serviceName,
+  serviceId
 }) => {
   const [form] = Form.useForm();
+  console.log("serviceId", serviceId);
+  const onFinish = async (values: any) => {
+    const formattedValues = {
+      serviceId: serviceId,
+      ...values,
+      date: values.date ? values.date.toISOString() : null,
+      numberOfPeople: values.numberOfPeople ? Number(values.numberOfPeople) : null,
+    };
+    console.log("Form values:", formattedValues);
 
-  const onFinish = (values: any) => {
-    console.log("Form values:", values);
-    onClose();
+    try {
+      const res = await myFetch("/service-booking", {
+        method: "POST",
+        body: formattedValues,
+      });
+      if (res?.success) {
+        toast.success(res?.message, { id: "service" });
+        form.resetFields();
+        // onClose();
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "service" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "service" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
   return (
@@ -103,17 +135,14 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
           </Form.Item>
 
           <Form.Item
-            label={
-              <span className="text-[#055E6E] font-medium">
-                Urgent Request?
-              </span>
-            }
-            name="urgent"
+            label={<span className="text-[#055E6E] font-medium">Urgent Request?</span>}
+            name="urgency"
+            rules={[{ required: true, message: "Please select an option" }]}
           >
-            <Checkbox.Group className="flex gap-8">
-              <Checkbox value="yes">Yes, this is urgent</Checkbox>
-              <Checkbox value="no">No</Checkbox>
-            </Checkbox.Group>
+            <Radio.Group className="flex gap-8">
+              <Radio value={true}>Yes, this is urgent</Radio>
+              <Radio value={false}>No</Radio>
+            </Radio.Group>
           </Form.Item>
 
           <Form.Item
@@ -122,7 +151,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
                 Service details
               </span>
             }
-            name="details"
+            name="serviceDetails"
           >
             <TextArea
               rows={4}
@@ -139,13 +168,13 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
                 </span>
               </span>
             }
-            name="budget"
+            name="budgetRange"
           >
             <Select placeholder="Not sure yet" className="h-10!">
-              <Option value="not-sure">Not sure yet</Option>
-              <Option value="low">$10 - $50</Option>
-              <Option value="medium">$50 - $200</Option>
-              <Option value="high">$200+</Option>
+              <Option value="notsure">Not sure yet</Option>
+              <Option value="10-50">$10 - $50</Option>
+              <Option value="50-200">$50 - $200</Option>
+              <Option value="200+">$200+</Option>
             </Select>
           </Form.Item>
 
@@ -158,9 +187,9 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
                 </span>
               </span>
             }
-            name="people"
+            name="numberOfPeople"
           >
-            <Input placeholder="2 people" className="h-10!" />
+            <Input type="number" placeholder="2 people" className="h-10!" />
           </Form.Item>
 
           <Form.Item

@@ -10,7 +10,10 @@ export default function ServicesContent({services}: {services: Services[]}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
-  const searchQuery = searchParams.get("service")?.toLowerCase(); 
+  const searchQuery = searchParams.get("service")?.toLowerCase();  
+  const locationQuery = searchParams.get("location")?.toLowerCase();   
+  
+  console.log("searchQuery:", locationQuery);
 
   const handleFilter = (categoryId: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
