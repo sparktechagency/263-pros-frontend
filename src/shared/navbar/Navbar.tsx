@@ -116,7 +116,7 @@ export default function Navbar({ user = {} }: { user: any }) {
 
           {/* Right Section - Language + Download + Menu */}
           <div className="flex items-center gap-4">
-            {user ? (
+            {user && user?.email ? (
               <Dropdown
                 trigger={["click"]}
                 popupRender={() => <ProfilePanel />}
@@ -142,7 +142,7 @@ export default function Navbar({ user = {} }: { user: any }) {
                       type="secondary"
                       style={{ fontSize: 12 }}
                     >
-                      {user?.role === "customer" ? "Customer" : "Provider"}
+                      {user?.role === "USER" ? "Customer" : "Provider"}
                     </Text>
                   </span>
                   <FaAngleDown className="hidden text-white md:block" />

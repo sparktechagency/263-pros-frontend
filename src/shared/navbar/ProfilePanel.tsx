@@ -36,6 +36,7 @@ export default function ProfilePanel() {
             Cookies.remove("accessToken");
             toast.success("Logged out successfully");
             router.replace("/");
+            router.refresh();
           } catch (error) {
             toast.error("Error logging out");
           }
