@@ -1,35 +1,16 @@
 import React from "react";
 import ProfileSidebar from "@/shared/components/ProfileSidebar";
-
-const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
-  // const [activeTab, setActiveTab] = useState<"Customer" | "Provider">(
-  //   "Provider"
-  // );
+import getProfile from "../../../../helpers/getProfile";
+const ProfileLayout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await getProfile();
+  // console.log(user);
   return (
     <div className="lg:h-[calc(100vh - 80px)] h-auto  bg-[#ffffff] py-8 ">
       <div className="container mx-auto flex-center ">
         <div className="md:w-[90%] lg:[85%] w-full ">
-          {/* <div className="flex-center mb-8 gap-4 ">
-            <div className="bg-[#f1f1f1] p-1 ps-0 rounded-lg inline-flex w-full md:w-auto">
-              {["Customer", "Provider"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab as "Customer" | "Provider")}
-                  className={`flex-1 md:flex-none px-14.5 py-3 rounded-md text-sm font-medium transition-all duration-200 ${
-                    activeTab === tab
-                      ? "bg-[#055e6e] text-white shadow-sm"
-                      : "text-[#525252] hover:bg-[#055e6e20]"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div> */}
-
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-8">
             <aside className="lg:col-span-1 self-start max-h-fit">
-              <ProfileSidebar />
+              <ProfileSidebar user={user} />
             </aside>
 
             <main className="lg:col-span-2  bg-white rounded-xl p-6 pb-4  border border-gray-100 shadow-sm gap-8 h-[calc(100vh-132px)] overflow-y-auto">

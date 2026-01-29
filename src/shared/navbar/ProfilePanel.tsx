@@ -33,8 +33,9 @@ export default function ProfilePanel() {
         onClick: () => {
           try {
             Cookies.remove("user");
+            Cookies.remove("accessToken");
             toast.success("Logged out successfully");
-            router.refresh();
+            router.replace("/");
           } catch (error) {
             toast.error("Error logging out");
           }

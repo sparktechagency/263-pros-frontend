@@ -6,7 +6,6 @@ import {
   Drawer,
   ConfigProvider,
   Dropdown,
-  Button,
   Avatar,
   Typography,
   Badge,
@@ -17,10 +16,10 @@ import "aos/dist/aos.css";
 import { BsGrid } from "react-icons/bs";
 import ProfilePanel from "./ProfilePanel";
 import { FaAngleDown } from "react-icons/fa";
-import Cookies from "js-cookie";
+import { imgUrl } from "../../../helpers/imgUrl";
 const { Text } = Typography;
 
-export default function Navbar() {
+export default function Navbar({ user = {} }: { user: any }) {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -65,9 +64,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const userCookie = Cookies.get("user");
-  const user = userCookie ? JSON.parse(userCookie) : null;
-  // console.log(user);
   const hasNotification = user?.notifications?.length > 0 || true;
   return (
     <nav
@@ -128,7 +124,14 @@ export default function Navbar() {
               >
                 <button className="flex items-center gap-3 rounded-xl  text-white! px-2 hover:bg-gray-800/10 py-0.5">
                   <Badge dot={hasNotification} color="red">
-                    <Avatar src={user?.image} size={44} />
+                    <Avatar
+                      src={
+                        user?.image
+                          ? imgUrl + user?.image
+                          : "/assets/images/provider/no_user.png"
+                      }
+                      size={44}
+                    />
                   </Badge>
                   <span className="hidden text-left leading-tight md:block">
                     <span className="block text-[14px] font-medium ">

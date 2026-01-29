@@ -5,13 +5,13 @@ import Spinner from "@/shared/Spinner";
 import ServiceBanner from "./sections/ServiceBanner";
 import ServiceTags from "./sections/ServiceTags";
 import { myFetch } from "../../../../helpers/myFetch";
-export default async function ServicesPage() {  
+export default async function ServicesPage() {
   const res = await myFetch(`/service`, {
-      tags: ["service"],
-      method: "GET",
-      // cache: "no-store",
-    });
-   const services = Array.isArray(res?.data) ? res.data : [];
+    tags: ["service"],
+    method: "GET",
+    // cache: "no-store",
+  });
+  const services = Array.isArray(res?.data) ? res.data : [];
 
   return (
     <ConfigProvider
