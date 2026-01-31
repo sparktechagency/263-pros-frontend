@@ -13,14 +13,17 @@ const tabs = [
   { key: "booked", label: "Booked" },
   { key: "message", label: "Message" },
 ];
+interface serviceRequest {
+  requests: any[];
+}
 
-export function MyRequestsContent() {
+export function MyRequestsContent({ requests }: serviceRequest) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
   const [activeTab, setActiveTab] = useState(
-    searchParams.get("tab") || "quotation"
+    searchParams.get("tab") || "quotation",
   );
 
   const [messageId, setMessageId] = useState(searchParams.get("id"));
@@ -55,7 +58,7 @@ export function MyRequestsContent() {
       </div>
 
       {/* Top Cards Overview */}
-      <RequestOverview />
+      <RequestOverview requests={requests} />
 
       {/* Tabs Section */}
       <div id="request-tabs" className="mt-8">
