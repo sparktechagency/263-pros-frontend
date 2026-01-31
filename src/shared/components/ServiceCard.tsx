@@ -43,7 +43,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <ServiceRequestModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        serviceName={service?.title}
+        serviceName={service?.title} 
+        serviceId={service?.id}
       />
     </>
   );
