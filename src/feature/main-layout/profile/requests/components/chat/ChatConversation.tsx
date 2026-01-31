@@ -43,7 +43,7 @@ export function ChatConversation({ user }: { user: any }) {
           <h3 className="font-semibold text-gray-800 text-[15px]">
             {user?.name}
           </h3>
-          <p className="text-[12px] text-gray-400">last seen 4m ago</p>
+          <p className="text-[12px] text-gray-400">last seen 5m ago</p>
         </div>
       </div>
 

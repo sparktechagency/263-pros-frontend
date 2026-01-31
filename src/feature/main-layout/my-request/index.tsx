@@ -15,9 +15,10 @@ const tabs = [
 ];
 interface serviceRequest {
   requests: any[];
+  quotations: any[];
 }
 
-export function MyRequestsContent({ requests }: serviceRequest) {
+export function MyRequestsContent({ requests, quotations }: serviceRequest) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -27,21 +28,6 @@ export function MyRequestsContent({ requests }: serviceRequest) {
   );
 
   const [messageId, setMessageId] = useState(searchParams.get("id"));
-
-  // const activeTab = searchParams.get("tab") || "quotation";
-  // const messageId = searchParams.get("id");
-
-  // const onTabChange = (key: string) => {
-  //   const params = new URLSearchParams(searchParams.toString());
-  //   params.set("tab", key);
-  //   if (key !== "message") {
-  //     params.delete("id");
-  //   }
-  //   router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  //   document
-  //     .getElementById("request-tabs")
-  //     ?.scrollIntoView({ behavior: "smooth" });
-  // };
 
   return (
     <div className="container py-16 space-y-12">
@@ -72,7 +58,9 @@ export function MyRequestsContent({ requests }: serviceRequest) {
             ),
             children: (
               <div className="py-6">
-                {tab.key === "quotation" && <QuotationsList />}
+                {tab.key === "quotation" && (
+                  <QuotationsList quotations={quotations} />
+                )}
                 {tab.key === "booked" && <BookedList />}
                 {tab.key === "message" && (
                   <MessageCenter

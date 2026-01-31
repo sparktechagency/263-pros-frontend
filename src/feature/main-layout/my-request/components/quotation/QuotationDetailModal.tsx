@@ -3,6 +3,8 @@
 import { Modal, Button } from "antd";
 import Image from "next/image";
 import Link from "next/link";
+import { myFetch } from "../../../../../../helpers/myFetch";
+import { toast } from "sonner";
 
 interface QuotationDetailModalProps {
   isOpen: boolean;
@@ -23,6 +25,33 @@ export function QuotationDetailModal({
   quotation,
 }: QuotationDetailModalProps) {
   if (!quotation) return null;
+  // console.log(quotation.id);
+  // submit form
+  const bookQuotation = async () => {
+    try {
+      toast.promise(
+        myFetch(`/service-booking/${quotation.id}`, {
+          method: "PATCH",
+          body: {
+            bookingStatus: "confirmed",
+          },
+        }),
+        {
+          loading: "Booking quotation...",
+          success: (res) => {
+            if (res?.success) {
+              onClose();
+              return res?.message || "Quotation booked successfully";
+            }
+            throw new Error(res?.message || "Quotation booking failed");
+          },
+          error: (err) => err.message || "Error booking quotation",
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Modal
@@ -69,7 +98,7 @@ export function QuotationDetailModal({
             Service Price
           </h5>
           <span className="text-2xl font-semibold text-[#292929]">
-            {quotation.price}
+            ${quotation.price}
           </span>
         </div>
 
@@ -91,7 +120,7 @@ export function QuotationDetailModal({
           </Button>
           <Button
             className="flex-1 h-12 text-lg bg-[#055E6E]! hover:bg-[#004A52]! text-white! border-none! font-medium rounded-lg"
-            onClick={onClose}
+            onClick={bookQuotation}
           >
             Book Service
           </Button>

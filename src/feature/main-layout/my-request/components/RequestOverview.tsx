@@ -1,4 +1,4 @@
-import { Button, Modal } from "antd";
+import { Button, Modal, Empty } from "antd";
 import { useState } from "react";
 import Image from "next/image";
 import { imgUrl } from "../../../../../helpers/imgUrl";
@@ -22,49 +22,6 @@ interface ServiceRequest {
   };
 }
 
-// const requests: ServiceRequest[] = [
-//   {
-//     title: "Domestic Cleaning",
-//     day: "Saturday",
-//     provider: {
-//       name: "Matata",
-//       location: "Avondale",
-//       avatar:
-//         "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1766655715/565703184_4277408822578873_474492462293572835_n_klygz5.jpg",
-//     },
-//     details: {
-//       requiredService: "Domestic Cleaning",
-//       location: "Harare",
-//       date: "12 January, 2026",
-//       urgentRequest: "No",
-//       budget: "Not sure yet",
-//       visitors: "02 People",
-//       description:
-//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed arcu in odio fringilla feugiat non at felis. Sed ut massa porta, lobortis nibh eu, pellentesque nisl. Vivamus ultricies convallis nisi in gravida. Mauris eu purus lorem.",
-//     },
-//   },
-//   {
-//     title: "Pool Cleaning",
-//     day: "Monday",
-//     provider: {
-//       name: "Sarah Jones",
-//       location: "Borrowdale",
-//       avatar:
-//         "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1766655715/565703184_4277408822578873_474492462293572835_n_klygz5.jpg",
-//     },
-//     details: {
-//       requiredService: "Pool Cleaning",
-//       location: "Harare",
-//       date: "15 January, 2026",
-//       urgentRequest: "Yes",
-//       budget: "$50 - $100",
-//       visitors: "01 Person",
-//       description:
-//         "Need a thorough pool cleaning after the weekend party. The filters might need checking as well.",
-//     },
-//   },
-// ];
-
 export function RequestOverview({ requests }: any) {
   const [selectedRequest, setSelectedRequest] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,6 +30,14 @@ export function RequestOverview({ requests }: any) {
     setSelectedRequest(request);
     setIsModalOpen(true);
   };
+
+  if (!requests || requests.length === 0) {
+    return (
+      <div className="flex items-center justify-center bg-white rounded-xl p-12 shadow-[0_4px_20px_rgba(0,0,0,0.03)] min-h-[200px] w-full">
+        <Empty description="No service requests available" />
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
