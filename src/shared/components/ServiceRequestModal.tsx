@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Modal,
   Form,
@@ -13,6 +13,7 @@ import {
 } from "antd";
 import { myFetch } from "../../../helpers/myFetch";
 import { toast } from "sonner";
+import getProfile from "../../../helpers/getProfile";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -30,8 +31,31 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
   serviceName,
   serviceId
 }) => {
-  const [form] = Form.useForm();
-  console.log("serviceId", serviceId);
+  const [form] = Form.useForm(); 
+  const [user, setUser] = React.useState<any>(null);
+
+    useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profileData = await getProfile();
+        setUser(profileData);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);  
+
+  useEffect(() => {
+    if (user) {
+      form.setFieldsValue({
+        name: user.name,
+        email: user.email,
+      });
+    }
+  }, [user, form]);
+
   const onFinish = async (values: any) => {
     const formattedValues = {
       serviceId: serviceId,
@@ -109,6 +133,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
           <Form.Item
             label={<span className="text-[#055E6E] font-medium">Service</span>}
             name="service"
+            rules={[{ required: true, message: "Please enter service name" }]}
           >
             <Input placeholder="Service name" className="h-10!" />
           </Form.Item>
@@ -116,6 +141,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
           <Form.Item
             label={<span className="text-[#055E6E] font-medium">Location</span>}
             name="location"
+            rules={[{ required: true, message: "Please enter location" }]}
           >
             <Input placeholder="Harare" className="h-10!" />
           </Form.Item>
@@ -152,6 +178,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
               </span>
             }
             name="serviceDetails"
+            rules={[{ required: true, message: "Please enter service details" }]}
           >
             <TextArea
               rows={4}
@@ -197,8 +224,9 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
               <span className="text-[#055E6E] font-medium">Your name</span>
             }
             name="name"
+            rules={[{ required: true, message: "Please enter your name" }]}
           >
-            <Input placeholder="Name" className="h-10!" />
+            <Input placeholder="Name" className="h-10!" readOnly />
           </Form.Item>
 
           <div className="grid grid-cols-2 gap-4">
@@ -209,8 +237,9 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
                 </span>
               }
               name="email"
+              rules={[{ required: true, message: "Please enter email" }]}
             >
-              <Input placeholder="example.email@gmail.com" className="h-10!" />
+              <Input placeholder="example.email@gmail.com" className="h-10!"  readOnly/>
             </Form.Item>
             <Form.Item
               label={

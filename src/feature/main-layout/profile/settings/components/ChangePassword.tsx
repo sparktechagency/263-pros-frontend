@@ -2,6 +2,7 @@ import { Form, Input } from "antd";
 
 const ChangePassword = () => { 
         const [form] = Form.useForm(); 
+       
         const handleChangePassword = (values: any) => {
             console.log(values);
         };
