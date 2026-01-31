@@ -33,6 +33,7 @@ export const myFetch = async <T = any>(
 ): Promise<FetchResponse<T>> => {
   const accessToken = await getAccessToken();
   const isFormData = body instanceof FormData;
+   const hasBody = body !== undefined && method !== "GET";
 
   const reqHeaders: Record<string, string> = {
     Accept: "application/json",
@@ -46,14 +47,9 @@ export const myFetch = async <T = any>(
     const res = await fetch(`${process.env.BASE_URL}${url}`, {
       method,
       headers: reqHeaders,
-      body:
-        method !== "GET" && body
-          ? isFormData
-            ? body
-            : JSON.stringify(body)
-          : undefined,
-      cache: method === "GET" ? cache : "no-store",
+      ...(hasBody && { body: isFormData ? body : JSON.stringify(body) }),
       ...(tags && { next: { tags } }),
+      ...(!(method === "GET") ? { cache: "no-store" } : { cache: cache }),
     });
 
     const json = await res.json();
