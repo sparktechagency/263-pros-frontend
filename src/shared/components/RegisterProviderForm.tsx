@@ -1,9 +1,10 @@
 import ProviderProfile from "@/feature/main-layout/profile/settings/components/ProviderProfile";
 import { Modal } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { imgUrl } from "../../../helpers/imgUrl";
 
 export default function RegisterProviderForm({
   open,
@@ -16,8 +17,13 @@ export default function RegisterProviderForm({
   const userCookie = Cookies.get("user");
   const user = userCookie ? JSON.parse(userCookie) : null;
   const userRole = user ? user.role : null;
+
+
   const handleSubmit = (values: any) => {
-    console.log("register", values);
+
+    for (const [key, value] of values.entries()) {
+      console.log(key, value);
+    }
     if (!user) return;
     if (userRole === "provider") {
       toast.error("You are already a provider");

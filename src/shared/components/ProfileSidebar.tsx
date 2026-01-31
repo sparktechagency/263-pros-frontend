@@ -25,7 +25,6 @@ const ProfileSidebar = ({ user }: { user: any }) => {
   const pathname = usePathname();
   const [modalVisible, setModalVisible] = React.useState(false);
   const userRole = user ? user.role : null;
-  console.log(imgUrl + user?.image);
   const sidebarLinks = [
     ...(userRole === "USER"
       ? [
