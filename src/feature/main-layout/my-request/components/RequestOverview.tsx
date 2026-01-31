@@ -1,6 +1,7 @@
 import { Button, Modal } from "antd";
 import { useState } from "react";
 import Image from "next/image";
+import { imgUrl } from "../../../../../helpers/imgUrl";
 
 interface ServiceRequest {
   title: string;
@@ -21,53 +22,51 @@ interface ServiceRequest {
   };
 }
 
-const requests: ServiceRequest[] = [
-  {
-    title: "Domestic Cleaning",
-    day: "Saturday",
-    provider: {
-      name: "Matata",
-      location: "Avondale",
-      avatar:
-        "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1766655715/565703184_4277408822578873_474492462293572835_n_klygz5.jpg",
-    },
-    details: {
-      requiredService: "Domestic Cleaning",
-      location: "Harare",
-      date: "12 January, 2026",
-      urgentRequest: "No",
-      budget: "Not sure yet",
-      visitors: "02 People",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed arcu in odio fringilla feugiat non at felis. Sed ut massa porta, lobortis nibh eu, pellentesque nisl. Vivamus ultricies convallis nisi in gravida. Mauris eu purus lorem.",
-    },
-  },
-  {
-    title: "Pool Cleaning",
-    day: "Monday",
-    provider: {
-      name: "Sarah Jones",
-      location: "Borrowdale",
-      avatar:
-        "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1766655715/565703184_4277408822578873_474492462293572835_n_klygz5.jpg",
-    },
-    details: {
-      requiredService: "Pool Cleaning",
-      location: "Harare",
-      date: "15 January, 2026",
-      urgentRequest: "Yes",
-      budget: "$50 - $100",
-      visitors: "01 Person",
-      description:
-        "Need a thorough pool cleaning after the weekend party. The filters might need checking as well.",
-    },
-  },
-];
+// const requests: ServiceRequest[] = [
+//   {
+//     title: "Domestic Cleaning",
+//     day: "Saturday",
+//     provider: {
+//       name: "Matata",
+//       location: "Avondale",
+//       avatar:
+//         "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1766655715/565703184_4277408822578873_474492462293572835_n_klygz5.jpg",
+//     },
+//     details: {
+//       requiredService: "Domestic Cleaning",
+//       location: "Harare",
+//       date: "12 January, 2026",
+//       urgentRequest: "No",
+//       budget: "Not sure yet",
+//       visitors: "02 People",
+//       description:
+//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed arcu in odio fringilla feugiat non at felis. Sed ut massa porta, lobortis nibh eu, pellentesque nisl. Vivamus ultricies convallis nisi in gravida. Mauris eu purus lorem.",
+//     },
+//   },
+//   {
+//     title: "Pool Cleaning",
+//     day: "Monday",
+//     provider: {
+//       name: "Sarah Jones",
+//       location: "Borrowdale",
+//       avatar:
+//         "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1766655715/565703184_4277408822578873_474492462293572835_n_klygz5.jpg",
+//     },
+//     details: {
+//       requiredService: "Pool Cleaning",
+//       location: "Harare",
+//       date: "15 January, 2026",
+//       urgentRequest: "Yes",
+//       budget: "$50 - $100",
+//       visitors: "01 Person",
+//       description:
+//         "Need a thorough pool cleaning after the weekend party. The filters might need checking as well.",
+//     },
+//   },
+// ];
 
-export function RequestOverview() {
-  const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(
-    null
-  );
+export function RequestOverview({ requests }: any) {
+  const [selectedRequest, setSelectedRequest] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleViewRequest = (request: ServiceRequest) => {
@@ -77,15 +76,23 @@ export function RequestOverview() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {requests.map((request, index) => (
+      {requests?.map((request: any) => (
         <div
-          key={index}
+          key={request?._id}
           className="bg-white rounded-xl p-8 flex flex-col items-center text-center boxShadow"
         >
           <h3 className="text-xl font-semibold text-[#292929] mb-1">
-            {request.title}
+            {request?.serviceId?.title}
           </h3>
-          <p className="text-[#6C6C6C] mb-6">{request.day}</p>
+          <p className="text-[#6C6C6C] mb-6">
+            {request?.date
+              ? new Date(request.date).toLocaleString("en-GB", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })
+              : ""}
+          </p>
 
           <div className="bg-[#E6F2F2] p-4 rounded-lg mb-8 w-full">
             <p className="text-[#34C759] text-sm leading-relaxed max-w-[320px] mx-auto">
@@ -119,18 +126,22 @@ export function RequestOverview() {
             <div className="flex items-center gap-4 mb-8">
               <div className="relative w-16 h-16 rounded-full overflow-hidden border border-gray-100">
                 <Image
-                  src={selectedRequest.provider.avatar}
-                  alt={selectedRequest.provider.name}
+                  src={
+                    selectedRequest.user?.image
+                      ? imgUrl + selectedRequest.user?.image
+                      : "/assets/images/provider/no_user.png"
+                  }
+                  alt={selectedRequest.user?.name}
                   fill
                   className="object-cover"
                 />
               </div>
               <div>
                 <h4 className="text-lg font-semibold text-[#292929]">
-                  {selectedRequest.provider.name}
+                  {selectedRequest.user?.name}
                 </h4>
                 <p className="text-[#6C6C6C]">
-                  {selectedRequest.provider.location}
+                  {selectedRequest.user?.location}
                 </p>
               </div>
             </div>
@@ -140,18 +151,27 @@ export function RequestOverview() {
               {[
                 {
                   label: "Required Service",
-                  value: selectedRequest.details.requiredService,
+                  value: selectedRequest.serviceId?.title,
                 },
-                { label: "Location", value: selectedRequest.details.location },
-                { label: "Date", value: selectedRequest.details.date },
+                { label: "Location", value: selectedRequest.location },
+                {
+                  label: "Date",
+                  value: selectedRequest.date
+                    ? new Date(selectedRequest.date).toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })
+                    : "",
+                },
                 {
                   label: "Urgent request",
-                  value: selectedRequest.details.urgentRequest,
+                  value: selectedRequest.urgency ? "Yes" : "No",
                 },
-                { label: "Budget", value: selectedRequest.details.budget },
+                { label: "Budget", value: selectedRequest.budgetRange },
                 {
                   label: "Number of people or guest",
-                  value: selectedRequest.details.visitors,
+                  value: selectedRequest.numberOfPeople,
                 },
               ].map((item, i) => (
                 <div key={i} className="flex text-[15px]">
@@ -171,7 +191,7 @@ export function RequestOverview() {
                 Service description
               </h4>
               <p className="text-[#6C6C6C] leading-relaxed text-[15px]">
-                {selectedRequest.details.description}
+                {selectedRequest.serviceDetails}
               </p>
             </div>
           </div>
