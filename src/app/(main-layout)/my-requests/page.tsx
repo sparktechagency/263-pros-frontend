@@ -8,8 +8,13 @@ export default async function page() {
     tags: ["service-booking"],
     cache: "no-store",
   });
+  const acceptedRes = await myFetch("/service-booking/status?status=accepted", {
+    method: "GET",
+    tags: ["service-booking"],
+    cache: "no-store",
+  });
   const requests = Array.isArray(res?.data) ? res.data : [];
-
-  // console.log(requests);
-  return <MyRequestsContent requests={requests} />;
+  const quotations = Array.isArray(acceptedRes?.data) ? acceptedRes.data : [];
+  // console.log("quotations", quotations);
+  return <MyRequestsContent requests={requests} quotations={quotations} />;
 }

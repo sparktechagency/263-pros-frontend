@@ -6,14 +6,18 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Dropdown, Button } from "antd";
 import { Services } from "../../home/sections/HomeServices";
 
-export default function ServicesContent({services}: {services: Services[]}) {
+export default function ServicesContent({
+  services,
+}: {
+  services: Services[];
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
-  const searchQuery = searchParams.get("service")?.toLowerCase();  
-  const locationQuery = searchParams.get("location")?.toLowerCase();   
-  
-  console.log("searchQuery:", locationQuery);
+  const searchQuery = searchParams.get("service")?.toLowerCase();
+  const locationQuery = searchParams.get("location")?.toLowerCase();
+
+  // console.log("searchQuery:", locationQuery);
 
   const handleFilter = (categoryId: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -38,7 +42,7 @@ export default function ServicesContent({services}: {services: Services[]}) {
     filteredServices = filteredServices.filter(
       (s) =>
         s.title.toLowerCase().includes(searchQuery) ||
-        s.category.toLowerCase().includes(searchQuery)
+        s.category.toLowerCase().includes(searchQuery),
     );
   }
 
