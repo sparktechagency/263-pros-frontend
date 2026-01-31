@@ -29,7 +29,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
   isOpen,
   onClose,
   serviceName,
-  serviceId
+  serviceId,
 }) => {
   const [form] = Form.useForm(); 
   const [user, setUser] = React.useState<any>(null);
@@ -61,7 +61,9 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
       serviceId: serviceId,
       ...values,
       date: values.date ? values.date.toISOString() : null,
-      numberOfPeople: values.numberOfPeople ? Number(values.numberOfPeople) : null,
+      numberOfPeople: values.numberOfPeople
+        ? Number(values.numberOfPeople)
+        : null,
     };
     console.log("Form values:", formattedValues);
 
@@ -71,22 +73,26 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
         body: formattedValues,
       });
       if (res?.success) {
-        toast.success(res?.message, { id: "service" });
+        toast.success(
+          `${res?.message}. Go to my requests to track your request`,
+          { id: "service" },
+        );
         form.resetFields();
-        // onClose();
+        onClose();
       } else {
         if (res?.error && Array.isArray(res.error)) {
           res.error.forEach((err: { message: string }) => {
             toast.error(err.message, { id: "service" });
           });
         } else {
-          toast.error(res?.message || "Something went wrong!", { id: "service" });
+          toast.error(res?.message || "Something went wrong!", {
+            id: "service",
+          });
         }
       }
     } catch (error) {
       console.error(error);
     }
-
   };
 
   return (
@@ -131,11 +137,12 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
           className="service-form"
         >
           <Form.Item
+            rules={[{ required: true, message: "Please select a service" }]}
             label={<span className="text-[#055E6E] font-medium">Service</span>}
             name="service"
             rules={[{ required: true, message: "Please enter service name" }]}
           >
-            <Input placeholder="Service name" className="h-10!" />
+            <Input disabled placeholder="Service name" className="h-10!" />
           </Form.Item>
 
           <Form.Item
@@ -161,7 +168,11 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
           </Form.Item>
 
           <Form.Item
-            label={<span className="text-[#055E6E] font-medium">Urgent Request?</span>}
+            label={
+              <span className="text-[#055E6E] font-medium">
+                Urgent Request?
+              </span>
+            }
             name="urgency"
             rules={[{ required: true, message: "Please select an option" }]}
           >
