@@ -53,7 +53,7 @@ export function ChatConversation({
         body: formData,
         tags: ["chat"],
       });
-      console.log(res, "res");
+      // console.log(res, "res");
     } catch (error) {
       toast.error("Failed to send message");
     }
@@ -90,7 +90,7 @@ export function ChatConversation({
     fetchProfile();
   }, [messageId]);
 
-  console.log(messages);
+  // console.log(messages);
   return (
     <div className="bg-white border border-gray-100 rounded-2xl flex flex-col h-full shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
       {/* Header */}

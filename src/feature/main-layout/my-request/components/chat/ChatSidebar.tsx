@@ -14,7 +14,7 @@ export function ChatSidebar({
   onSelect,
   chatRooms,
 }: ChatSidebarProps) {
-  console.log(chatRooms);
+  // console.log(chatRooms);
   return (
     <div className="space-y-2">
       {chatRooms?.map((user) => (

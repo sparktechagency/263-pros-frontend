@@ -6,6 +6,7 @@ import Link from "next/link";
 import { myFetch } from "../../../../../../helpers/myFetch";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { revalidateTags } from "../../../../../../helpers/revalidateTags";
 
 interface QuotationDetailModalProps {
   isOpen: boolean;
@@ -29,22 +30,24 @@ export function QuotationDetailModal({
   setActiveTab,
 }: QuotationDetailModalProps) {
   if (!quotation) return null;
-  console.log(quotation.id);
+  // console.log(quotation.id);
   // submit form
   const router = useRouter();
   const bookQuotation = async () => {
     try {
       toast.promise(
-        myFetch(`/service-booking/${quotation.id}`, {
+        myFetch(`/service-booking/confirm/${quotation.id}`, {
           method: "PATCH",
           body: {
             bookingStatus: "confirmed",
           },
+          tags: ["service-booking"],
         }),
         {
           loading: "Booking quotation...",
-          success: (res) => {
+          success: async (res) => {
             if (res?.success) {
+              revalidateTags(["service-booking"]);
               onClose();
               return res?.message || "Quotation booked successfully";
             }
@@ -59,8 +62,6 @@ export function QuotationDetailModal({
   };
 
   const handleChat = () => {
-    console.log(quotation.messageId);
-
     toast.promise(
       myFetch(`/chat-room/${quotation.messageId}`, {
         method: "POST",

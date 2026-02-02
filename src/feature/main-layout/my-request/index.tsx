@@ -17,12 +17,14 @@ interface serviceRequest {
   requests: any[];
   quotations: any[];
   chatRooms: any[];
+  bookings: any[];
 }
 
 export function MyRequestsContent({
   requests,
   quotations,
   chatRooms,
+  bookings,
 }: serviceRequest) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -33,7 +35,7 @@ export function MyRequestsContent({
   );
 
   const [messageId, setMessageId] = useState(searchParams.get("id"));
-  console.log(messageId, "messageId");
+  // console.log(messageId, "messageId");
 
   return (
     <div className="container py-16 space-y-12">
@@ -70,7 +72,7 @@ export function MyRequestsContent({
                     setActiveTab={setActiveTab}
                   />
                 )}
-                {tab.key === "booked" && <BookedList />}
+                {tab.key === "booked" && <BookedList bookings={bookings} />}
                 {tab.key === "message" && (
                   <>
                     {chatRooms.length > 0 ? (

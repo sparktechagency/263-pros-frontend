@@ -119,7 +119,7 @@ export default function Navbar({ user = {} }: { user: any }) {
             {user && user?.email ? (
               <Dropdown
                 trigger={["click"]}
-                popupRender={() => <ProfilePanel />}
+                popupRender={() => <ProfilePanel role={user?.role} />}
                 // placement="bottomRight"
               >
                 <button className="flex items-center gap-3 rounded-xl  text-white! px-2 hover:bg-gray-800/10 py-0.5">

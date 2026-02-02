@@ -8,21 +8,25 @@ import { myFetch } from "../../../helpers/myFetch";
 
 const ResetPassPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
-  const router = useRouter(); 
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get("token"); 
+  const token = searchParams.get("token");
 
-  const onFinish = async (values: { newPassword: string, confirmPassword: string }) => { 
-
+  const onFinish = async (values: {
+    newPassword: string;
+    confirmPassword: string;
+  }) => {
     try {
       const res = await myFetch("/auth/reset-password", {
         method: "POST",
         body: values,
         token: token || undefined,
-      }); 
-      console.log(res);
+      });
+      // console.log(res);
       if (res?.success) {
-        toast.success(res?.message || "Password reset successfully", { id: "reset" });
+        toast.success(res?.message || "Password reset successfully", {
+          id: "reset",
+        });
         router.push(`/auth/login`);
       } else {
         if (res?.error && Array.isArray(res.error)) {
@@ -36,7 +40,6 @@ const ResetPassPage: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
-
   };
 
   return (
@@ -103,8 +106,8 @@ const ResetPassPage: React.FC = () => {
                   }
                   return Promise.reject(
                     new Error(
-                      "The two passwords that you entered do not match!"
-                    )
+                      "The two passwords that you entered do not match!",
+                    ),
                   );
                 },
               }),

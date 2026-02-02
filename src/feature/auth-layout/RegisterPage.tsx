@@ -12,13 +12,13 @@ const RegisterPage: React.FC = () => {
   const { lg } = Grid.useBreakpoint();
   const router = useRouter();
 
-  const onFinish = async(values: any) => {
+  const onFinish = async (values: any) => {
     try {
       const res = await myFetch("/user", {
         method: "POST",
         body: values,
       });
-      console.log(res);
+      // console.log(res);
 
       if (res?.success) {
         toast.success("Account created successfully!", { id: "sign-up" });
@@ -30,7 +30,9 @@ const RegisterPage: React.FC = () => {
             toast.error(err.message, { id: "sign-up" });
           });
         } else {
-          toast.error(res?.message || "Something went wrong!", { id: "sign-up" });
+          toast.error(res?.message || "Something went wrong!", {
+            id: "sign-up",
+          });
         }
       }
     } catch (error) {
@@ -104,9 +106,12 @@ const RegisterPage: React.FC = () => {
             label={<span className="text-gray-600 font-medium">Password</span>}
             name="password"
             rules={[
-              { required: true, message: "Please input your password!" } ,
-               { min: 6, message: "Password must be at least 6 characters long" },
-              ]}
+              { required: true, message: "Please input your password!" },
+              {
+                min: 6,
+                message: "Password must be at least 6 characters long",
+              },
+            ]}
             className="mb-4"
           >
             <Input.Password
@@ -132,8 +137,8 @@ const RegisterPage: React.FC = () => {
                   }
                   return Promise.reject(
                     new Error(
-                      "The two passwords that you entered do not match!"
-                    )
+                      "The two passwords that you entered do not match!",
+                    ),
                   );
                 },
               }),

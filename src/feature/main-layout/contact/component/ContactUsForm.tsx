@@ -17,7 +17,7 @@ export default function ContactUsForm() {
   const [form] = Form.useForm<FormValues>();
 
   const onFinish: FormProps<FormValues>["onFinish"] = (values) => {
-    console.log("Form submitted:", values);
+    // console.log("Form submitted:", values);
     // Handle form submission here
   };
 
@@ -30,9 +30,7 @@ export default function ContactUsForm() {
     >
       <div className="grid grid-cols-2 gap-4">
         <Form.Item
-          label={
-            <span className="md:text-lg font-semibold">First Name</span>
-          }
+          label={<span className="md:text-lg font-semibold">First Name</span>}
           name="firstName"
           rules={[{ required: true, message: "First name is required" }]}
           className="mb-0"

@@ -35,7 +35,7 @@ const Banner: React.FC = () => {
 
   const [serviceOptions, setServiceOptions] = useState<{ value: string }[]>([]);
   const [locationOptions, setLocationOptions] = useState<{ value: string }[]>(
-    []
+    [],
   );
 
   const onServiceSearch = (searchText: string) => {
@@ -43,8 +43,8 @@ const Banner: React.FC = () => {
       !searchText
         ? []
         : services.filter((item) =>
-            item.value.toLowerCase().includes(searchText.toLowerCase())
-          )
+            item.value.toLowerCase().includes(searchText.toLowerCase()),
+          ),
     );
   };
 
@@ -53,16 +53,16 @@ const Banner: React.FC = () => {
       !searchText
         ? []
         : locations.filter((item) =>
-            item.value.toLowerCase().includes(searchText.toLowerCase())
-          )
+            item.value.toLowerCase().includes(searchText.toLowerCase()),
+          ),
     );
   };
 
   const handleSearch = () => {
     const values = form.getFieldsValue();
-    console.log("Search values:", values);
+    // console.log("Search values:", values);
     router.push(
-      `/services?service=${values.service}&location=${values.location || ""}`
+      `/services?service=${values.service}&location=${values.location || ""}`,
     );
   };
 

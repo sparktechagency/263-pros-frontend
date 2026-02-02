@@ -3,45 +3,15 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { useState } from "react";
 import { ReviewModal } from "./ReviewModal";
+import { imgUrl } from "../../../../../../helpers/imgUrl";
+import { myFetch } from "../../../../../../helpers/myFetch";
+import { revalidateTags } from "../../../../../../helpers/revalidateTags";
 
-const bookings = [
-  {
-    id: 1,
-    title: "Domestic Cleaning",
-    date: "Sunday, 12 March",
-    price: "$40.00",
-    avatar:
-      "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png",
-    status: "booked",
-    message: "Your service has been successfully booked with Mr Micheal",
-  },
-  {
-    id: 2,
-    title: "Domestic Cleaning",
-    date: "Sunday, 12 March",
-    price: "$40.00",
-    avatar:
-      "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767595457/1481ecdc6f9b1f9cfcb912fd04caa42d17c310ca_g6hf5o.jpg",
-    status: "booked",
-    message: "Your service has been successfully booked with Mr Micheal",
-  },
-  {
-    id: 3,
-    title: "Domestic Cleaning",
-    date: "Sunday, 12 March",
-    price: "$40.00",
-    avatar:
-      "https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767595457/d2875c224ee5d99909e1fbeb6e600ab621d9ac96_t7kvu1.jpg",
-    status: "completed",
-    message:
-      "Mr Micheal wants to assist you with your domestic cleaning request.",
-  },
-];
-
-export function BookedList() {
+export function BookedList({ bookings }: { bookings: any[] }) {
+  console.log(bookings);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(
-    null
+    null,
   );
 
   const handleOpenReview = (id: number) => {
@@ -50,46 +20,84 @@ export function BookedList() {
   };
 
   const handleReviewSubmit = (values: { rating: number; review: string }) => {
-    console.log("Submitting review for booking:", selectedBookingId, values);
+    // console.log("Submitting review for booking:", selectedBookingId, values);
     toast.success("Review submitted successfully!");
+  };
+
+  const completeBooking = async (id: string) => {
+    try {
+      toast.promise(
+        myFetch(`/service-booking/confirm/${id}`, {
+          method: "PATCH",
+          body: {
+            bookingStatus: "completed",
+          },
+          tags: ["service-booking"],
+        }),
+        {
+          loading: "completing booking...",
+          success: async (res) => {
+            if (res?.success) {
+              revalidateTags(["service-booking"]);
+              setIsReviewModalOpen(false);
+              return res?.message || "Booking completed successfully";
+            }
+            throw new Error(res?.message || "Booking completion failed");
+          },
+          error: (err) => err.message || "Error completing booking",
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="space-y-6">
       {bookings?.map((booking) => (
         <div
-          key={booking.id}
+          key={booking._id}
           className="bg-[#FBFBFB] border border-[#EBEBEB] rounded-xl p-6 "
         >
           <div className="flex justify-between items-start mb-4">
             <div>
               <div className="flex flex-col md:flex-row md:items-end md:gap-3">
                 <h3 className="text-lg font-medium text-[#292929]">
-                  {booking.title}
+                  {booking?.request?.serviceId?.title}
                 </h3>
-                <span className="text-xs text-[#6C6C6C]">{booking.date}</span>
+                <span className="text-xs text-[#6C6C6C]">
+                  {new Date(booking?.updatedAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
               </div>
               <div className="flex items-start gap-4 mt-4">
                 <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0">
                   <Image
-                    src={booking?.avatar || "/placeholder.svg"}
+                    src={
+                      booking?.provider?.image
+                        ? imgUrl + booking?.provider?.image
+                        : "/assets/image/provider/no_user.png"
+                    }
                     alt="Avatar"
                     fill
                     className="object-cover"
                   />
                 </div>
                 <p className="text-[#6C6C6C]! text-[16px]! leading-snug! max-w-sm">
-                  {booking?.message}
+                  {booking?.note}
                 </p>
               </div>
             </div>
             <div className="text-lg md:text-2xl font-medium text-[#333333]">
-              {booking?.price}
+              ${booking?.price}
             </div>
           </div>
 
           <div className="flex justify-end gap-3 mt-2">
-            {booking.status === "booked" ? (
+            {booking.status === "confirmed" ? (
               <>
                 <Button
                   type="default"
@@ -98,7 +106,7 @@ export function BookedList() {
                   Cancel booking
                 </Button>
                 <Button
-                  onClick={() => toast.info("Feature coming soon")}
+                  onClick={() => completeBooking(booking._id)}
                   className="bg-[#055E6E]! hover:bg-[#004A52]! text-white! h-8! transition-colors! border border-[#055E6E]"
                 >
                   Mark as Complete
