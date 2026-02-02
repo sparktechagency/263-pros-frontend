@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Button, Tabs } from "antd";
+import { Button, Empty, Tabs } from "antd";
 import { RequestOverview } from "./components/RequestOverview";
 import { QuotationsList } from "./components/quotation/QuotationsList";
 import { BookedList } from "./components/booked/BookedList";
@@ -72,11 +72,17 @@ export function MyRequestsContent({
                 )}
                 {tab.key === "booked" && <BookedList />}
                 {tab.key === "message" && (
-                  <MessageCenter
-                    messageId={messageId}
-                    setMessageId={setMessageId}
-                    chatRooms={chatRooms}
-                  />
+                  <>
+                    {chatRooms.length > 0 ? (
+                      <MessageCenter
+                        messageId={messageId}
+                        setMessageId={setMessageId}
+                        chatRooms={chatRooms}
+                      />
+                    ) : (
+                      <Empty description="No chat rooms found" />
+                    )}
+                  </>
                 )}
               </div>
             ),
