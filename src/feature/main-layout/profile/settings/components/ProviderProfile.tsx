@@ -5,27 +5,37 @@ import { useEffect, useState } from "react";
 import getProfile from "../../../../../../helpers/getProfile";
 import { imgUrl } from "../../../../../../helpers/imgUrl";
 import { myFetch } from "../../../../../../helpers/myFetch";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import TextArea from "antd/es/input/TextArea";
+import ProviderForm from "./ProviderForm";
 
 interface userProfile {
   name: string;
-  location: string;
   contact: string;
-  officeAddress: string;
   email: string;
-  website: string;
-  whatsapp: string;
-  instagram: string;
-  facebook: string;
+  about: string;
   businessImage: string[];
+  isBusinessAccount: {
+    businessName: string;
+    location: string;
+    category: string;
+    service: string;
+    businessContact: string;
+    officeAddress: string;
+    website: string;
+    SocialMedia: {
+      whatsapp: string;
+      instagram: string;
+      facebook: string;
+    };
+  }
 }
-const ProviderProfile = ({
-  handleSubmit,
-}: {
-  handleSubmit?: (formData: FormData) => void;
-}) => {
+const ProviderProfile = () => {
   const [form] = Form.useForm();
   const [user, setUser] = useState<userProfile | null>(null);
-  const [services, setServices] = useState<any[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -36,27 +46,7 @@ const ProviderProfile = ({
         console.error("Error fetching profile:", error);
       }
     };
-
     fetchProfile();
-  }, []);
-
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const res = await myFetch("/service", {
-          method: "GET",
-          cache: "no-store",
-          tags: ["service"],
-        });
-
-        setServices(res?.data || []);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-      }
-    };
-
-    fetchServices();
   }, []);
 
   useEffect(() => {
@@ -72,33 +62,50 @@ const ProviderProfile = ({
       })) || [];
 
     form.setFieldsValue({
-      businessName: user?.name,
-      location: user?.location,
+      businessName: user?.isBusinessAccount?.businessName,
+      location: user?.isBusinessAccount?.location,
       phoneNumber: user?.contact,
-      officeAddress: user?.officeAddress,
+      category: user?.isBusinessAccount?.category,
+      service: user?.isBusinessAccount?.service,
+      officeAddress: user?.isBusinessAccount?.officeAddress,
       email: user?.email,
-      website: user?.website,
-      whatsapp: user?.whatsapp,
-      instagram: user?.instagram,
-      facebook: user?.facebook,
+      about: user?.about,
+      website: user?.isBusinessAccount?.website,
+      whatsapp: user?.isBusinessAccount?.SocialMedia?.whatsapp,
+      instagram: user?.isBusinessAccount?.SocialMedia?.instagram,
+      facebook: user?.isBusinessAccount?.SocialMedia?.facebook,
       businessImage: businessImageFileList,
     });
   }, [user, form]);
 
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     const formData = new FormData();
-    formData.append("name", values.businessName);
-    formData.append("location", values.location);
-    formData.append("service", values.service);
-    formData.append("category", values.category);
-    formData.append("phoneNumber", values.phoneNumber);
-    formData.append("officeAddress", values.officeAddress);
-    formData.append("email", values.email);
-    formData.append("website", values.website || "");
-    formData.append("whatsapp", values.whatsapp || "");
-    formData.append("instagram", values.instagram || "");
-    formData.append("facebook", values.facebook || "");
+
+    const isBusinessAccount = {
+      businessName: values.businessName,
+      location: values.location,
+      category: values.category,
+      service: values.service,
+      businessContact: values.phoneNumber,
+      officeAddress: values.officeAddress,
+      website: values.website,
+      SocialMedia: {
+        whatsapp: values.whatsapp,
+        instagram: values.instagram,
+        facebook: values.facebook,
+      },
+
+    }
+    formData.append("name", user?.name || "");
+    formData.append("about", user?.about || "");
+    formData.append("isBusinessAccount", JSON.stringify(isBusinessAccount));
+
+    Object.entries(isBusinessAccount).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value);
+      }
+    });
 
     if (values.businessImage?.length) {
       values.businessImage.forEach((file: any) => {
@@ -107,158 +114,34 @@ const ProviderProfile = ({
         }
       });
     }
-    handleSubmit?.(formData);
+    try {
+      const res = await myFetch("/user", {
+        method: "PATCH",
+        body: formData,
+      });
+      if (res?.success) {
+        toast.success(res?.message || "profile-update successfully", { id: "profile-update" });
+        Cookies.set("accessToken", res?.data?.accessToken);
+        router.refresh();
+
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "profile-update" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "profile-update" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={onFinish}
-      autoComplete="off"
-      className="w-full"
-    >
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">
-        Profile Details
-      </h2>
-
-      {/* ---- Upload Business Images ---- */}
-      <Form.Item
-        label="Business Photos"
-        name="businessImage"
-        valuePropName="fileList"
-        getValueFromEvent={(e) => e?.fileList}
-      >
-        <Upload
-          multiple
-          listType="picture-card"
-          beforeUpload={() => false}
-        >
-          <div>
-            <UploadOutlined />
-            <div className="mt-1">Upload</div>
-          </div>
-        </Upload>
-      </Form.Item>
-
-      <Row gutter={16}>
-        <Col xs={24} md={12}>
-          <Form.Item
-            label="Business Name"
-            name="businessName"
-            rules={[{ required: true }]}
-          >
-            <Input className="h-10" />
-          </Form.Item>
-        </Col>
-
-        <Col xs={24} md={12}>
-          <Form.Item label="Location" name="location" rules={[{ required: true }]}>
-            <Input className="h-10" />
-          </Form.Item>
-        </Col>
-      </Row>
-
-      <Form.Item
-        label={<p className="text-[#6C6C6C] font-medium"> Select  Category </p>}
-        name="category"
-        rules={[{ required: true, message: "Please select a category" }]} >
-        <Select placeholder="Select category" className="h-10" style={{ height: "40px" }} >
-          {
-            services.map((service) => (
-              <Select.Option key={service.id} value={service.id}>{service.name}</Select.Option>
-            ))
-          }
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        label={
-          <p className="text-[#6C6C6C] font-medium">
-            Select Service
-          </p>
-        }
-        name="service"
-        rules={[
-          { required: true, message: "Please select at least one Service" },
-        ]}
-      >
-        <Select
-          mode="multiple"
-          placeholder="Select service"
-          className="h-10"
-          optionFilterProp="label"
-        >
-          {services?.map((category: any) => (
-            <Select.OptGroup
-              key={category.id}
-              label={category.name}
-            >
-              {category.services?.map((service: any) => (
-                <Select.Option
-                  key={service.id}
-                  value={service.id}
-                  label={service.title}
-                >
-                  {service.title}
-                </Select.Option>
-              ))}
-            </Select.OptGroup>
-          ))}
-        </Select>
-      </Form.Item>
-
-      <h2 className="text-xl font-semibold mt-6 mb-4 text-gray-800">
-        Contact
-      </h2>
-
-      <Row gutter={16}>
-        <Col xs={24} md={12}>
-          <Form.Item name="phoneNumber" label="Phone number" rules={[{ required: true }]}>
-            <Input className="h-10" />
-          </Form.Item>
-        </Col>
-
-        <Col xs={24} md={12}>
-          <Form.Item name="officeAddress" label="Office address" rules={[{ required: true }]}>
-            <Input className="h-10" />
-          </Form.Item>
-        </Col>
-      </Row>
-
-      <Form.Item name="email" label="Email" rules={[{ type: "email", required: true }]}>
-        <Input className="h-10" />
-      </Form.Item>
-
-      <Form.Item name="website" label="Website">
-        <Input className="h-10" />
-      </Form.Item>
-
-      <h2 className="text-xl font-semibold mt-6 mb-4 text-gray-800">
-        Social Media
-      </h2>
-
-      <Form.Item name="whatsapp" label="Whatsapp">
-        <Input className="h-10" />
-      </Form.Item>
-
-      <Form.Item name="instagram" label="Instagram">
-        <Input className="h-10" />
-      </Form.Item>
-
-      <Form.Item name="facebook" label="Facebook">
-        <Input className="h-10" />
-      </Form.Item>
-
-      <Form.Item className="pt-6 flex justify-end">
-        <button
-          type="submit"
-          className="bg-[#055e6e] text-white py-3 px-8 rounded-lg"
-        >
-          Save Changes
-        </button>
-      </Form.Item>
-    </Form>
+    <div>
+      <ProviderForm onFinish={onFinish} form={form} />
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { Camera } from "lucide-react";
 import { Divider, Form, Input } from "antd";
 import ChangePassword from "./ChangePassword";
@@ -21,7 +20,7 @@ const CustomerProfileSettings = () => {
   const [form] = Form.useForm();
   const [user, setUser] = React.useState<userProfile | null>(null);
   const [imgURL, setImgURL] = useState("");
-  const [imgFile, setImageFile] = useState<File | null>(null);
+  const [imgFile, setImageFile] = useState<File | null>(null); 
 
   useEffect(() => {
     if (user) {
@@ -29,7 +28,7 @@ const CustomerProfileSettings = () => {
         name: user?.name,
         email: user?.email,
         contact: user?.contact, 
-        about: user?.about,
+        // about: user?.about,
       });
       setImgURL(user?.image?.startsWith("http") ? user?.image : `${imgUrl}${user?.image}`)
     }
@@ -157,17 +156,7 @@ const CustomerProfileSettings = () => {
             />
           </Form.Item>
 
-          <Form.Item
-            name={"about"}
-            label={
-              <p className="block text-[#525252] text-sm font-medium ">About</p>
-            }
-          >
-            <TextArea
-              rows={4}
-              className="w-full "
-            />
-          </Form.Item>
+
 
           <Form.Item className="pt-6 flex justify-end">
             <button

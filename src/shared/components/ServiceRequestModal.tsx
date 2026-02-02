@@ -140,7 +140,6 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
             rules={[{ required: true, message: "Please select a service" }]}
             label={<span className="text-[#055E6E] font-medium">Service</span>}
             name="service"
-            rules={[{ required: true, message: "Please enter service name" }]}
           >
             <Input disabled placeholder="Service name" className="h-10!" />
           </Form.Item>

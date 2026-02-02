@@ -4,23 +4,42 @@ import SwitchRoleConfirmModal from "./SwitchRoleConfirmModal";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { myFetch } from "../../../helpers/myFetch";
 
 const RoleSwitch = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const userCookie = Cookies.get("user");
-  const user = userCookie ? JSON.parse(userCookie) : null;
   const router = useRouter();
   const handleConfirm = async () => {
-    setLoading(true);
+    // setLoading(true);
+    const role = { role: "USER" };
+    try {
+      const res = await myFetch("/auth/role-update", {
+        method: "PATCH",
+        body: role,
+      });
+      if (res?.success) {
+        toast.success(res?.message || "Switched to Customer successfully", { id: "profile-update" });
+        Cookies.set("accessToken", res?.data?.accessToken); 
+        router.replace("/profile");
+        router.refresh();
+        setLoading(false);
+        setModalVisible(false);
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "profile-update" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "profile-update" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
-    // 🔁 role switch logic here
-    // update cookies / api call
-    Cookies.set("user", JSON.stringify({ ...user, role: "customer" }));
-    toast.success("Switched to Customer successfully");
-    router.refresh();
-    setLoading(false);
-    setModalVisible(false);
+    // Cookies.set("user", JSON.stringify({ ...user, role: "customer" }));
+
   };
 
   return (

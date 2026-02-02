@@ -1,10 +1,16 @@
+"use client";
 import ProviderProfile from "@/feature/main-layout/profile/settings/components/ProviderProfile";
+import { Col, Form, Input, Row, Select, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { imgUrl } from "../../../helpers/imgUrl";
+import { myFetch } from "../../../helpers/myFetch";
+import getProfile from "../../../helpers/getProfile";
+import TextArea from "antd/es/input/TextArea";
+import ProviderForm from "@/feature/main-layout/profile/settings/components/ProviderForm";
 
 export default function RegisterProviderForm({
   open,
@@ -14,28 +20,120 @@ export default function RegisterProviderForm({
   onCancel: () => void;
 }) {
   const router = useRouter();
-  const userCookie = Cookies.get("user");
-  const user = userCookie ? JSON.parse(userCookie) : null;
-  const userRole = user ? user.role : null;
+  const [form] = Form.useForm();
+  const [user, setUser] = React.useState<any>(null);
+  const [services, setServices] = useState<any[]>([]);
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profileData = await getProfile();
+        setUser(profileData);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+    fetchProfile();
+  }, []);
 
-  const handleSubmit = (values: any) => {
-
-    for (const [key, value] of values.entries()) {
-      console.log(key, value);
-    }
+  useEffect(() => {
     if (!user) return;
-    if (userRole === "provider") {
-      toast.error("You are already a provider");
-      return;
-    } else if (userRole === "customer") {
-      Cookies.set("user", JSON.stringify({ ...user, role: "provider" }));
-      toast.success("Provider registered successfully");
-      router.refresh();
-      onCancel();
-      return;
+    form.setFieldsValue({
+      phoneNumber: user?.contact,
+      email: user?.email,
+    });
+  }, [user, form]);
+
+  const onFinish = (values: any) => {
+    const formData = new FormData();
+
+    const isBusinessAccount = {
+      businessName: values.businessName,
+      location: values.location,
+      category: values.category,
+      service: values.service,
+      businessContact: values.phoneNumber,
+      officeAddress: values.officeAddress,
+      website: values.website,
+      SocialMedia: {
+        whatsapp: values.whatsapp,
+        instagram: values.instagram,
+        facebook: values.facebook,
+      },
     }
-    onCancel();
+    formData.append("name", user?.name || "");
+    formData.append("about", user?.about || "");
+    formData.append("isBusinessAccount", JSON.stringify(isBusinessAccount));
+
+    // Object.entries(isBusinessAccount).forEach(([key, value]) => {
+    //   if (value !== undefined && value !== null) {
+    //     formData.append(key, value);
+    //   }
+    // });
+
+    if (values.businessImage?.length) {
+      values.businessImage.forEach((file: any) => {
+        if (file.originFileObj) {
+          formData.append("businessImage", file.originFileObj);
+        }
+      });
+    }
+    handleSubmit?.(formData);
+  };
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await myFetch("/service", {
+          method: "GET",
+          cache: "no-store",
+          tags: ["service"],
+        });
+
+        setServices(res?.data || []);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const handleSubmit = async (formData: any) => {
+    try {
+      const res = await myFetch("/user", {
+        method: "PATCH",
+        body: formData,
+      });
+      if (res?.success) {
+        toast.success(res?.message || "profile-update successfully", { id: "profile-update" });
+        Cookies.set("accessToken", res?.data?.accessToken);
+        router.refresh();
+        onCancel();
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "profile-update" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "profile-update" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    // if (!user) return;
+    // if (userRole === "provider") {
+    //   toast.error("You are already a provider");
+    //   return;
+    // } else if (userRole === "customer") {
+    //   Cookies.set("user", JSON.stringify({ ...user, role: "provider" }));
+    //   toast.success("Provider registered successfully");
+    //   router.refresh();
+    //   onCancel();
+    //   return;
+    // }
+    // onCancel();
   };
   return (
     <Modal
@@ -55,7 +153,8 @@ export default function RegisterProviderForm({
         Register as a Provider
       </h4>
       <div className="p-2 md:p-4 border border-[#EBEBEB] rounded-xl">
-        <ProviderProfile handleSubmit={handleSubmit} />
+        <ProviderForm onFinish={onFinish} form={form} />
+        {/* <ProviderProfile handleSubmit={handleSubmit} />  */}
       </div>
     </Modal>
   );

@@ -12,62 +12,94 @@ import {
   LogOut,
   Star,
 } from "lucide-react";
-import { Button } from "antd";
+import { Button, Rate } from "antd";
 import RegisterProviderForm from "./RegisterProviderForm";
 import RoleSwitch from "../role-switch/RoleSwitchBtn";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { imgUrl } from "../../../helpers/imgUrl";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { myFetch } from "../../../helpers/myFetch";
 
 const ProfileSidebar = ({ user }: { user: any }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [modalVisible, setModalVisible] = React.useState(false);
   const userRole = user ? user.role : null;
+
+  console.log(user, "user info");
+
   const sidebarLinks = [
     ...(userRole === "USER"
       ? [
-          {
-            name: "Account Settings",
-            href: "/profile",
-            icon: <LayoutGrid size={20} />,
-          },
-          {
-            name: "Notification",
-            href: "/profile/notifications",
-            icon: <Star size={20} />,
-          },
-        ]
+        {
+          name: "Account Settings",
+          href: "/profile",
+          icon: <LayoutGrid size={20} />,
+        },
+        {
+          name: "Notification",
+          href: "/profile/notifications",
+          icon: <Star size={20} />,
+        },
+      ]
       : [
-          {
-            name: "Services",
-            href: "/profile/services",
-            icon: <MdOutlineMiscellaneousServices size={22} />,
-          },
-          {
-            name: "Requests",
-            href: "/profile/requests",
-            icon: <MessageSquare size={20} />,
-          },
-          {
-            name: "Notification",
-            href: "/profile/notifications",
-            icon: <Bell size={20} />,
-          },
-          {
-            name: "Subscription",
-            href: "/profile/subscription",
-            icon: <CreditCard size={20} />,
-          },
-          {
-            name: "Account Setting",
-            href: "/profile/settings",
-            icon: <Settings size={20} />,
-          },
-        ]),
+        {
+          name: "Services",
+          href: "/profile/services",
+          icon: <MdOutlineMiscellaneousServices size={22} />,
+        },
+        {
+          name: "Requests",
+          href: "/profile/requests",
+          icon: <MessageSquare size={20} />,
+        },
+        {
+          name: "Notification",
+          href: "/profile/notifications",
+          icon: <Bell size={20} />,
+        },
+        {
+          name: "Subscription",
+          href: "/profile/subscription",
+          icon: <CreditCard size={20} />,
+        },
+        {
+          name: "Account Setting",
+          href: "/profile/settings",
+          icon: <Settings size={20} />,
+        },
+      ]),
   ];
 
+  const handleBecomeProvider = async () => {
+    const role = { role: "SERVICE_PROVIDER" };
+    try {
+      const res = await myFetch("/auth/role-update", {
+        method: "PATCH",
+        body: role,
+      });
+      if (res?.success) {
+        toast.success(res?.message || "profile-update successfully", { id: "profile-update" });
+        Cookies.set("accessToken", res?.data?.accessToken);
+        router.replace("/profile");
+        router.refresh();
+        if (!user?.isValidProvider) {
+          setModalVisible(true);
+        }
+      } else {
+        if (res?.error && Array.isArray(res.error)) {
+          res.error.forEach((err: { message: string }) => {
+            toast.error(err.message, { id: "profile-update" });
+          });
+        } else {
+          toast.error(res?.message || "Something went wrong!", { id: "profile-update" });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   // logout
   const onLogout = () => {
     toast.warning("Are you sure you want to log out?", {
@@ -117,7 +149,7 @@ const ProfileSidebar = ({ user }: { user: any }) => {
 
         {userRole === "USER" ? (
           <Button
-            onClick={() => setModalVisible(true)}
+            onClick={() => handleBecomeProvider()}
             type="primary"
             size="large"
             className="bg-[#FFCB20]! text-primary! font-medium!"
@@ -126,17 +158,16 @@ const ProfileSidebar = ({ user }: { user: any }) => {
           </Button>
         ) : (
           <div className="flex flex-col space-y-2">
-            <RoleSwitch />
+            <RoleSwitch/>
             <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={16}
-                  className="fill-[#FFC107] text-[#FFC107]"
-                />
-              ))}
+              <Rate
+                allowHalf
+                disabled
+                value={Number(user?.averageRating || 0)}
+                style={{ color: "#FFC107", fontSize: 20 }}
+              />
               <span className="text-[#242424] font-semibold lg:text-xl text-lg ml-1">
-                (5.0)
+                ({user?.averageRating || 0})
               </span>
             </div>
           </div>
@@ -152,10 +183,9 @@ const ProfileSidebar = ({ user }: { user: any }) => {
               key={link.name}
               href={link.href}
               className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors duration-200 
-                ${
-                  isActive
-                    ? "bg-[#E6F0F2] text-[#242424] font-medium"
-                    : "text-[#525252] hover:bg-gray-50"
+                ${isActive
+                  ? "bg-[#E6F0F2] text-[#242424] font-medium"
+                  : "text-[#525252] hover:bg-gray-50"
                 }`}
             >
               <div
