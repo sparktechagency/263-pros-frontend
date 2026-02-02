@@ -16,7 +16,7 @@ const ServiceModal = ({
   const [imgFile, setImgFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>();
 
-  console.log(imgFile);
+  // console.log(imgFile);
 
   useEffect(() => {
     if (serviceData) {
@@ -38,14 +38,23 @@ const ServiceModal = ({
   };
 
   const serviceCategories = [
-    { label: "Home, Domestic & Professional Cleaning Services", value: "Cleaning" },
-  ]; 
+    {
+      label: "Home, Domestic & Professional Cleaning Services",
+      value: "Cleaning",
+    },
+  ];
 
   const subCategories = [
     { label: "Domestic Cleaning", value: "Domestic Cleaning" },
-    { label: "Professional / Commercial Cleaning", value: "Professional / Commercial" },
+    {
+      label: "Professional / Commercial Cleaning",
+      value: "Professional / Commercial",
+    },
     { label: "Deep Cleaning", value: "Deep Cleaning" },
-    { label: "Post-Construction Cleaning", value: "Post-Construction Cleaning" },
+    {
+      label: "Post-Construction Cleaning",
+      value: "Post-Construction Cleaning",
+    },
     { label: "Gardening", value: "Gardening" },
     { label: "Laundry & Ironing", value: "Laundry & Ironing" },
   ];
@@ -123,12 +132,12 @@ const ServiceModal = ({
 
           <Form.Item
             label={
-              <p className="text-[#6C6C6C] font-medium">
-                Select  Sub-category
-              </p>
+              <p className="text-[#6C6C6C] font-medium">Select Sub-category</p>
             }
             name="subCategory"
-            rules={[{ required: true, message: "Please select a sub-category" }]}
+            rules={[
+              { required: true, message: "Please select a sub-category" },
+            ]}
           >
             <Select
               placeholder="Select Sub-category"

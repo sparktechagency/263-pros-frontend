@@ -18,7 +18,7 @@ export default async function Page({ searchParams }: ServicesPageProps) {
     // cache: "no-store",
   });
   const services = Array.isArray(res?.data) ? res.data : [];
-  console.log(services);
+  // console.log(services);
 
   return <ServicesPage services={services} />;
 }

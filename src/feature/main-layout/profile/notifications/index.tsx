@@ -4,6 +4,7 @@ import NotificationItemCard from "./NotificationItemCard";
 import { myFetch } from "../../../../../helpers/myFetch";
 import { io } from 'socket.io-client';
 import { imgUrl } from "../../../../../helpers/imgUrl";
+import { revalidateTags } from "../../../../../helpers/revalidateTags";
 export interface NotificationItem {
   _id: string;
   user: string;
@@ -24,8 +25,9 @@ const Notifications = () => {
   const [allNotifications, setAllNotifications] = React.useState<NotificationItem[]>([]);
 
   const socket = useMemo(() => io(imgUrl), [])
-  socket.on('new_notificaiton', () => {
-    // refetch();
+   socket.on('new_notificaiton', () => {
+     // refetch(); 
+     revalidateTags(["notification"]);
   });
 
   useEffect(() => {

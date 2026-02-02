@@ -13,25 +13,29 @@ const VerifyOtpPage: React.FC = () => {
   const [email, setEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    const emailFromQuery = new URLSearchParams(window.location.search).get('email');
+    const emailFromQuery = new URLSearchParams(window.location.search).get(
+      "email",
+    );
     setEmail(emailFromQuery);
-  }, []); 
+  }, []);
 
-    const onFinish = async (values: { otp: string }) => {
-    const userType = localStorage.getItem("userType")
+  const onFinish = async (values: { otp: string }) => {
+    const userType = localStorage.getItem("userType");
     const data = {
       email: email,
-      oneTimeCode: parseInt(values?.otp)
-    }
+      oneTimeCode: parseInt(values?.otp),
+    };
 
     try {
       const res = await myFetch("/auth/verify-email", {
         method: "POST",
         body: data,
-      }); 
-      console.log(res, "res");
+      });
+      // console.log(res, "res");
       if (res?.success) {
-        toast.success(res?.message || "OTP verified successfully", { id: "otp-verify" });
+        toast.success(res?.message || "OTP verified successfully", {
+          id: "otp-verify",
+        });
         if (userType === "forget") {
           router.push(`/auth/reset-password?token=${res?.data}`);
         } else {
@@ -47,19 +51,21 @@ const VerifyOtpPage: React.FC = () => {
     }
   };
 
-    const handleResendEmail = async () => {
+  const handleResendEmail = async () => {
     const data = {
-      email: email
-    }
+      email: email,
+    };
 
     try {
       const res = await myFetch("/auth/resend-otp", {
         method: "POST",
         body: data,
-      }); 
+      });
 
       if (res?.success) {
-        toast.success(res?.message || "OTP verified successfully", { id: "otp-resend" });
+        toast.success(res?.message || "OTP verified successfully", {
+          id: "otp-resend",
+        });
       } else {
         toast.error(res?.message || "Something went wrong!", {
           id: "otp-resend",
@@ -68,7 +74,7 @@ const VerifyOtpPage: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
-  }; 
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center lg:px-4">
@@ -137,18 +143,20 @@ const VerifyOtpPage: React.FC = () => {
               Verify
             </Button>
           </Form.Item>
-        </Form> 
-              <div className="flex items-center justify-center gap-1 mt-6 ">
-        <p className="text-[16px] text-[#818181] ">You have not received the email?</p>
+        </Form>
+        <div className="flex items-center justify-center gap-1 mt-6 ">
+          <p className="text-[16px] text-[#818181] ">
+            You have not received the email?
+          </p>
 
-        <p
-          onClick={handleResendEmail}
-          className="login-form-forgot underline font-medium text-[16px] text-primary"
-          style={{ color: "#00B047", cursor: "pointer" }}
-        >
-          Resend
-        </p>
-      </div>
+          <p
+            onClick={handleResendEmail}
+            className="login-form-forgot underline font-medium text-[16px] text-primary"
+            style={{ color: "#00B047", cursor: "pointer" }}
+          >
+            Resend
+          </p>
+        </div>
       </div>
     </div>
   );

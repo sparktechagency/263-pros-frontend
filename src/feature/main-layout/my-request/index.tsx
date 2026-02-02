@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Button, Tabs } from "antd";
+import { Button, Empty, Tabs } from "antd";
 import { RequestOverview } from "./components/RequestOverview";
 import { QuotationsList } from "./components/quotation/QuotationsList";
 import { BookedList } from "./components/booked/BookedList";
@@ -16,9 +16,16 @@ const tabs = [
 interface serviceRequest {
   requests: any[];
   quotations: any[];
+  chatRooms: any[];
+  bookings: any[];
 }
 
-export function MyRequestsContent({ requests, quotations }: serviceRequest) {
+export function MyRequestsContent({
+  requests,
+  quotations,
+  chatRooms,
+  bookings,
+}: serviceRequest) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -28,6 +35,7 @@ export function MyRequestsContent({ requests, quotations }: serviceRequest) {
   );
 
   const [messageId, setMessageId] = useState(searchParams.get("id"));
+  // console.log(messageId, "messageId");
 
   return (
     <div className="container py-16 space-y-12">
@@ -59,14 +67,24 @@ export function MyRequestsContent({ requests, quotations }: serviceRequest) {
             children: (
               <div className="py-6">
                 {tab.key === "quotation" && (
-                  <QuotationsList quotations={quotations} />
-                )}
-                {tab.key === "booked" && <BookedList />}
-                {tab.key === "message" && (
-                  <MessageCenter
-                    messageId={messageId}
-                    setMessageId={setMessageId}
+                  <QuotationsList
+                    quotations={quotations}
+                    setActiveTab={setActiveTab}
                   />
+                )}
+                {tab.key === "booked" && <BookedList bookings={bookings} />}
+                {tab.key === "message" && (
+                  <>
+                    {chatRooms.length > 0 ? (
+                      <MessageCenter
+                        messageId={messageId}
+                        setMessageId={setMessageId}
+                        chatRooms={chatRooms}
+                      />
+                    ) : (
+                      <Empty description="No chat rooms found" />
+                    )}
+                  </>
                 )}
               </div>
             ),

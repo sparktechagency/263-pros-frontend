@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
-export default function ProfilePanel() {
+export default function ProfilePanel({ role }: { role: string }) {
   const router = useRouter();
   const PROFILE_ITEMS = [
     {
@@ -13,11 +13,15 @@ export default function ProfilePanel() {
       label: "Profile",
       href: "/profile",
     },
-    {
-      key: "my-requests",
-      label: "My Requests",
-      href: "/my-requests",
-    },
+    ...(role === "USER"
+      ? [
+          {
+            key: "my-requests",
+            label: "My Requests",
+            href: "/my-requests",
+          },
+        ]
+      : []),
     {
       key: "logout",
       label: "Logout",

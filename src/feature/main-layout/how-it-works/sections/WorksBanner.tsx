@@ -10,11 +10,11 @@ import { toast } from "sonner";
 const WorksBanner: React.FC = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const { role } = useUserRole();
-  console.log(role);
+  // console.log(role);
   const handleModalVisible = () => {
     if (!role) {
       return toast.error(
-        "You must be logged in to register as a service provider"
+        "You must be logged in to register as a service provider",
       );
     }
     setModalVisible(true);

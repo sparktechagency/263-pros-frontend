@@ -41,7 +41,7 @@ const bookings = [
 export function BookedList() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(
-    null
+    null,
   );
 
   const handleOpenReview = (id: number) => {
@@ -50,7 +50,7 @@ export function BookedList() {
   };
 
   const handleReviewSubmit = (values: { rating: number; review: string }) => {
-    console.log("Submitting review for booking:", selectedBookingId, values);
+    // console.log("Submitting review for booking:", selectedBookingId, values);
     toast.success("Review submitted successfully!");
   };
 

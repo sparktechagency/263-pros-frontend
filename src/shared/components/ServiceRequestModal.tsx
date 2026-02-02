@@ -14,6 +14,7 @@ import {
 import { myFetch } from "../../../helpers/myFetch";
 import { toast } from "sonner";
 import getProfile from "../../../helpers/getProfile";
+import { revalidateTags } from "../../../helpers/revalidateTags";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -31,10 +32,10 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
   serviceName,
   serviceId,
 }) => {
-  const [form] = Form.useForm(); 
+  const [form] = Form.useForm();
   const [user, setUser] = React.useState<any>(null);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchProfile = async () => {
       try {
         const profileData = await getProfile();
@@ -45,7 +46,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
     };
 
     fetchProfile();
-  }, []);  
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -78,6 +79,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
           { id: "service" },
         );
         form.resetFields();
+        revalidateTags(["service-booking"]);
         onClose();
       } else {
         if (res?.error && Array.isArray(res.error)) {
@@ -188,7 +190,9 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
               </span>
             }
             name="serviceDetails"
-            rules={[{ required: true, message: "Please enter service details" }]}
+            rules={[
+              { required: true, message: "Please enter service details" },
+            ]}
           >
             <TextArea
               rows={4}
@@ -249,7 +253,11 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
               name="email"
               rules={[{ required: true, message: "Please enter email" }]}
             >
-              <Input placeholder="example.email@gmail.com" className="h-10!"  readOnly/>
+              <Input
+                placeholder="example.email@gmail.com"
+                className="h-10!"
+                readOnly
+              />
             </Form.Item>
             <Form.Item
               label={

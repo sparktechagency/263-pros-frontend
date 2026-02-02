@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { myFetch } from "../../../../../../helpers/myFetch";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { revalidateTags } from "../../../../../../helpers/revalidateTags";
 
 interface QuotationDetailModalProps {
   isOpen: boolean;
@@ -16,30 +18,36 @@ interface QuotationDetailModalProps {
     price: string;
     note: string;
     id: string | number;
+    messageId: string;
   } | null;
+  setActiveTab: any;
 }
 
 export function QuotationDetailModal({
   isOpen,
   onClose,
   quotation,
+  setActiveTab,
 }: QuotationDetailModalProps) {
   if (!quotation) return null;
   // console.log(quotation.id);
   // submit form
+  const router = useRouter();
   const bookQuotation = async () => {
     try {
       toast.promise(
-        myFetch(`/service-booking/${quotation.id}`, {
+        myFetch(`/service-booking/confirm/${quotation.id}`, {
           method: "PATCH",
           body: {
             bookingStatus: "confirmed",
           },
+          tags: ["service-booking"],
         }),
         {
           loading: "Booking quotation...",
-          success: (res) => {
+          success: async (res) => {
             if (res?.success) {
+              revalidateTags(["service-booking"]);
               onClose();
               return res?.message || "Quotation booked successfully";
             }
@@ -53,6 +61,26 @@ export function QuotationDetailModal({
     }
   };
 
+  const handleChat = () => {
+    toast.promise(
+      myFetch(`/chat-room/${quotation.messageId}`, {
+        method: "POST",
+        tags: ["create-room"],
+      }),
+      {
+        loading: "Creating chat...",
+        success: (res) => {
+          if (res?.success) {
+            setActiveTab("message");
+            onClose();
+            return res?.message;
+          }
+          throw new Error(res?.message || "Chat creation failed");
+        },
+        error: (err) => err.message || "Error creating chat",
+      },
+    );
+  };
   return (
     <Modal
       title={<span className="text-2xl font-semibold">Request details</span>}
@@ -114,7 +142,7 @@ export function QuotationDetailModal({
         <div className="flex gap-4">
           <Button
             className="flex-1 h-12 text-lg border-[#055E6E] text-[#292929] hover:text-[#055E6E]! hover:border-[#055E6E]! font-medium rounded-lg"
-            onClick={onClose}
+            onClick={handleChat}
           >
             Message
           </Button>

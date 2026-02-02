@@ -38,8 +38,8 @@ export default function MessageInput({ onSend }: MessageInputProps) {
     if (onSend) {
       onSend(message, mediaFiles);
     }
-    console.log("Sending message:", message);
-    console.log("Sending media:", mediaFiles);
+    // console.log("Sending message:", message);
+    // console.log("Sending media:", mediaFiles);
 
     setMessage("");
     setMediaFiles([]);
