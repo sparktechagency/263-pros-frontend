@@ -6,7 +6,13 @@ import { useState } from "react";
 import { QuotationDetailModal } from "./QuotationDetailModal";
 import { imgUrl } from "../../../../../../helpers/imgUrl";
 
-export function QuotationsList({ quotations }: { quotations: any[] }) {
+export function QuotationsList({
+  quotations,
+  setActiveTab,
+}: {
+  quotations: any[];
+  setActiveTab: any;
+}) {
   const [selectedQuote, setSelectedQuote] = useState<
     (typeof quotations)[0] | null
   >(null);
@@ -16,7 +22,6 @@ export function QuotationsList({ quotations }: { quotations: any[] }) {
     setSelectedQuote(quote);
     setIsModalOpen(true);
   };
-
   return (
     <div className="space-y-6">
       {quotations?.map((quote) => (
@@ -96,9 +101,11 @@ export function QuotationsList({ quotations }: { quotations: any[] }) {
                 price: selectedQuote?.price,
                 note: selectedQuote?.note,
                 id: selectedQuote?._id,
+                messageId: selectedQuote?.provider?._id,
               }
             : null
         }
+        setActiveTab={setActiveTab}
       />
     </div>
   );
