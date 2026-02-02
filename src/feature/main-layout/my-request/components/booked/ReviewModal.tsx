@@ -8,15 +8,15 @@ const { TextArea } = Input;
 interface ReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (values: { rating: number; review: string }) => void;
+  onSubmit: (values: { review: number; message: string }) => void;
 }
 
 export function ReviewModal({ isOpen, onClose, onSubmit }: ReviewModalProps) {
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState("");
+  const [review, setRating] = useState(0);
+  const [message, setReview] = useState("");
 
   const handleSubmit = () => {
-    onSubmit({ rating, review });
+    onSubmit({ review, message });
     setRating(0);
     setReview("");
     onClose();
@@ -38,7 +38,7 @@ export function ReviewModal({ isOpen, onClose, onSubmit }: ReviewModalProps) {
             How was the service?
           </h4>
           <Rate
-            value={rating}
+            value={review}
             onChange={setRating}
             className="text-3xl text-gray-400"
           />
@@ -51,7 +51,7 @@ export function ReviewModal({ isOpen, onClose, onSubmit }: ReviewModalProps) {
           <TextArea
             rows={6}
             placeholder="Write here"
-            value={review}
+            value={message}
             onChange={(e) => setReview(e.target.value)}
             className="rounded-lg border-[#EBEBEB] focus:border-[#055E6E] focus:ring-1 focus:ring-[#055E6E] transition-all resize-none text-[15px] p-4"
           />
