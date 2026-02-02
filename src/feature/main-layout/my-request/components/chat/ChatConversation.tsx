@@ -5,6 +5,7 @@ import MessageInput from "./MessageInput";
 import { myFetch } from "../../../../../../helpers/myFetch";
 import { imgUrl } from "../../../../../../helpers/imgUrl";
 import getProfile from "../../../../../../helpers/getProfile";
+import { toast } from "sonner";
 
 export function ChatConversation({
   messageId,
@@ -29,20 +30,26 @@ export function ChatConversation({
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = (text: string, mediaFiles: File[]) => {
-    const imageUrls = mediaFiles.map((file) => URL.createObjectURL(file));
+  const handleSendMessage = async (text: string, mediaFiles: File[]) => {
+    const formData = new FormData();
 
-    const newMessage: any = {
-      _id: messages.length + 1,
-      text,
-      sender: "me", // Assuming user is always "me" for now
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      images: imageUrls,
-    };
-    setMessages([...messages, newMessage]);
+    formData.append("text", text);
+    formData.append("chatId", messageId);
+
+    mediaFiles.forEach((file) => {
+      formData.append("image", file);
+    });
+    console.log(formData);
+    try {
+      const res = await myFetch(`/message`, {
+        method: "POST",
+        body: formData,
+        tags: ["chat"],
+      });
+      console.log(res, "res");
+    } catch (error) {
+      toast.error("Failed to send message");
+    }
   };
 
   const getChatMessages = async () => {
@@ -50,6 +57,7 @@ export function ChatConversation({
       const res = await myFetch(`/message/${messageId}`, {
         method: "GET",
         cache: "no-store",
+        tags: ["chat"],
       });
       // console.log(res, "messages");
       setMessages(res.data);
@@ -75,6 +83,7 @@ export function ChatConversation({
     fetchProfile();
   }, [messageId]);
 
+  console.log(messages);
   return (
     <div className="bg-white border border-gray-100 rounded-2xl flex flex-col h-full shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
       {/* Header */}
@@ -133,19 +142,32 @@ export function ChatConversation({
                       : "bg-[#C4C4C4]/60 text-gray-800 rounded-[20px_20px_20px_4px]"
                   }`}
                 >
-                  {msg.images && msg.images.length > 0 && (
+                  {/* {msg.image && msg.image.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-2">
                       {msg.images.map((img: any, idx: number) => (
                         <div key={idx} className="rounded-lg overflow-hidden">
                           <AntdImage
-                            src={img}
+                            src={imgUrl + img}
                             width={150}
                             className="object-cover"
                           />
                         </div>
                       ))}
                     </div>
+                  )} */}
+
+                  {msg?.image && msg?.image.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <div className="rounded-lg overflow-hidden">
+                        <AntdImage
+                          src={imgUrl + msg.image}
+                          width={150}
+                          className="object-cover"
+                        />
+                      </div>
+                    </div>
                   )}
+
                   {msg.text && <span>{msg.text}</span>}
                 </div>
                 <div
