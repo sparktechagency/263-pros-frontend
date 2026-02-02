@@ -16,9 +16,14 @@ const tabs = [
 interface serviceRequest {
   requests: any[];
   quotations: any[];
+  chatRooms: any[];
 }
 
-export function MyRequestsContent({ requests, quotations }: serviceRequest) {
+export function MyRequestsContent({
+  requests,
+  quotations,
+  chatRooms,
+}: serviceRequest) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -28,6 +33,7 @@ export function MyRequestsContent({ requests, quotations }: serviceRequest) {
   );
 
   const [messageId, setMessageId] = useState(searchParams.get("id"));
+  console.log(messageId, "messageId");
 
   return (
     <div className="container py-16 space-y-12">
@@ -59,13 +65,17 @@ export function MyRequestsContent({ requests, quotations }: serviceRequest) {
             children: (
               <div className="py-6">
                 {tab.key === "quotation" && (
-                  <QuotationsList quotations={quotations} />
+                  <QuotationsList
+                    quotations={quotations}
+                    setActiveTab={setActiveTab}
+                  />
                 )}
                 {tab.key === "booked" && <BookedList />}
                 {tab.key === "message" && (
                   <MessageCenter
                     messageId={messageId}
                     setMessageId={setMessageId}
+                    chatRooms={chatRooms}
                   />
                 )}
               </div>

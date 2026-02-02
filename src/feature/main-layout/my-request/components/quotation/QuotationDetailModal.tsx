@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { myFetch } from "../../../../../../helpers/myFetch";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface QuotationDetailModalProps {
   isOpen: boolean;
@@ -16,17 +17,21 @@ interface QuotationDetailModalProps {
     price: string;
     note: string;
     id: string | number;
+    messageId: string;
   } | null;
+  setActiveTab: any;
 }
 
 export function QuotationDetailModal({
   isOpen,
   onClose,
   quotation,
+  setActiveTab,
 }: QuotationDetailModalProps) {
   if (!quotation) return null;
-  // console.log(quotation.id);
+  console.log(quotation.id);
   // submit form
+  const router = useRouter();
   const bookQuotation = async () => {
     try {
       toast.promise(
@@ -53,6 +58,28 @@ export function QuotationDetailModal({
     }
   };
 
+  const handleChat = () => {
+    console.log(quotation.messageId);
+
+    toast.promise(
+      myFetch(`/chat-room/${quotation.messageId}`, {
+        method: "POST",
+        tags: ["create-room"],
+      }),
+      {
+        loading: "Creating chat...",
+        success: (res) => {
+          if (res?.success) {
+            setActiveTab("message");
+            onClose();
+            return res?.message;
+          }
+          throw new Error(res?.message || "Chat creation failed");
+        },
+        error: (err) => err.message || "Error creating chat",
+      },
+    );
+  };
   return (
     <Modal
       title={<span className="text-2xl font-semibold">Request details</span>}
@@ -114,7 +141,7 @@ export function QuotationDetailModal({
         <div className="flex gap-4">
           <Button
             className="flex-1 h-12 text-lg border-[#055E6E] text-[#292929] hover:text-[#055E6E]! hover:border-[#055E6E]! font-medium rounded-lg"
-            onClick={onClose}
+            onClick={handleChat}
           >
             Message
           </Button>

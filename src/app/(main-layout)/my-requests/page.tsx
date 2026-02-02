@@ -13,8 +13,22 @@ export default async function page() {
     tags: ["service-booking"],
     cache: "no-store",
   });
+  // chat room
+  const chatRes = await myFetch("/chat-room", {
+    method: "GET",
+    tags: ["chat-room"],
+    cache: "no-store",
+  });
+
   const requests = Array.isArray(res?.data) ? res.data : [];
   const quotations = Array.isArray(acceptedRes?.data) ? acceptedRes.data : [];
+  const chatRooms = Array.isArray(chatRes?.data) ? chatRes.data : [];
   // console.log("quotations", quotations);
-  return <MyRequestsContent requests={requests} quotations={quotations} />;
+  return (
+    <MyRequestsContent
+      requests={requests}
+      quotations={quotations}
+      chatRooms={chatRooms}
+    />
+  );
 }
