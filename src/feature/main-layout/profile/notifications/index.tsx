@@ -1,22 +1,49 @@
 "use client";
-import notificationsData from "@/constants/notifications";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import NotificationItemCard from "./NotificationItemCard";
-
- export interface NotificationItem {
-  id: string;
+import { myFetch } from "../../../../../helpers/myFetch";
+import { io } from 'socket.io-client';
+import { imgUrl } from "../../../../../helpers/imgUrl";
+export interface NotificationItem {
+  _id: string;
   user: string;
+  sender: {
+    name: string;
+    image: string;
+  };
   avatar: string;
   message: string;
+  text: string;
   date: string;
   time: string;
-  isRead: boolean;
+  read: boolean;
   timestamp: string;
 }
 
 const Notifications = () => {
-  const todayNotifications = notificationsData.slice(0, 4);
-  const yesterdayNotifications = notificationsData.slice(4);
+  const [allNotifications, setAllNotifications] = React.useState<NotificationItem[]>([]);
+
+  const socket = useMemo(() => io(imgUrl), [])
+  socket.on('new_notificaiton', () => {
+    // refetch();
+  });
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await myFetch("/notification", {
+          method: "GET",
+          cache: "no-store",
+          tags: ["notification"],
+        });
+
+        setAllNotifications(res?.data || []);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
   return (
     <div className=" w-full">
@@ -27,20 +54,12 @@ const Notifications = () => {
 
       {/* Today Section */}
       <div className="mb-8">
-        <h2 className="text-[#525252] lg:text-lg font-medium mb-2">Today</h2>
+        <h2 className="text-[#525252] lg:text-lg font-medium mb-2">All Notifications</h2>
         <div className="space-y-5">
-          {todayNotifications.map((item) => (
-            <NotificationItemCard key={item.id} item={item} />
-          ))}
-        </div>
-      </div>
-
-      {/* Yesterday Section */}
-      <div>
-        <h2 className="text-[#525252] lg:text-lg font-medium mb-2">Yesterday</h2>
-        <div className="space-y-4">
-          {yesterdayNotifications.map((item) => (
-            <NotificationItemCard key={item.id} item={item} />
+          {allNotifications.map((item, index) => (
+            <div key={index}>
+              <NotificationItemCard item={item} />
+            </div>
           ))}
         </div>
       </div>

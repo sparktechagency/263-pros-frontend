@@ -1,15 +1,12 @@
 "use client";
-import ProviderProfile from "@/feature/main-layout/profile/settings/components/ProviderProfile";
-import { Col, Form, Input, Row, Select, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import {  Form, } from "antd";
 import { Modal } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { myFetch } from "../../../helpers/myFetch";
 import getProfile from "../../../helpers/getProfile";
-import TextArea from "antd/es/input/TextArea";
 import ProviderForm from "@/feature/main-layout/profile/settings/components/ProviderForm";
 
 export default function RegisterProviderForm({
@@ -22,8 +19,6 @@ export default function RegisterProviderForm({
   const router = useRouter();
   const [form] = Form.useForm();
   const [user, setUser] = React.useState<any>(null);
-  const [services, setServices] = useState<any[]>([]);
-
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -80,23 +75,7 @@ export default function RegisterProviderForm({
     }
     handleSubmit?.(formData);
   };
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const res = await myFetch("/service", {
-          method: "GET",
-          cache: "no-store",
-          tags: ["service"],
-        });
 
-        setServices(res?.data || []);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-      }
-    };
-
-    fetchServices();
-  }, []);
 
   const handleSubmit = async (formData: any) => {
     try {
