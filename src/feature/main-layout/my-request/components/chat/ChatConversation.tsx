@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Image as AntdImage } from "antd";
 import MessageInput from "./MessageInput";
@@ -6,6 +6,7 @@ import { myFetch } from "../../../../../../helpers/myFetch";
 import { imgUrl } from "../../../../../../helpers/imgUrl";
 import getProfile from "../../../../../../helpers/getProfile";
 import { toast } from "sonner";
+import { io } from "socket.io-client";
 
 export function ChatConversation({
   messageId,
@@ -17,7 +18,14 @@ export function ChatConversation({
   const [messages, setMessages] = useState<any[]>([]);
   const [userId, setUserId] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  console.log(activeUser, "activeUser");
+
+  const socket = useMemo(() => io(imgUrl), []);
+
+  useEffect(() => {
+    socket.on(`getMessage::${messageId}`, (data) => {
+      setMessages((prev) => [...prev, data]);
+    });
+  }, [socket, messageId]);
 
   const scrollToBottom = () => {
     const el = containerRef.current;
@@ -39,7 +47,6 @@ export function ChatConversation({
     mediaFiles.forEach((file) => {
       formData.append("image", file);
     });
-    console.log(formData);
     try {
       const res = await myFetch(`/message`, {
         method: "POST",

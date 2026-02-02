@@ -49,7 +49,7 @@ export function MessageCenter({
       const selectedUser =
         chatRooms.find((u) => u._id === messageId) || chatRooms[0];
       return (
-        <div className="min-h-[600px] flex flex-col">
+        <div className="max-h-[600px] flex flex-col">
           <button
             onClick={() => {
               // const params = new URLSearchParams(searchParams.toString());
