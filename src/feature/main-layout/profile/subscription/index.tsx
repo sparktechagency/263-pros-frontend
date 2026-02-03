@@ -1,12 +1,25 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import SubscriptionCard from "./components/SubscriptionCard";
 import BuySubscriptionModal from "./components/BuySubscriptionModal";
 import {  userSubscription } from "@/constants/subscription";
+import { SubscriptionPackage, UserSubscription } from "./components/subscriptionType";
+import { myFetch } from "../../../../../helpers/myFetch";
 
 const Subscription = () => {  
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpen, setIsOpen] = React.useState(false); 
+    const [mySubscription, setMySubscription] = React.useState<UserSubscription>({} as UserSubscription);
+    useEffect(()=>{
+        const fetchUserSubscription = async () => {
+            const subscription = await myFetch("/subscription/details",{
+              cache: "no-cache",
+            })
+            setMySubscription(subscription.data as UserSubscription)
+        }
+        fetchUserSubscription()
+    },[])
 
+    
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-8">
@@ -18,7 +31,7 @@ const Subscription = () => {
         </button>
       </div>
 
-      <SubscriptionCard subscription={userSubscription} /> 
+      <SubscriptionCard subscription={mySubscription?.package} mySubscription={true} /> 
       <BuySubscriptionModal open={isOpen} setOpen={setIsOpen} />
     </div>
   );
