@@ -63,7 +63,6 @@ export function ChatConversation({
     try {
       const res = await myFetch(`/message/${messageId}`, {
         method: "GET",
-        cache: "no-store",
         tags: ["chat"],
       });
       // console.log(res, "messages");

@@ -1,23 +1,32 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Tabs } from "antd";
-import { QuotationsList } from "./components/quotation/QuotationsList";
-import { BookedList } from "./components/booked/BookedList";
-import { MessageCenter } from "./components/chat/MessageCenter";
+import { Empty, Tabs } from "antd";
+
 import { useState } from "react";
-import "./style.css"
+import "./style.css";
+import { EnquiryList } from "./components/enquiries/EnquiryList";
+import { MessageCenter } from "../../my-request/components/chat/MessageCenter";
+import ProviderBookedList from "./components/booked/ProviderBookedList";
 const tabs = [
-  { key: "quotation", label: "Quotations" },
+  { key: "enquiries", label: "Enquiries" },
   { key: "booked", label: "Booked" },
   { key: "message", label: "Message" },
 ];
 
-export function Requests() {
+export function Requests({
+  enquiries,
+  chatRooms,
+  bookings,
+}: {
+  enquiries: any[];
+  chatRooms: any[];
+  bookings: any[];
+}) {
   const searchParams = useSearchParams();
 
   const [activeTab, setActiveTab] = useState(
-    searchParams.get("tab") || "quotation"
+    searchParams.get("tab") || "enquiries",
   );
 
   const [messageId, setMessageId] = useState(searchParams.get("id"));
@@ -36,13 +45,27 @@ export function Requests() {
             ),
             children: (
               <div className="py-6">
-                {tab.key === "quotation" && <QuotationsList />}
-                {tab.key === "booked" && <BookedList />}
-                {tab.key === "message" && (
-                  <MessageCenter
-                    messageId={messageId}
-                    setMessageId={setMessageId}
+                {tab.key === "enquiries" && (
+                  <EnquiryList
+                    enquiries={enquiries}
+                    setActiveTab={setActiveTab}
                   />
+                )}
+                {tab.key === "booked" && (
+                  <ProviderBookedList bookings={bookings} />
+                )}
+                {tab.key === "message" && (
+                  <>
+                    {chatRooms.length > 0 ? (
+                      <MessageCenter
+                        messageId={messageId}
+                        setMessageId={setMessageId}
+                        chatRooms={chatRooms}
+                      />
+                    ) : (
+                      <Empty description="No chat rooms found" />
+                    )}
+                  </>
                 )}
               </div>
             ),
