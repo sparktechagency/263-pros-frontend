@@ -1,13 +1,47 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Plus } from "lucide-react";
 import ProfileServiceCard from "./ProfileServiceCard";
-import { mockServices } from "@/constants/service/popularTags";
 import ServiceModal from "./ServiceModal";
+import { myFetch } from "../../../../../../helpers/myFetch"; 
+import { imgUrl } from "../../../../../../helpers/imgUrl";
+
+interface ProfileServiceListProps {  
+  _id: string;
+  serviceData :{
+    service:{ 
+      _id: string;
+      title: string;
+    } 
+    category: {
+      _id: string;
+      name: string;
+    }
+    description: string;
+    image: string;
+  }
+}
 
 const ProfileServiceList = () => {  
   const [open, setOpen] = React.useState(false); 
-  const [serviceData , setServiceData] = React.useState({})
+  const [serviceData , setServiceData] = React.useState({})  
+  const [allServices, setAllServices] = React.useState<ProfileServiceListProps[]>([]); 
+
+    useEffect(() => {
+      const fetchService = async () => {
+        try {
+          const res = await myFetch("/service-record", {
+            method: "GET",
+            tags: ["service-record"],
+          });
+          setAllServices(res?.data || []);
+        } catch (error) {
+          console.error("Error fetching Services:", error);
+        }
+      };
+      fetchService();
+    }, []); 
+
 
   return (
     <div className=" h-full">
@@ -20,12 +54,16 @@ const ProfileServiceList = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-4  overflow-y-auto h-[calc(100vh-200px)]">
-        {mockServices.map((service) => (
+        {allServices?.map((service , index) => (
           <ProfileServiceCard
-            key={service.id}
-            {...service}
+            key={index}
+            _id={service._id}
+            title={service.serviceData.service.title}
+            category={service.serviceData.category.name}
+            description={service.serviceData.description}
+            image={service.serviceData.image?.startsWith("http") ? service.serviceData.image : `${imgUrl}${service.serviceData.image}`}
             onEdit={() =>{setOpen(true); setServiceData(service)}}
-            onDelete={() => console.log("Delete", service.id)}
+
           />
         ))}
       </div>

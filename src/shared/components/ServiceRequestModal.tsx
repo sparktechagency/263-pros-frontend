@@ -66,7 +66,6 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
         ? Number(values.numberOfPeople)
         : null,
     };
-    console.log("Form values:", formattedValues);
 
     try {
       const res = await myFetch("/service-booking", {

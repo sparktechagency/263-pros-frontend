@@ -35,7 +35,6 @@ const Notifications = () => {
       try {
         const res = await myFetch("/notification", {
           method: "GET",
-          cache: "no-store",
           tags: ["notification"],
         });
 

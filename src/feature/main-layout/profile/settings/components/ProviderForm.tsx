@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Form, Input, Row, Select, Upload } from "antd";
+import { Col, Form, Input, Row, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import TextArea from 'antd/es/input/TextArea';
 
