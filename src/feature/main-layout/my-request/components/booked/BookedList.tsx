@@ -137,9 +137,7 @@ export function BookedList({ bookings }: { bookings: any[] }) {
                 <>
                   <Button
                     type="default"
-                    onClick={() =>
-                      handleOpenReview(booking?.request?.serviceId?._id)
-                    }
+                    onClick={() => handleOpenReview(booking?._id)}
                     className="border-[#FAAD14]! text-[#FAAD14]! hover:bg-orange-50! hover:text-[#FAAD14]! rounded-lg! h-8! transition-colors! font-medium! bg-transparent!"
                   >
                     Review
