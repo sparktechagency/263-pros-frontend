@@ -2,12 +2,12 @@
 
 import { useSearchParams } from "next/navigation";
 import { Empty, Tabs } from "antd";
-import { BookedList } from "./components/booked/BookedList";
 
 import { useState } from "react";
 import "./style.css";
 import { EnquiryList } from "./components/enquiries/EnquiryList";
 import { MessageCenter } from "../../my-request/components/chat/MessageCenter";
+import ProviderBookedList from "./components/booked/ProviderBookedList";
 const tabs = [
   { key: "enquiries", label: "Enquiries" },
   { key: "booked", label: "Booked" },
@@ -17,9 +17,11 @@ const tabs = [
 export function Requests({
   enquiries,
   chatRooms,
+  bookings,
 }: {
   enquiries: any[];
   chatRooms: any[];
+  bookings: any[];
 }) {
   const searchParams = useSearchParams();
 
@@ -44,9 +46,14 @@ export function Requests({
             children: (
               <div className="py-6">
                 {tab.key === "enquiries" && (
-                  <EnquiryList enquiries={enquiries} />
+                  <EnquiryList
+                    enquiries={enquiries}
+                    setActiveTab={setActiveTab}
+                  />
                 )}
-                {tab.key === "booked" && <BookedList />}
+                {tab.key === "booked" && (
+                  <ProviderBookedList bookings={bookings} />
+                )}
                 {tab.key === "message" && (
                   <>
                     {chatRooms.length > 0 ? (

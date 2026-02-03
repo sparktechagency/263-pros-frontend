@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { myFetch } from "../../../../../../../helpers/myFetch";
 import { revalidateTags } from "../../../../../../../helpers/revalidateTags";
 
-export function EnquiryList({ enquiries }: { enquiries: any[] }) {
+export function EnquiryList({
+  enquiries,
+  setActiveTab,
+}: {
+  enquiries: any[];
+  setActiveTab: (tab: string) => void;
+}) {
   const [selectedEnquiry, setSelectedEnquiry] = useState<any | null>(null);
   const [price, setPrice] = useState("");
   const [note, setNote] = useState("");
@@ -14,6 +20,7 @@ export function EnquiryList({ enquiries }: { enquiries: any[] }) {
   const handleOpenModal = (enquiry: any) => {
     setSelectedEnquiry(enquiry);
   };
+  console.log(selectedEnquiry);
 
   const handleCloseModal = () => {
     setSelectedEnquiry(null);
@@ -44,6 +51,8 @@ export function EnquiryList({ enquiries }: { enquiries: any[] }) {
         success: async (res) => {
           if (res?.success) {
             revalidateTags(["service-booking"]);
+            setPrice("");
+            setNote("");
             handleCloseModal();
             return res?.message || "Quotation sent successfully";
           }
@@ -53,7 +62,30 @@ export function EnquiryList({ enquiries }: { enquiries: any[] }) {
       },
     );
   };
-  console.log(enquiries);
+  // console.log(enquiries);
+
+  // chat
+  const handleChat = () => {
+    toast.promise(
+      myFetch(`/chat-room/${selectedEnquiry?.request?.user?._id}`, {
+        method: "POST",
+        tags: ["create-room"],
+      }),
+      {
+        loading: "Creating chat...",
+        success: (res) => {
+          if (res?.success) {
+            setActiveTab("message");
+            revalidateTags(["create-room"]);
+            handleCloseModal();
+            return res?.message;
+          }
+          throw new Error(res?.message || "Chat creation failed");
+        },
+        error: (err) => err.message || "Error creating chat",
+      },
+    );
+  };
   return (
     <div className="flex flex-col gap-4">
       {enquiries?.length === 0 ? (
@@ -62,7 +94,7 @@ export function EnquiryList({ enquiries }: { enquiries: any[] }) {
         enquiries?.map((enquiry) => (
           <div
             key={enquiry._id}
-            className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm flex items-start gap-4"
+            className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start gap-4"
           >
             <div className="shrink-0">
               {/* Use a colored div fallback if image is missing/broken in dev */}
@@ -144,19 +176,19 @@ export function EnquiryList({ enquiries }: { enquiries: any[] }) {
             <Divider className="my-4" />
 
             <div className="space-y-3 mb-8">
-              <div className="grid grid-cols-[180px_1fr] gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-4">
                 <span className="text-gray-500">Required Service</span>
                 <span className="font-medium">
                   : {selectedEnquiry?.request?.serviceId?.title}
                 </span>
               </div>
-              <div className="grid grid-cols-[180px_1fr] gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-4">
                 <span className="text-gray-500">Location</span>
                 <span className="font-medium">
                   : {selectedEnquiry?.request?.location}
                 </span>
               </div>
-              <div className="grid grid-cols-[180px_1fr] gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-4">
                 <span className="text-gray-500">Date</span>
                 <span className="font-medium">
                   :{" "}
@@ -172,19 +204,19 @@ export function EnquiryList({ enquiries }: { enquiries: any[] }) {
                     : ""}
                 </span>
               </div>
-              <div className="grid grid-cols-[180px_1fr] gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-4">
                 <span className="text-gray-500">Urgent request</span>
                 <span className="font-medium">
                   : {selectedEnquiry?.request?.urgency ? "Yes" : "No"}
                 </span>
               </div>
-              <div className="grid grid-cols-[180px_1fr] gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-4">
                 <span className="text-gray-500">Budget</span>
                 <span className="font-medium">
                   : {selectedEnquiry?.request?.budgetRange}
                 </span>
               </div>
-              <div className="grid grid-cols-[180px_1fr] gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-4">
                 <span className="text-gray-500">Number of people or guest</span>
                 <span className="font-medium">
                   : {selectedEnquiry?.request?.numberOfPeople}
@@ -225,7 +257,10 @@ export function EnquiryList({ enquiries }: { enquiries: any[] }) {
             </div>
 
             <div className="flex gap-4">
-              <Button className="h-11 flex-1 border-gray-400 rounded-md text-base hover:text-gray-700 hover:border-gray-500">
+              <Button
+                onClick={handleChat}
+                className="h-11 flex-1 border-gray-400 rounded-md text-base hover:text-gray-700 hover:border-gray-500"
+              >
                 Message
               </Button>
               <Button

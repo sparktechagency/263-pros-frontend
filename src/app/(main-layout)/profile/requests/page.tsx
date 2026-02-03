@@ -13,10 +13,22 @@ const requestsPage = async () => {
     tags: ["chat-room"],
   });
   const chatRooms = Array.isArray(chatRes?.data) ? chatRes.data : [];
-  console.log(chatRooms);
+
+  // booking
+  const bookedRes = await myFetch("/service-booking/status?status=confirmed", {
+    method: "GET",
+    tags: ["service-booking"],
+    // cache: "no-store",
+  });
+  const bookings = Array.isArray(bookedRes?.data) ? bookedRes.data : [];
+  // console.log(chatRooms);
   return (
     <div>
-      <Requests enquiries={enquiries} chatRooms={chatRooms} />
+      <Requests
+        enquiries={enquiries}
+        chatRooms={chatRooms}
+        bookings={bookings}
+      />
     </div>
   );
 };
