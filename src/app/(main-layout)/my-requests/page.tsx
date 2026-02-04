@@ -28,7 +28,7 @@ export default async function page() {
   const quotations = Array.isArray(acceptedRes?.data) ? acceptedRes.data : [];
   const bookings = Array.isArray(bookedRes?.data) ? bookedRes.data : [];
   const chatRooms = Array.isArray(chatRes?.data) ? chatRes.data : [];
-  console.log("bookings", bookings);
+  // console.log("bookings", bookings);
   return (
     <MyRequestsContent
       requests={requests}

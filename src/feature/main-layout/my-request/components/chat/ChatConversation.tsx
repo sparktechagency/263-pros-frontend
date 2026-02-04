@@ -19,6 +19,7 @@ export function ChatConversation({
 }) {
   const [messages, setMessages] = useState<any[]>([]);
   const [userId, setUserId] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -28,7 +29,7 @@ export function ChatConversation({
     socket.on(`getMessage::${messageId}`, (data) => {
       setMessages((prev) => [...prev, data]);
     });
-  }, [socket, messageId]);
+  }, [socket, messageId, loading]);
 
   const scrollToBottom = () => {
     const el = containerRef.current;
@@ -42,6 +43,7 @@ export function ChatConversation({
   }, [messages]);
 
   const handleSendMessage = async (text: string, mediaFiles: File[]) => {
+    setLoading(true);
     const formData = new FormData();
 
     formData.append("text", text);
@@ -57,10 +59,11 @@ export function ChatConversation({
         tags: ["chat"],
       });
       if (res?.success) {
-        setMessages((prev) => [...prev, res.data]);
-        revalidateTags(["chat"]);
+        // setMessages((prev) => [...prev, res.data]);
+        // revalidateTags(["chat"]);
       }
       // console.log(res, "res");
+      setLoading(false);
     } catch (error) {
       toast.error("Failed to send message");
     }
@@ -71,8 +74,10 @@ export function ChatConversation({
       const res = await myFetch(`/message/${messageId}`, {
         method: "GET",
         tags: ["chat"],
+        // cache: "no-cache",
       });
       // console.log(res, "messages");
+      revalidateTags(["chat"]);
       setMessages(res.data);
     } catch (error) {
       console.log(error);
@@ -81,7 +86,7 @@ export function ChatConversation({
 
   useEffect(() => {
     getChatMessages();
-  }, [messageId, handleSendMessage, router]);
+  }, [messageId, router, loading]);
 
   useEffect(() => {
     const fetchProfile = async () => {
