@@ -33,7 +33,7 @@ const ServiceModal = ({
 
   useEffect(() => {
     if (!serviceData?.serviceData || !category.length) return;
-    setEditingId(serviceData._id)
+    setEditingId(serviceData._id);
     const {
       service,
       category: serviceCategoryObj,
@@ -49,15 +49,13 @@ const ServiceModal = ({
     setSelectedCategory(serviceCategoryObj?._id);
 
     const foundCategory = category.find(
-      (cat) => cat.id === serviceCategoryObj?._id
+      (cat) => cat.id === serviceCategoryObj?._id,
     );
 
     setSubServices(foundCategory?.services || []);
 
     if (image) {
-      setImageUrl(
-        image.startsWith("http") ? image : `${imgUrl}${image}`
-      );
+      setImageUrl(image.startsWith("http") ? image : `${imgUrl}${image}`);
     }
   }, [serviceData, category, form]);
 
@@ -141,7 +139,7 @@ const ServiceModal = ({
       } else {
         if (Array.isArray(res?.error)) {
           res.error.forEach((err: { message: string }) =>
-            toast.error(err.message, { id: "service" })
+            toast.error(err.message, { id: "service" }),
           );
         } else {
           toast.error(res?.message || "Something went wrong!", {
@@ -231,7 +229,9 @@ const ServiceModal = ({
           </Form.Item>
 
           <Form.Item
-            label={<p className="text-[#6C6C6C] font-medium">Select Category</p>}
+            label={
+              <p className="text-[#6C6C6C] font-medium">Select Category</p>
+            }
             name="service"
             rules={[{ required: true, message: "Please select a Category" }]}
           >

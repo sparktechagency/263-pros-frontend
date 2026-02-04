@@ -1,7 +1,7 @@
 import ProfileServiceList from "./components/ProfileServiceList";
 
-const Service = () => {
-  return <ProfileServiceList />;
-} 
+const Service = ({ services }: { services: any }) => {
+  return <ProfileServiceList services={services} />;
+};
 
 export default Service;
