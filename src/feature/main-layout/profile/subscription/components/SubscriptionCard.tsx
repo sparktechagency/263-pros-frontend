@@ -1,6 +1,6 @@
-import { SubscriptionPackage } from "./subscriptionType"
+import { SubscriptionPackage } from "./subscriptionType";
 const planStyles = {
-  "standardPlan": {
+  standardPlan: {
     bg: "bg-gradient-to-br from-[#FFF3C4] to-[#FFE9A0]",
     button: "!bg-[#F1C40F] hover:!bg-[#d4ac0d]",
     badge: "bg-[#343434]",
@@ -16,7 +16,6 @@ const planStyles = {
     button: "bg-[#3B82F6] hover:bg-[#2563eb]",
     badge: "bg-[#1e40af]",
   },
-
 };
 const SubscriptionCard = ({
   subscription,
@@ -25,14 +24,15 @@ const SubscriptionCard = ({
   subscription: SubscriptionPackage;
   mySubscription?: boolean;
 }) => {
-
   if (!subscription) {
     return <SubscriptionSkeleton />;
   }
-  
-  const style = mySubscription ? planStyles.premiumPlan : subscription?.packageType === "premiumPlan" ? planStyles.premiumPlan : planStyles.standardPlan;
- 
-  
+
+  const style = mySubscription
+    ? planStyles.premiumPlan
+    : subscription?.packageType === "premiumPlan"
+      ? planStyles.premiumPlan
+      : planStyles.standardPlan;
 
   return (
     <div
@@ -67,27 +67,28 @@ const SubscriptionCard = ({
 
       {/* CTA */}
       <a
-        href={subscription?.status === "active" || mySubscription ? subscription?.paymentLink : "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`w-full mt-6 px-6 py-3 rounded-xl !text-white text-sm font-semibold transition-colors ${
+        href={
+          subscription?.status === "active" || mySubscription
+            ? subscription?.paymentLink
+            : "#"
+        }
+        // target="_blank"
+        // rel="noopener noreferrer"
+        className={`w-full mt-6 px-6 py-3 rounded-xl text-white! text-sm font-semibold transition-colors ${
           style.button
         }`}
       >
-        {mySubscription
-          ? "Current Subscription"
-          : "Subscribe Now"}
+        {mySubscription ? "Current Subscription" : "Subscribe Now"}
       </a>
     </div>
   );
 };
 
-export default SubscriptionCard 
+export default SubscriptionCard;
 
 const SubscriptionSkeleton = () => {
   return (
     <div className="w-full sm:w-[300px] h-[420px] rounded-2xl p-6 flex flex-col items-center text-center shadow-lg bg-gray-100 animate-pulse">
-      
       {/* Badge */}
       <div className="h-6 w-28 bg-gray-300 rounded-full mb-6" />
 

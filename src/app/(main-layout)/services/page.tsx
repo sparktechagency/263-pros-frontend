@@ -15,7 +15,7 @@ export default async function Page({ searchParams }: ServicesPageProps) {
   const res = await myFetch(`/service?searchTerm=${service}`, {
     tags: ["service"],
     method: "GET",
-    // cache: "no-store",
+    cache: "no-cache",
   });
   const services = Array.isArray(res?.data) ? res.data : [];
   // console.log(services);
