@@ -6,23 +6,22 @@ export default async function page() {
   const res = await myFetch("/service-booking", {
     method: "GET",
     tags: ["service-booking"],
-    // cache: "no-store",
+    cache: "no-cache",
   });
   const acceptedRes = await myFetch("/service-booking/status?status=accepted", {
     method: "GET",
     tags: ["service-booking"],
-    // cache: "no-store",
+    cache: "no-cache",
   });
   const bookedRes = await myFetch("/service-booking/status?status=confirmed", {
     method: "GET",
     tags: ["service-booking"],
-    // cache: "no-store",
+    cache: "no-cache",
   });
   // chat room
   const chatRes = await myFetch("/chat-room", {
     method: "GET",
     tags: ["chat-room"],
-    cache: "no-store",
   });
 
   const requests = Array.isArray(res?.data) ? res.data : [];

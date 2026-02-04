@@ -41,7 +41,7 @@ export function QuotationDetailModal({
           body: {
             bookingStatus: "confirmed",
           },
-          tags: ["service-booking"],
+          // tags: ["service-booking"],
         }),
         {
           loading: "Booking quotation...",
@@ -72,6 +72,7 @@ export function QuotationDetailModal({
         success: (res) => {
           if (res?.success) {
             setActiveTab("message");
+            revalidateTags(["chat-room"]);
             onClose();
             return res?.message;
           }

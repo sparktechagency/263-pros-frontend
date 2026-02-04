@@ -7,6 +7,8 @@ import { imgUrl } from "../../../../../../helpers/imgUrl";
 import getProfile from "../../../../../../helpers/getProfile";
 import { toast } from "sonner";
 import { io } from "socket.io-client";
+import { revalidateTags } from "../../../../../../helpers/revalidateTags";
+import { useRouter } from "next/navigation";
 
 export function ChatConversation({
   messageId,
@@ -18,6 +20,7 @@ export function ChatConversation({
   const [messages, setMessages] = useState<any[]>([]);
   const [userId, setUserId] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const socket = useMemo(() => io(imgUrl), []);
 
@@ -53,6 +56,10 @@ export function ChatConversation({
         body: formData,
         tags: ["chat"],
       });
+      if (res?.success) {
+        setMessages((prev) => [...prev, res.data]);
+        revalidateTags(["chat"]);
+      }
       // console.log(res, "res");
     } catch (error) {
       toast.error("Failed to send message");
@@ -74,7 +81,7 @@ export function ChatConversation({
 
   useEffect(() => {
     getChatMessages();
-  }, [messageId]);
+  }, [messageId, handleSendMessage, router]);
 
   useEffect(() => {
     const fetchProfile = async () => {
