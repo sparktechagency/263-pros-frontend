@@ -27,49 +27,49 @@ const ProfileSidebar = ({ user }: { user: any }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const userRole = user ? user.role : null;
 
-  console.log(user, "user info");
+  // console.log(user, "user info");
 
   const sidebarLinks = [
     ...(userRole === "USER"
       ? [
-        {
-          name: "Account Settings",
-          href: "/profile",
-          icon: <LayoutGrid size={20} />,
-        },
-        {
-          name: "Notification",
-          href: "/profile/notifications",
-          icon: <Star size={20} />,
-        },
-      ]
+          {
+            name: "Account Settings",
+            href: "/profile",
+            icon: <LayoutGrid size={20} />,
+          },
+          {
+            name: "Notification",
+            href: "/profile/notifications",
+            icon: <Star size={20} />,
+          },
+        ]
       : [
-        {
-          name: "Services",
-          href: "/profile/services",
-          icon: <MdOutlineMiscellaneousServices size={22} />,
-        },
-        {
-          name: "Requests",
-          href: "/profile/requests",
-          icon: <MessageSquare size={20} />,
-        },
-        {
-          name: "Notification",
-          href: "/profile/notifications",
-          icon: <Bell size={20} />,
-        },
-        {
-          name: "Subscription",
-          href: "/profile/subscription",
-          icon: <CreditCard size={20} />,
-        },
-        {
-          name: "Account Setting",
-          href: "/profile/settings",
-          icon: <Settings size={20} />,
-        },
-      ]),
+          {
+            name: "Services",
+            href: "/profile/services",
+            icon: <MdOutlineMiscellaneousServices size={22} />,
+          },
+          {
+            name: "Requests",
+            href: "/profile/requests",
+            icon: <MessageSquare size={20} />,
+          },
+          {
+            name: "Notification",
+            href: "/profile/notifications",
+            icon: <Bell size={20} />,
+          },
+          // {
+          //   name: "Subscription",
+          //   href: "/profile/subscription",
+          //   icon: <CreditCard size={20} />,
+          // },
+          {
+            name: "Account Setting",
+            href: "/profile/settings",
+            icon: <Settings size={20} />,
+          },
+        ]),
   ];
 
   const handleBecomeProvider = async () => {
@@ -80,7 +80,9 @@ const ProfileSidebar = ({ user }: { user: any }) => {
         body: role,
       });
       if (res?.success) {
-        toast.success(res?.message || "profile-update successfully", { id: "profile-update" });
+        toast.success(res?.message || "profile-update successfully", {
+          id: "profile-update",
+        });
         Cookies.set("accessToken", res?.data?.accessToken);
         router.replace("/profile");
         router.refresh();
@@ -93,13 +95,15 @@ const ProfileSidebar = ({ user }: { user: any }) => {
             toast.error(err.message, { id: "profile-update" });
           });
         } else {
-          toast.error(res?.message || "Something went wrong!", { id: "profile-update" });
+          toast.error(res?.message || "Something went wrong!", {
+            id: "profile-update",
+          });
         }
       }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   // logout
   const onLogout = () => {
     toast.warning("Are you sure you want to log out?", {
@@ -130,13 +134,14 @@ const ProfileSidebar = ({ user }: { user: any }) => {
           <Image
             src={
               user?.image
-                ? imgUrl + user?.image
+                ? imgUrl + user.image
                 : "/assets/images/provider/no_user.png"
             }
             alt="Profile Avatar"
             fill
             className="rounded-full object-cover"
             draggable={false}
+            unoptimized
           />
         </div>
 
@@ -158,7 +163,7 @@ const ProfileSidebar = ({ user }: { user: any }) => {
           </Button>
         ) : (
           <div className="flex flex-col space-y-2">
-            <RoleSwitch/>
+            <RoleSwitch />
             <div className="flex items-center gap-1">
               <Rate
                 allowHalf
@@ -183,9 +188,10 @@ const ProfileSidebar = ({ user }: { user: any }) => {
               key={link.name}
               href={link.href}
               className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors duration-200 
-                ${isActive
-                  ? "bg-[#E6F0F2] text-[#242424] font-medium"
-                  : "text-[#525252] hover:bg-gray-50"
+                ${
+                  isActive
+                    ? "bg-[#E6F0F2] text-[#242424] font-medium"
+                    : "text-[#525252] hover:bg-gray-50"
                 }`}
             >
               <div

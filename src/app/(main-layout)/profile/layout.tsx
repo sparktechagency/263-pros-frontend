@@ -3,7 +3,6 @@ import ProfileSidebar from "@/shared/components/ProfileSidebar";
 import getProfile from "../../../../helpers/getProfile";
 const ProfileLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getProfile();
-  // console.log(user);
   return (
     <div className="lg:h-[calc(100vh - 80px)] h-auto  bg-[#ffffff] py-8 ">
       <div className="container mx-auto flex-center ">

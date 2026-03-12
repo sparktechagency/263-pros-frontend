@@ -1,1 +1,1 @@
-export const imgUrl = process.env.IMAGE_BASE_URL || "http://68.178.164.48:8000";
+export const imgUrl = process.env.IMAGE_BASE_URL || "http://92.205.227.83:5000";

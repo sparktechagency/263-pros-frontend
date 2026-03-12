@@ -42,7 +42,7 @@ export default function ServiceBanner() {
 
   const [serviceOptions, setServiceOptions] = useState<{ value: string }[]>([]);
   const [locationOptions, setLocationOptions] = useState<{ value: string }[]>(
-    []
+    [],
   );
 
   const onServiceSearch = (searchText: string) => {
@@ -50,8 +50,8 @@ export default function ServiceBanner() {
       !searchText
         ? []
         : services.filter((item) =>
-            item.value.toLowerCase().includes(searchText.toLowerCase())
-          )
+            item.value.toLowerCase().includes(searchText.toLowerCase()),
+          ),
     );
   };
 
@@ -60,16 +60,16 @@ export default function ServiceBanner() {
       !searchText
         ? []
         : locations.filter((item) =>
-            item.value.toLowerCase().includes(searchText.toLowerCase())
-          )
+            item.value.toLowerCase().includes(searchText.toLowerCase()),
+          ),
     );
   };
 
   const handleSearch = () => {
     const values = form.getFieldsValue();
-    console.log("Search values:", values);
+    // console.log("Search values:", values);
     router.push(
-      `/services?service=${values.service}&location=${values.location}`
+      `/services?service=${values.service}&location=${values.location}`,
     );
   };
 

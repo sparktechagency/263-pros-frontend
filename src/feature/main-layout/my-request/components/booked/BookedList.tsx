@@ -8,7 +8,7 @@ import { myFetch } from "../../../../../../helpers/myFetch";
 import { revalidateTags } from "../../../../../../helpers/revalidateTags";
 
 export function BookedList({ bookings }: { bookings: any[] }) {
-  console.log(bookings);
+  // console.log(bookings);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState<any | null>(null);
 
@@ -18,7 +18,7 @@ export function BookedList({ bookings }: { bookings: any[] }) {
   };
 
   const handleReviewSubmit = (values: { review: number; message: string }) => {
-    console.log("Submitting review for booking:", selectedBookingId, values);
+    // console.log("Submitting review for booking:", selectedBookingId, values);
     // toast.success("Review submitted successfully!");
     toast.promise(
       myFetch(`/service-booking/review/${selectedBookingId}`, {

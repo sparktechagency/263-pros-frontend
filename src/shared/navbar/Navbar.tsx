@@ -67,8 +67,11 @@ export default function Navbar({ user = {} }: { user: any }) {
   const hasNotification = user?.notifications?.length > 0 || true;
   return (
     <nav
+      // className={`sticky top-0  z-50 w-full transition-all duration-500 navbar-container bg-[#055E6E]
+      // ${showNavbar ? "translate-y-0" : "-translate-y-28"}
+      // `}
       className={`sticky top-0  z-50 w-full transition-all duration-500 navbar-container bg-[#055E6E]
-      ${showNavbar ? "translate-y-0" : "-translate-y-28"}
+
       `}
     >
       <div

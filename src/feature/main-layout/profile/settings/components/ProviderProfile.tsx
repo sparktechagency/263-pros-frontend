@@ -30,7 +30,7 @@ interface userProfile {
       instagram: string;
       facebook: string;
     };
-  }
+  };
 }
 const ProviderProfile = () => {
   const [form] = Form.useForm();
@@ -78,8 +78,8 @@ const ProviderProfile = () => {
     });
   }, [user, form]);
 
-
   const onFinish = async (values: any) => {
+    console.log(values);
     const formData = new FormData();
 
     const isBusinessAccount = {
@@ -95,10 +95,9 @@ const ProviderProfile = () => {
         instagram: values.instagram,
         facebook: values.facebook,
       },
-
-    }
+    };
     formData.append("name", user?.name || "");
-    formData.append("about", user?.about || "");
+    formData.append("about", values?.about ?? user?.about);
     formData.append("isBusinessAccount", JSON.stringify(isBusinessAccount));
 
     Object.entries(isBusinessAccount).forEach(([key, value]) => {
@@ -107,8 +106,8 @@ const ProviderProfile = () => {
       }
     });
 
-    if (values.businessImage?.length) {
-      values.businessImage.forEach((file: any) => {
+    if (values?.businessImage?.length) {
+      values?.businessImage?.forEach((file: any) => {
         if (file.originFileObj) {
           formData.append("businessImage", file.originFileObj);
         }
@@ -120,17 +119,20 @@ const ProviderProfile = () => {
         body: formData,
       });
       if (res?.success) {
-        toast.success(res?.message || "profile-update successfully", { id: "profile-update" });
+        toast.success(res?.message || "profile-update successfully", {
+          id: "profile-update",
+        });
         Cookies.set("accessToken", res?.data?.accessToken);
         router.refresh();
-
       } else {
         if (res?.error && Array.isArray(res.error)) {
           res.error.forEach((err: { message: string }) => {
             toast.error(err.message, { id: "profile-update" });
           });
         } else {
-          toast.error(res?.message || "Something went wrong!", { id: "profile-update" });
+          toast.error(res?.message || "Something went wrong!", {
+            id: "profile-update",
+          });
         }
       }
     } catch (error) {

@@ -20,7 +20,7 @@ export function EnquiryList({
   const handleOpenModal = (enquiry: any) => {
     setSelectedEnquiry(enquiry);
   };
-  console.log(selectedEnquiry);
+  // console.log(selectedEnquiry);
 
   const handleCloseModal = () => {
     setSelectedEnquiry(null);

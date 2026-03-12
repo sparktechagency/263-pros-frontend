@@ -5,30 +5,36 @@ import { toast } from "sonner";
 const ChangePassword = () => {
   const [form] = Form.useForm();
 
-  const onFinish = async (values: { currentPassword: string, newPassword: string, confirmPassword: string }) => {
+  const onFinish = async (values: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) => {
     const res = myFetch("/auth/change-password", {
       method: "POST",
-      body: values
-    })
-console.log(res);
+      body: values,
+    });
+    // console.log(res);
     toast.promise(res, {
       loading: "Updating...",
       success: (data) => {
         if (data.success) {
-          toast.success(data.message!); 
+          toast.success(data.message!);
           form.resetFields();
-          return ""
+          return "";
         } else {
           toast.error(data.message!);
-          return ""
+          return "";
         }
       },
       error: "Something went wrong",
-    })
-  }
+    });
+  };
   return (
     <div className="ps-2.5">
-      <h2 className="text-[#525252] text-[16px] lg:text-lg font-medium  mb-5">Change Password</h2>
+      <h2 className="text-[#525252] text-[16px] lg:text-lg font-medium  mb-5">
+        Change Password
+      </h2>
       <Form
         form={form}
         layout="vertical"
@@ -43,7 +49,9 @@ console.log(res);
             </label>
           }
           name="currentPassword"
-          rules={[{ required: true, message: 'Please input Current password!' }]}
+          rules={[
+            { required: true, message: "Please input Current password!" },
+          ]}
         >
           <Input.Password className=" h-[45px]" />
         </Form.Item>
@@ -54,7 +62,7 @@ console.log(res);
             </label>
           }
           name="newPassword"
-          dependencies={['currentPassword']}
+          dependencies={["currentPassword"]}
           rules={[
             {
               required: true,
@@ -66,8 +74,12 @@ console.log(res);
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                if (!value || getFieldValue('currentPassword') === value) {
-                  return Promise.reject(new Error('The New password is similar to the current Password'));
+                if (!value || getFieldValue("currentPassword") === value) {
+                  return Promise.reject(
+                    new Error(
+                      "The New password is similar to the current Password",
+                    ),
+                  );
                 }
                 return Promise.resolve();
               },
@@ -84,7 +96,7 @@ console.log(res);
             </label>
           }
           name="confirmPassword"
-          dependencies={['newPassword']}
+          dependencies={["newPassword"]}
           rules={[
             {
               required: true,
@@ -92,10 +104,12 @@ console.log(res);
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                if (!value || getFieldValue('newPassword') === value) {
+                if (!value || getFieldValue("newPassword") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('The new password that you entered do not match!'));
+                return Promise.reject(
+                  new Error("The new password that you entered do not match!"),
+                );
               },
             }),
           ]}
@@ -103,7 +117,7 @@ console.log(res);
           <Input.Password className="h-[45px]" />
         </Form.Item>
 
-        <Form.Item className="pt-6 flex justify-end" >
+        <Form.Item className="pt-6 flex justify-end">
           <button
             type="submit"
             className="bg-[#055e6e] hover:bg-[#044a57] text-white font-medium py-3 px-8 rounded-lg shadow-sm transition-colors"

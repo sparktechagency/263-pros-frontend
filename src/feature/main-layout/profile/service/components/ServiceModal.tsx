@@ -29,7 +29,7 @@ const ServiceModal = ({
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [subServices, setSubServices] = useState<any[]>([]);
   const [editingId, setEditingId] = useState(null);
-  console.log(serviceData);
+  // console.log(serviceData);
 
   useEffect(() => {
     if (!serviceData?.serviceData || !category.length) return;
