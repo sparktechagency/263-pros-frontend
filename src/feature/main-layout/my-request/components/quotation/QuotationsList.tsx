@@ -106,6 +106,7 @@ export function QuotationsList({
                 note: selectedQuote?.note,
                 id: selectedQuote?._id,
                 messageId: selectedQuote?.provider?._id,
+                providerId: selectedQuote?.provider?._id,
               }
             : null
         }

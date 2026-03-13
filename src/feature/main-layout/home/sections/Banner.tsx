@@ -124,6 +124,8 @@ const Banner: React.FC = () => {
                           <Input
                             placeholder="House cleaning, Gardening"
                             variant="borderless"
+                            className="translate-y-0.5"
+                            allowClear
                           />
                         </AutoComplete>
                       </Form.Item>
@@ -141,6 +143,8 @@ const Banner: React.FC = () => {
                             prefix={
                               <FaMapMarkerAlt className="text-[#005B6F] text-xl" />
                             }
+                            className="translate-y-0.5"
+                            allowClear
                           />
                         </AutoComplete>
                       </Form.Item>

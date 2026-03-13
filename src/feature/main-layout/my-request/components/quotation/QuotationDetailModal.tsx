@@ -19,6 +19,7 @@ interface QuotationDetailModalProps {
     note: string;
     id: string | number;
     messageId: string;
+    providerId: string;
   } | null;
   setActiveTab: any;
 }
@@ -30,7 +31,7 @@ export function QuotationDetailModal({
   setActiveTab,
 }: QuotationDetailModalProps) {
   if (!quotation) return null;
-  // console.log(quotation.id);
+  // console.log(quotation, "quotation");
   // submit form
   const router = useRouter();
   const bookQuotation = async () => {
@@ -109,7 +110,7 @@ export function QuotationDetailModal({
                 {quotation.providerName}
               </h4>
               <Link
-                href={`/provider/${quotation.id}`}
+                href={`/provider/${quotation?.providerId}`}
                 className="bg-[#E6F2F2]! text-[#055E6E]! text-xs! font-medium! px-3! py-1! rounded-md! hover:bg-[#D1EAEA]! transition-colors!"
               >
                 View profile

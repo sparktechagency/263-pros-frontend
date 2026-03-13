@@ -6,7 +6,10 @@ import { RequestOverview } from "./components/RequestOverview";
 import { QuotationsList } from "./components/quotation/QuotationsList";
 import { BookedList } from "./components/booked/BookedList";
 import { MessageCenter } from "./components/chat/MessageCenter";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { io } from "socket.io-client";
+import { imgUrl } from "../../../../helpers/imgUrl";
+import { revalidateTags } from "../../../../helpers/revalidateTags";
 
 const tabs = [
   { key: "quotation", label: "Quotations" },
@@ -18,6 +21,7 @@ interface serviceRequest {
   quotations: any[];
   chatRooms: any[];
   bookings: any[];
+  user: any;
 }
 
 export function MyRequestsContent({
@@ -25,10 +29,10 @@ export function MyRequestsContent({
   quotations,
   chatRooms,
   bookings,
+  user,
 }: serviceRequest) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
 
   const [activeTab, setActiveTab] = useState(
     searchParams.get("tab") || "quotation",
@@ -36,7 +40,16 @@ export function MyRequestsContent({
 
   const [messageId, setMessageId] = useState(searchParams.get("id"));
   // console.log(messageId, "messageId");
+  const socket = useMemo(() => io(`${imgUrl}?userId=${user?._id}`), []);
 
+  useEffect(() => {
+    socket.on(`newChat`, (data) => {
+      revalidateTags(["chat-room"]);
+      // console.log(data, "socket chat room");
+
+      // setMessages((prev) => [...prev, { ...data, sender: { _id: data?.sender?._id } }]);
+    });
+  }, [socket, user?._id]);
   return (
     <div className="container py-16 space-y-12">
       {/* Header */}

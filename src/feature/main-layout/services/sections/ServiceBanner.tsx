@@ -117,6 +117,8 @@ export default function ServiceBanner() {
                       <Input
                         placeholder="House cleaning, Gardening"
                         variant="borderless"
+                        allowClear
+                        className="translate-y-0.5"
                       />
                     </AutoComplete>
                   </Form.Item>
@@ -134,6 +136,7 @@ export default function ServiceBanner() {
                         prefix={
                           <FaMapMarkerAlt className="text-[#005B6F] text-xl" />
                         }
+                        className="translate-y-0.5"
                       />
                     </AutoComplete>
                   </Form.Item>

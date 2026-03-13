@@ -29,9 +29,9 @@ export default function ServicesContent({
     // Clear search when switching categories for better UX
     params.delete("service");
     router.push(`/services?${params.toString()}`, { scroll: false });
-    document
-      .getElementById("service-grid")
-      ?.scrollIntoView({ behavior: "smooth" });
+    // document
+    //   .getElementById("service-grid")
+    //   ?.scrollIntoView({ behavior: "smooth" });
   };
 
   let filteredServices = currentCategory

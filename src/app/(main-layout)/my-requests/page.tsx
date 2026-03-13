@@ -1,8 +1,10 @@
 import { MyRequestsContent } from "@/feature/main-layout/my-request";
 import React from "react";
 import { myFetch } from "../../../../helpers/myFetch";
+import getProfile from "../../../../helpers/getProfile";
 
 export default async function page() {
+  const user = await getProfile();
   const res = await myFetch("/service-booking", {
     method: "GET",
     tags: ["service-booking"],
@@ -28,13 +30,15 @@ export default async function page() {
   const quotations = Array.isArray(acceptedRes?.data) ? acceptedRes.data : [];
   const bookings = Array.isArray(bookedRes?.data) ? bookedRes.data : [];
   const chatRooms = Array.isArray(chatRes?.data) ? chatRes.data : [];
-  // console.log("bookings", bookings);
+  // console.log("acceptedRes", quotations);
+
   return (
     <MyRequestsContent
       requests={requests}
       quotations={quotations}
       bookings={bookings}
       chatRooms={chatRooms}
+      user={user}
     />
   );
 }

@@ -22,9 +22,9 @@ export default function ServiceTags() {
     router.push(`/services?${newParams.toString()}`, { scroll: false });
 
     // Smoothly scroll to the results grid
-    document
-      .getElementById("service-grid")
-      ?.scrollIntoView({ behavior: "smooth" });
+    // document
+    //   .getElementById("service-grid")
+    //   ?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (

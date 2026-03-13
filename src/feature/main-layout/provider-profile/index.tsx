@@ -2,15 +2,20 @@
 
 import React from "react";
 import Image from "next/image";
-import { Star, CheckCircle } from "lucide-react";
-import { Button } from "antd";
-import { businessPhotos, reviews } from "@/constants/provider/providerData";
+import { Star, CheckCircle, XCircle } from "lucide-react";
+import { Button, Empty } from "antd";
+import { getImageUrl } from "@/lib/helpers/getImageUrl";
+import { toast } from "sonner";
+import { myFetch } from "../../../../helpers/myFetch";
+import { revalidateTags } from "../../../../helpers/revalidateTags";
+import { useRouter } from "next/navigation";
 
-export default function ProviderProfilePage({ id }: { id: string }) {
+export default function ProviderProfilePage({ provider }: { provider: any }) {
+  const router = useRouter();
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 100; // Account for sticky header
+      const offset = 100;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -23,26 +28,58 @@ export default function ProviderProfilePage({ id }: { id: string }) {
     }
   };
 
+  const handleChat = () => {
+    toast.promise(
+      myFetch(`/chat-room/${provider?._id}`, {
+        method: "POST",
+        tags: ["create-room"],
+      }),
+      {
+        loading: "Creating chat...",
+        success: (res) => {
+          if (res?.success) {
+            revalidateTags(["chat-room"]);
+            router.push("/my-requests?tab=message");
+            return res?.message;
+          }
+          throw new Error(res?.message || "Chat creation failed");
+        },
+        error: (err) => err.message || "Error creating chat",
+      },
+    );
+  };
+
   return (
     <div className="container py-10 lg:py-16">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
         {/* Left Sidebar */}
-        <div className="lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left h-fit lg:sticky lg:top-20">
+        <div className="lg:col-span-3 flex flex-col items-center text-center h-fit lg:sticky lg:top-20">
           <div className="relative w-40 h-40 mb-6 group">
             <Image
-              src="https://res.cloudinary.com/dsxkxo9zl/image/upload/v1767587212/7a1854772f4fe0fcbe6d3e95cac1b7b491a89c55_hvpjfp.png"
+              src={getImageUrl(provider?.image)}
               alt="Provider Profile"
               fill
               className="rounded-full object-cover border-4 border-white shadow-md"
             />
           </div>
 
-          <h1 className="text-2xl font-semibold text-[#292929] mb-1">
-            Danai Gurira
+          <h1 className="text-2xl font-semibold text-[#292929] mb-1 text-center">
+            {provider?.name || "N/A"}
           </h1>
-          <p className="text-[#6C6C6C] mb-4">emample.email@gmail.com</p>
+          {/* business name */}
+          {provider?.isBusinessAccount && (
+            <p className="text-[#6C6C6C]  text-center mb-2">
+              {provider?.isBusinessAccount?.businessName}
+            </p>
+          )}
+          <p className="text-[#6C6C6C]  text-center mb-2">
+            {provider?.email || "N/A"}
+          </p>
+          <p className="text-[#6C6C6C]  text-center mb-2">
+            {provider?.location}
+          </p>
 
-          <div className="flex items-center gap-1 mb-6">
+          {/* <div className="flex items-center gap-1 mb-6 mt-4">
             <div className="flex">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
@@ -53,23 +90,32 @@ export default function ProviderProfilePage({ id }: { id: string }) {
               ))}
             </div>
             <span className="text-lg font-bold text-[#2E2E2E] ml-1">(5.0)</span>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col md:flex-row w-full gap-3 mb-8">
-            <Button
+          <div className="flex flex-col md:flex-row w-full gap-3 my-8">
+            {/* <Button
               type="primary"
               className="h-11! rounded-lg bg-[#055E6E]! text-white! font-semibold! w-full!"
             >
               Request quote
-            </Button>
-            <Button className="h-11! rounded-lg border-[#EBEBEB] text-[#2E2E2E]! font-semibold! hover:border-[#055E6E]! hover:text-[#055E6E]! w-full!">
+            </Button> */}
+            <Button
+              onClick={handleChat}
+              className="h-11! rounded-lg border-[#EBEBEB] text-[#2E2E2E]! font-semibold! hover:border-[#055E6E]! hover:text-[#055E6E]! w-full!"
+            >
               Message
             </Button>
           </div>
 
           <div className="flex items-center gap-2 text-[#4CAF50] font-medium">
-            <CheckCircle size={20} />
-            <span>Verified by 263 Pros</span>
+            {provider?.verified ? (
+              <CheckCircle size={20} />
+            ) : (
+              <XCircle size={20} />
+            )}
+            <span>
+              {provider?.verified ? "Verified by 263 Pros" : "Not Verified"}
+            </span>
           </div>
         </div>
 
@@ -93,20 +139,7 @@ export default function ProviderProfilePage({ id }: { id: string }) {
           <section id="about" className="mb-16 scroll-mt-32">
             <h2 className="text-2xl font-bold text-[#2E2E2E] mb-6">About</h2>
             <div className="text-[#6C6C6C] leading-relaxed space-y-4 text-[16px]">
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-              </p>
-              <p>
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
+              <p>{provider?.about}</p>
             </div>
           </section>
 
@@ -116,15 +149,16 @@ export default function ProviderProfilePage({ id }: { id: string }) {
               Business Photos
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {businessPhotos?.map((photo, index) => (
+              {provider?.businessImage?.map((photo: any, index: number) => (
                 <div
                   key={index}
                   className="relative aspect-square rounded-xl overflow-hidden group shadow-sm"
                 >
                   <Image
-                    src={photo}
+                    src={getImageUrl(photo)}
                     alt={`Business photo ${index + 1}`}
                     fill
+                    draggable={false}
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
@@ -135,48 +169,59 @@ export default function ProviderProfilePage({ id }: { id: string }) {
           {/* Reviews Section */}
           <section id="reviews" className="mb-10 scroll-mt-32">
             <h2 className="text-2xl font-bold text-[#2E2E2E] mb-10">
-              Reviews <span className="text-[#6C6C6C] font-normal">(32)</span>
+              Reviews{" "}
+              <span className="text-[#6C6C6C] font-normal">
+                ({provider?.rating?.length})
+              </span>
             </h2>
 
             <div className="space-y-12">
-              {reviews?.map((review) => (
-                <div
-                  key={review.id}
-                  className="flex flex-col gap-4 border-b border-[#EBEBEB] pb-8 last:border-0"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-4">
-                      <Image
-                        src={review.avatar}
-                        alt={review.name}
-                        width={56}
-                        height={56}
-                        className="rounded-full object-cover"
-                      />
-                      <div>
-                        <h4 className="text-lg font-bold text-[#2E2E2E]">
-                          {review.name}
-                        </h4>
-                        <div className="flex gap-1 mt-1">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star
-                              key={star}
-                              size={14}
-                              className="text-[#FFCB20] fill-[#FFCB20]"
-                            />
-                          ))}
+              {provider?.rating?.length > 0 ? (
+                provider?.rating?.map((review: any) => (
+                  <div
+                    key={review?._id}
+                    className="flex flex-col gap-4 border-b border-[#EBEBEB] pb-8 last:border-0"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-4">
+                        <Image
+                          src={getImageUrl(review?.user?.image)}
+                          alt={review?.user?.name}
+                          width={56}
+                          height={56}
+                          className=" h-[56px] w-[56px] rounded-full object-cover"
+                        />
+                        <div>
+                          <h4 className="text-lg font-bold text-[#2E2E2E]">
+                            {review?.user?.name}
+                          </h4>
+                          <div className="flex gap-1 mt-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                size={14}
+                                className={`${
+                                  star <= review?.review
+                                    ? "text-[#FFCB20] fill-[#FFCB20]"
+                                    : "text-gray-300"
+                                }`}
+                              />
+                            ))}
+                          </div>
                         </div>
                       </div>
+                      {/* <span className="text-sm text-[#9F9F9F] font-medium">
+                        {review.date}
+                      </span> */}
                     </div>
-                    <span className="text-sm text-[#9F9F9F] font-medium">
-                      {review.date}
-                    </span>
+                    <p className="text-[#6C6C6C] leading-relaxed">
+                      {review?.message}
+                    </p>
                   </div>
-                  <p className="text-[#6C6C6C] leading-relaxed">
-                    {review.comment}
-                  </p>
-                </div>
-              ))}
+                ))
+              ) : (
+                <Empty description="No reviews yet" />
+              )}
             </div>
 
             <div className="flex justify-center mt-12">
