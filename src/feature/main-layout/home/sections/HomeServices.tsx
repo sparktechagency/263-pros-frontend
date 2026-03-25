@@ -16,22 +16,22 @@ export interface Service {
   name: string;
   image: string;
   category: string;
-  slug: string; 
+  slug: string;
   title: string;
 }
 
-const HomeServices: React.FC = async() => { 
-    const res = await myFetch(`/service`, {
+const HomeServices: React.FC = async () => {
+  const res = await myFetch(`/service`, {
     tags: ["service"],
     method: "GET",
     cache: "no-store",
   });
-  const services = res?.data; 
+  const services = res?.data;
 
   return (
     <section className="py-10 md:py-16">
       <div className="container space-y-16">
-        {services?.slice(0, 8).map((category:Services) => (
+        {services?.slice(0, 8).map((category: Services) => (
           <div key={category?.id} className="space-y-6">
             {/* Category Header */}
             <div className="flex items-center justify-between gap-3">
@@ -44,7 +44,7 @@ const HomeServices: React.FC = async() => {
               >
                 View All
                 <ArrowRight
-                  size={20}
+                  size={21}
                   className="transition-transform hidden md:block"
                 />
               </Link>
