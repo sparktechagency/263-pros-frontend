@@ -26,21 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AntProvider>
-      <html lang="en">
-        <body className={`${poppins.variable}  antialiased`}>
+    <html lang="en">
+      <body className={`${poppins.variable} antialiased`}>
+        <AntProvider>
           <Toaster richColors position="top-center" duration={2000} />
-          <ConfigProvider
-            theme={{
-              token: {
-                colorPrimary: "#055e6e",
-              },
-            }}
-          >
+          <ConfigProvider theme={{ token: { colorPrimary: "#055e6e" } }}>
             {children}
           </ConfigProvider>
-        </body>
-      </html>
-    </AntProvider>
+        </AntProvider>
+      </body>
+    </html>
   );
 }

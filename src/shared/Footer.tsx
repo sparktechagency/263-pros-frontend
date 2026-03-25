@@ -30,7 +30,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-4 flex flex-col items-start px-2">
             <h2 className="text-3xl lg:text-4xl font-semibold text-primary mb-6">
-              263 <span className="text-[#FFCB20]">Pros</span>
+              263<span className="text-[#FFCB20]">prolink</span>
             </h2>
 
             <p className="text-[15px] font-medium text-[#2E2E2E] mb-4">

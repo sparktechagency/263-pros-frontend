@@ -79,13 +79,13 @@ export default function Navbar({ user = {} }: { user: any }) {
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href={"/"} className="shrink-0 -mt-2">
+          <Link href={"/"} className="shrink-0 ">
             <Image
               src="/Logo.png"
               alt="VIAJIA Logo"
               width={180}
               height={80}
-              className="h-5 lg:h-7  w-fit"
+              className="h-7 lg:h-10  w-fit"
               draggable={false}
             />
           </Link>
@@ -126,7 +126,11 @@ export default function Navbar({ user = {} }: { user: any }) {
                 // placement="bottomRight"
               >
                 <button className="flex items-center gap-3 rounded-xl  text-white! px-2 hover:bg-gray-800/10 py-0.5">
-                  <Badge dot={hasNotification} color="red">
+                  <Badge
+                    dot={hasNotification}
+                    color="red"
+                    className="h-11! w-11!"
+                  >
                     <Avatar
                       src={
                         user?.image
@@ -134,6 +138,8 @@ export default function Navbar({ user = {} }: { user: any }) {
                           : "/assets/images/provider/no_user.png"
                       }
                       size={44}
+                      className="h-11"
+                      style={{ padding: 0, height: 44, width: 44 }}
                     />
                   </Badge>
                   <span className="hidden text-left leading-tight md:block">
