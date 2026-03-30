@@ -5,20 +5,21 @@ import { Button } from "antd";
 
 export default function Footer() {
   const customerLinks = [
-    { label: "Find a Service provider", href: "/providers" },
+    { label: "Find a Service provider", href: "/" },
     { label: "Browse Services", href: "/services" },
-    { label: "Customer Feedback", href: "/feedback" },
-    { label: "Login", href: "/auth/login" },
+    // { label: "Customer Feedback", href: "/feedback" }, 
+    // { label: "Login", href: "/auth/login" },
   ];
 
   const providerLinks = [
     { label: "Join As Professional", href: "/how-it-works" },
-    { label: "Help & Support", href: "/help" },
+    // { label: "Help & Support", href: "/help" }, 
+    { label: "About Us", href: "/about" },
   ];
 
   const aboutLinks = [
-    { label: "About Us", href: "/about" },
-    { label: "Contact Us", href: "/contact" },
+
+    // { label: "Contact Us", href: "/contact" },
     { label: "Terms & Conditions", href: "/terms" },
     { label: "Privacy Policy", href: "/privacy" },
   ];

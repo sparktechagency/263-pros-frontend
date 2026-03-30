@@ -70,7 +70,7 @@ const LoginPage: React.FC = () => {
               alt="Logo"
               width={280}
               height={120}
-              className="h-6 w-fit"
+              className="h-14 w-fit"
             />
           </div>
           <h2 className="text-3xl font-semibold text-[#292929] mt-4 mb-2">
