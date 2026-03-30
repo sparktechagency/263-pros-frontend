@@ -125,7 +125,7 @@ export default function RegisterProviderForm({
       className="h-[80vh] overflow-auto rounded-lg"
     >
       <h3 className="text-3xl text-primary font-bold text-center">
-        263 <span className="text-[#FFCB20]">Pros</span>
+        263 <span className="text-[#FFCB20]">Proslink</span>
       </h3>
       <div className="h-0.5 w-full bg-[#EBEBEB] my-4" />
       <h4 className="text-2xl font-semibold text-center text-primary mb-8">

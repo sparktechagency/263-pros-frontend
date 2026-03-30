@@ -7,7 +7,7 @@ export const privacyPolicyContent: PolicyContent = {
   title: "Privacy Policy",
   content: `
     <p class="text-base md:text-lg leading-relaxed">
-      At <strong>263 Pros</strong>, your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.
+      At <strong>263 Proslink</strong>, your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform.
     </p>
 
     <h3 class="mt-8 text-xl font-semibold">
@@ -44,7 +44,7 @@ export const privacyPolicyContent: PolicyContent = {
       5. Cookies
     </h3>
     <p class="mt-3 leading-relaxed">
-      263 Pros may use cookies and similar technologies to enhance user experience and analyze platform usage.
+      263 Proslink may use cookies and similar technologies to enhance user experience and analyze platform usage.
     </p>
 
     <h3 class="mt-8 text-xl font-semibold">

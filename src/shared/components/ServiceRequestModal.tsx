@@ -122,7 +122,7 @@ export const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
       >
         <div className="flex flex-col items-center mb-8">
           <h2 className="text-2xl font-bold text-[#055E6E]">
-            263 <span className="text-[#FFC221]">Pros</span>
+            263 <span className="text-[#FFC221]">Proslink</span>
           </h2>
           <div className="w-full h-px bg-gray-100 my-4" />
           <h3 className="text-xl font-medium text-[#055E6E]">

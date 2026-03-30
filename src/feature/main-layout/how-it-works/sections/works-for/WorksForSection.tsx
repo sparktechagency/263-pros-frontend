@@ -9,7 +9,7 @@ export default function WorksForSection() {
       <WorksSection
         title={
           <>
-            How 263 <span className="text-[#FFCB20]">Pros</span> Works for{" "}
+            How 263 <span className="text-[#FFCB20]">Proslink</span> Works for{" "}
             <span className="text-[#055E6E]">Customer</span>
           </>
         }
@@ -19,7 +19,7 @@ export default function WorksForSection() {
       <WorksSection
         title={
           <>
-            How 263 <span className="text-[#FFCB20]">Pros</span> Works for{" "}
+            How 263 <span className="text-[#FFCB20]">Proslink</span> Works for{" "}
             <span className="text-[#055E6E]">Service Providers</span>
           </>
         }

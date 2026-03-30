@@ -124,7 +124,7 @@ export default function Footer() {
         {/* Bottom copyright */}
         <div className="text-left text-[#646464] text-[15px] font-medium border-t border-[#EBEBEB] w-full py-4">
           <div className="flex flex-wrap items-center gap-1">
-            <span>@2026 263 Pros.</span>
+            <span>@2026 263 Proslink.</span>
             <Link
               href="/terms"
               className="hover:text-primary pl-1 transition-all"

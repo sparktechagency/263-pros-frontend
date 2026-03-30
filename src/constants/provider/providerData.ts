@@ -12,7 +12,7 @@ const reviews = [
     rating: 5,
     avatar: "https://i.pravatar.cc/150?u=josh",
     comment:
-      "I have used 263 Pros twice now for two completely different services and I've had a fantastic experience both times!",
+      "I have used 263 Proslink twice now for two completely different services and I've had a fantastic experience both times!",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const reviews = [
     rating: 5,
     avatar: "https://i.pravatar.cc/150?u=sarah",
     comment:
-      "I have used 263 Pros twice now for two completely different services and I've had a fantastic experience both times!",
+      "I have used 263 Proslink twice now for two completely different services and I've had a fantastic experience both times!",
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const reviews = [
     rating: 5,
     avatar: "https://i.pravatar.cc/150?u=mike",
     comment:
-      "I have used 263 Pros twice now for two completely different services and I've had a fantastic experience both times!",
+      "I have used 263 Proslink twice now for two completely different services and I've had a fantastic experience both times!",
   },
 ];
 export { businessPhotos, reviews };

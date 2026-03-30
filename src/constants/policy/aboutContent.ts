@@ -7,11 +7,11 @@ export const aboutUsContent: PolicyContent = {
   title: "About Us",
   content: `
     <p class="text-base md:text-lg  leading-relaxed">
-      <strong class="">263 Pros</strong> is a trusted multi-service platform dedicated to delivering high-quality domestic, professional, and property services under one roof. We connect customers with skilled, verified professionals who are committed to excellence, reliability, and customer satisfaction.
+      <strong class="">263 Proslink</strong> is a trusted multi-service platform dedicated to delivering high-quality domestic, professional, and property services under one roof. We connect customers with skilled, verified professionals who are committed to excellence, reliability, and customer satisfaction.
     </p>
 
     <p class="mt-4  leading-relaxed">
-      Our mission is simple — to make everyday services easier, faster, and more dependable. Whether you need help at home, on your property, or at a worksite, 263 Pros ensures you get the right expert for the job, every time.
+      Our mission is simple — to make everyday services easier, faster, and more dependable. Whether you need help at home, on your property, or at a worksite, 263 Proslink ensures you get the right expert for the job, every time.
     </p>
 
     <h3 class="mt-8 text-xl font-semibold ">
@@ -34,7 +34,7 @@ export const aboutUsContent: PolicyContent = {
     </ul>
 
     <h3 class="mt-10 text-xl font-semibold ">
-      Why Choose 263 Pros
+      Why Choose 263 Proslink
     </h3>
 
     <ul class="mt-4 space-y-2  list-disc pl-6">
@@ -46,12 +46,12 @@ export const aboutUsContent: PolicyContent = {
     </ul>
 
     <p class="mt-6  leading-relaxed">
-      At 263 Pros, we believe that great service is built on trust, professionalism, and attention to detail. Every service provider on our platform is carefully selected to ensure they meet our quality benchmarks and deliver consistent results.
+      At 263 Proslink, we believe that great service is built on trust, professionalism, and attention to detail. Every service provider on our platform is carefully selected to ensure they meet our quality benchmarks and deliver consistent results.
     </p>
 
     <p class="mt-6  leading-relaxed">
       Whether it’s maintaining your home, improving your property, or completing a professional project,
-      <strong class="">263 Pros</strong> is here to help you get it done — efficiently and professionally.
+      <strong class="">263 Proslink</strong> is here to help you get it done — efficiently and professionally.
     </p>
 
     <p class="mt-8 italic text-sm text-[#9F9F9F]">
