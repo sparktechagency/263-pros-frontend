@@ -8,7 +8,7 @@ export default function WhyJoinSection() {
       <div className="container">
         <h2 className="section-title text-center mb-16!">
           Why Service Providers Join{" "}
-          <span className="text-[#FFCB20]">263 Proslink</span>
+          <span className="text-[#FFCB20]">263 prolink</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {whyJoinData.map((item, index) => (

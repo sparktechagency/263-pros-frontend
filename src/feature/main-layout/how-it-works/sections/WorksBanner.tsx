@@ -55,8 +55,8 @@ const WorksBanner: React.FC = () => {
 
               <p className="text-[#525252] text-lg lg:text-xl mb-12 max-w-lg">
                 Join <span className="text-primary font-medium">263</span>{" "}
-                <span className="text-[#FFCB20] font-medium">Proslink</span> today
-                to receive genuine customer enquiries, build trust with
+                <span className="text-[#FFCB20] font-medium">prolink</span>{" "}
+                today to receive genuine customer enquiries, build trust with
                 customers, and grow your visibility beyond your local area.
               </p>
 

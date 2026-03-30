@@ -21,7 +21,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: "Josh Peter",
     quote:
-      "I have used 263 Proslink twice now for two completely different services and I've had a fantastic experience both times!",
+      "I have used 263 prolink twice now for two completely different services and I've had a fantastic experience both times!",
     avatar: "/assets/images/home/testimonial/user1.png",
     rating: 5,
   },
@@ -29,7 +29,7 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: "Sarah Johnson",
     quote:
-      "The service was exceptional! Highly recommend 263 Proslink for anyone looking for professional solutions.",
+      "The service was exceptional! Highly recommend 263 prolink for anyone looking for professional solutions.",
     avatar: "/assets/images/home/testimonial/user2.png",
     rating: 5,
   },
@@ -37,7 +37,7 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: "Michael Chen",
     quote:
-      "Outstanding quality and professionalism. 263 Proslink truly stands out from the rest.",
+      "Outstanding quality and professionalism. 263 prolink truly stands out from the rest.",
     avatar: "/assets/images/home/testimonial/user3.png",
     rating: 5,
   },
@@ -45,7 +45,7 @@ const testimonials: Testimonial[] = [
     id: 4,
     name: "Asadur R. Yead",
     quote:
-      "Outstanding quality and professionalism. 263 Proslink truly stands out from the rest.",
+      "Outstanding quality and professionalism. 263 prolink truly stands out from the rest.",
     avatar: "/assets/images/home/testimonial/user4.png",
     rating: 5,
   },

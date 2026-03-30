@@ -1,5 +1,5 @@
 "use client";
-import {  Form, } from "antd";
+import { Form } from "antd";
 import { Modal } from "antd";
 import React, { useEffect } from "react";
 import Cookies from "js-cookie";
@@ -55,7 +55,7 @@ export default function RegisterProviderForm({
         instagram: values.instagram,
         facebook: values.facebook,
       },
-    }
+    };
     formData.append("name", user?.name || "");
     formData.append("about", user?.about || "");
     formData.append("isBusinessAccount", JSON.stringify(isBusinessAccount));
@@ -76,7 +76,6 @@ export default function RegisterProviderForm({
     handleSubmit?.(formData);
   };
 
-
   const handleSubmit = async (formData: any) => {
     try {
       const res = await myFetch("/user", {
@@ -84,7 +83,9 @@ export default function RegisterProviderForm({
         body: formData,
       });
       if (res?.success) {
-        toast.success(res?.message || "profile-update successfully", { id: "profile-update" });
+        toast.success(res?.message || "profile-update successfully", {
+          id: "profile-update",
+        });
         Cookies.set("accessToken", res?.data?.accessToken);
         router.refresh();
         onCancel();
@@ -94,7 +95,9 @@ export default function RegisterProviderForm({
             toast.error(err.message, { id: "profile-update" });
           });
         } else {
-          toast.error(res?.message || "Something went wrong!", { id: "profile-update" });
+          toast.error(res?.message || "Something went wrong!", {
+            id: "profile-update",
+          });
         }
       }
     } catch (error) {
@@ -125,7 +128,7 @@ export default function RegisterProviderForm({
       className="h-[80vh] overflow-auto rounded-lg"
     >
       <h3 className="text-3xl text-primary font-bold text-center">
-        263 <span className="text-[#FFCB20]">Proslink</span>
+        263 <span className="text-[#FFCB20]">prolink</span>
       </h3>
       <div className="h-0.5 w-full bg-[#EBEBEB] my-4" />
       <h4 className="text-2xl font-semibold text-center text-primary mb-8">

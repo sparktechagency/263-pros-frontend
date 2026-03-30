@@ -69,7 +69,7 @@ export default function ProviderProfilePage({ id }: { id: string }) {
 
           <div className="flex items-center gap-2 text-[#4CAF50] font-medium">
             <CheckCircle size={20} />
-            <span>Verified by 263 Proslink</span>
+            <span>Verified by 263 prolink</span>
           </div>
         </div>
 

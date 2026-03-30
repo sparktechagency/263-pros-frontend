@@ -6,7 +6,8 @@ export default function OfferServicesSection() {
     <section className="py-16 lg:py-24">
       <div className="container">
         <h2 className="section-title text-center mb-16!">
-          Offer your Service on 263 <span className="text-[#FFCB20]">Proslink</span>
+          Offer your Service on 263{" "}
+          <span className="text-[#FFCB20]">prolink</span>
         </h2>
         <div className="bg-[#FBFBFB] border-0 rounded-2xl p-8 md:p-12 boxShadow">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 lg:gap-y-8 gap-x-8">
