@@ -82,9 +82,11 @@ export default function ServicesContent({
       >
         <div>
           <h3 className="mb-1! text-xl lg:text-2xl font-semibold">
-            {currentCategory
-              ? services.find((cat) => cat.id === currentCategory)?.name
-              : "All Services"}
+            <span style={{ textTransform: 'capitalize' }}>
+              {currentCategory
+                ? services.find((cat) => cat.id === currentCategory)?.name
+                : "All Services"}
+            </span>
           </h3>
           <p className="text-gray-500 text-xs lg:text-sm">
             {filteredServices.length}{" "}

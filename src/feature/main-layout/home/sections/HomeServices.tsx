@@ -36,7 +36,7 @@ const HomeServices: React.FC = async () => {
             {/* Category Header */}
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-[16px] md:text-2xl lg:text-3xl font-semibold text-[#2E2E2E]">
-                {category?.name}
+                <span style={{ textTransform: 'capitalize' }}>{category?.name}</span>
               </h2>
               <Link
                 href={`/services?category=${category?.id}`}
