@@ -7,49 +7,9 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
+import { testimonials } from "@/constants/testimonials";
 
-interface Testimonial {
-  id: number;
-  name: string;
-  quote: string;
-  avatar: string;
-  rating: number;
-}
 
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "Josh Peter",
-    quote:
-      "I have used 263 prolink twice now for two completely different services and I've had a fantastic experience both times!",
-    avatar: "/assets/images/home/testimonial/user1.png",
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Sarah Johnson",
-    quote:
-      "The service was exceptional! Highly recommend 263 prolink for anyone looking for professional solutions.",
-    avatar: "/assets/images/home/testimonial/user2.png",
-    rating: 5,
-  },
-  {
-    id: 3,
-    name: "Michael Chen",
-    quote:
-      "Outstanding quality and professionalism. 263 prolink truly stands out from the rest.",
-    avatar: "/assets/images/home/testimonial/user3.png",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "Asadur R. Yead",
-    quote:
-      "Outstanding quality and professionalism. 263 prolink truly stands out from the rest.",
-    avatar: "/assets/images/home/testimonial/user4.png",
-    rating: 5,
-  },
-];
 
 export default function TestimonialSection() {
   return (
@@ -83,7 +43,7 @@ export default function TestimonialSection() {
           speed={700}
           slidesPerView={1}
         >
-          {testimonials.map((item, index) => {
+          {testimonials?.map((item, index) => {
             const nextAvatars = Array.from({ length: 3 }).map((_, i) => {
               const nextIndex = (index + i + 1) % testimonials.length;
               return testimonials[nextIndex].avatar;
